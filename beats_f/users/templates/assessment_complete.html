@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Complete</title>
+</head>
+<style>
+    body{
+        background-color:#1c1b1a;
+        height: 100vh;
+        margin: 0; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .complete{
+        position:absolute;
+        width:1000px;
+        height:400px;
+        color:#070807;
+        background-color: #c5c9c7;
+        border-radius:20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size:20px;
+        box-shadow: 0px 0px 180px 0px rgba(0, 0, 60, 0.7);
+    }
+    .dots {
+        animation: blink 1.3s infinite;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            color:#6e6d6a;
+        }
+    }
+
+    .complete:hover {
+        box-shadow: 0px 0px 200px 0px rgba(0, 100, 0, 0.7);
+        
+    }
+
+</style>
+<body>
+    <div class="complete">
+        <h1>Assessment Completed succesfully</h1>
+        <p style="font-size:20px;">Redirecting to your ecological footprint scores</span></p>
+        <p> If not redirected click <a href="/get_ai_responses/"> here</a></p>
+        <p style="font-size:20px;"><span class="dots">Please, wait! Analysing...</span></p>
+    </div>
+    <script>
+        const delayInMillisecinds = 5000;
+        function redirect(){
+            window.location.href="/get_ai_responses/";
+        }
+        setTimeout(redirect, delayInMillisecinds)
+    </script>
+</body>
+</html>

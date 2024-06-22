@@ -1,0 +1,154 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Results Visualization</title>
+</head>
+<body>
+    <h1>Average Scores for Each Category {{current_day_name}}</h1>
+    <div>
+        <canvas id="categoryChart"></canvas>
+    </div>
+    <h1>Total Score for each day of the month</h1>
+    <div>
+        <canvas id="totalChart"></canvas>
+    </div>
+
+    <h2 style="text-align:right;">Monthly Average {{ current_month }} : {{ average_month_score }}</h2>
+    <h2 style="text-align:right;">Yearly Average {{current_year}} : {{ average_year_score }}</h2>
+    <h3 style="text-align:right;"> Average scores will always be displayed regardless of the time,<br> so to see your real scores wait until the end of the month or the year.<br><h3>
+    <h4 style="text-align:right;">Hello note that the above average scores are<br>
+        calculated from first day all through the last day of that month,<br>
+        say you started assessing your ecco-footprint on 20th of a give month,<br>
+         all the other previous days will be assigned<br> a zero score value(perfect score which is unrealistic)<br>That's true also for a whole year.
+    </h4>
+
+    <h2 style="text-align:center;"> <a href="/menu_f/">Menu </a></h2>
+    <h2 style="text-align:center;"> <a href="javascript:history.go(-1)">Go Back</a></h2>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.0"></script>
+    <script>
+        const categories = {{ categories|safe }};
+        const scores = {{ scores|safe }};
+        const currentDay = {{ current_day }};
+        const daysInMonth = {{ days_in_month }};
+        
+        const labels = generateLabels();
+    
+        function generateLabels() {
+            const labels = [];
+            for (let i = 1; i <= daysInMonth; i++) {
+                labels.push(i.toString());
+            }
+            return labels;
+        }
+        
+        var ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        var categoryChart = new Chart(ctxCategory, {
+            type: 'bar',
+            data: {
+                labels: categories,
+                datasets: [{
+                    label: 'Average Score for each category {{current_day_name}}.',
+                    data: scores,
+                    backgroundColor: 'skyblue',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+        
+        var ctxTotal = document.getElementById('totalChart').getContext('2d');
+        var totalChartData = {
+            labels: labels,
+            datasets: [{
+                label: 'Total Score for each day.',
+                data: [],
+                borderColor: 'skyblue',
+                fill: true
+            }]
+        };
+        
+        var totalChart = new Chart(ctxTotal, {
+            type: 'line',
+            data: totalChartData,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day of Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                xMin: currentDay - 1, // Adjust the x-axis position
+                                xMax: currentDay - 1, // Adjust the x-axis position
+                                borderColor: '#5b05fa',
+                                borderWidth: 2,
+                                label: {
+                                    content: '{{current_day_name}}',
+                                    enabled: true,
+                                    position: 'top'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+  // Declare currentDay outside the function to make it accessible throughout the script
+
+
+  async function updateTotalScoreData(dateScores) {
+    const labels = totalChart.data.labels;
+    const data = labels.map(day => {
+        console.log(`Data for Day ${day}: ${dateScores[day]}`);
+        return dateScores[day] || 0;
+    });
+
+    // Update the data for the line graph
+    totalChart.data.datasets[0].data = data;
+
+    // Update the line graph
+    totalChart.update();
+}
+
+// Call the updateTotalScoreData function with the date_scores data
+updateTotalScoreData({{ date_scores|safe }});
+   
+        
+        
+    </script>
+    
+    
+   
+
+    
+</body>
+</html>

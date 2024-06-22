@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #242930;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 15px;
+            background-color: #2d3036;
+            border-radius: 40px;
+            position: relative;
+            margin: 10px auto;
+            box-shadow: 0 0 800px rgba(0, 100, 255, 0.1);
+            transition: box-shadow 0.3s ease;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container h2 {
+            color: #0f0;
+            font-weight: bold;
+        }
+
+        .container form {
+            margin-top: 20px;
+        }
+
+        .container label {
+            color: #c0c1c2;
+            display: block;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .container input[type="text"],
+        .container input[type="password"],
+        .container input[type="email"],
+        .container input[type="tel"],
+        .container input[type="date"] {
+            width: 90%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #453b3b;
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .container input[type="text"]:focus,
+        .container input[type="password"]:focus,
+        .container input[type="email"]:focus,
+        .container input[type="tel"]:focus,
+        .container input[type="date"]:focus {
+            border-color: #007bff;
+        }
+
+        .container button {
+            display: block;
+            margin: 0 auto;
+            background-color: #0056b3;
+            color: #021b36;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 220px;
+            font-weight: bold;
+            height:45px;
+        }
+
+        .container:hover {
+            box-shadow: 0px 0px 200px 50px rgba(0, 100, 10, 0.5);
+        }
+
+        .container button:hover {
+            background-color: #7eb6f2;
+        }
+
+        .container p {
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        .container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .container a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes blink {
+            0% {
+                color: #f76077;
+                font-weight: bold;
+            }
+            70% {
+                color: transparent;
+                font-weight: bold;
+            }
+            100% {
+                color: #f76077;
+                font-weight: bold;
+            }
+        }
+
+        .blink {
+            animation: blink 2s infinite;
+        }
+
+    eco {
+        font-size: 30px;
+        color: #05ed8c;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <eco>EcoPiBoe</eco>
+        <h2>Sign Up</h2>
+
+        {% if error %}
+            <p class="blink">{{ error }}</p>
+        {% endif %}
+
+        <form action="/signup/" method="post">
+            {% csrf_token %}
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" required>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <label for="phone_number">Phone Number</label>
+            <input type="tel" id="phone_number" name="phone_number" placeholder="Enter your phone number">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" placeholder="Select your date of birth">
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p style= "font-size: 16px; font-weight:bold;">Already have an account? <a href="/login/">Log in</a></p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dob').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '2003:2030'
+            });
+        });
+    </script>
+</body>
+</html>

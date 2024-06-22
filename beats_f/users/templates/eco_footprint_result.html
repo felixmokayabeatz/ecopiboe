@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Footprint Result</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .results {
+            width: 70%;
+            max-width: 1000px;
+            padding: 10px;
+            background-color: #33312c;
+            border-radius: 30px;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            box-shadow: 0 0 100px rgba(0, 255, 0, 0.1);
+            z-index: 1;
+            font-size: 20px;
+            color:white;
+        }
+        .long-sentence {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="results">
+        <h1 style="text-align:center;">Eco-Footprint Result</h1>
+        
+        <div class="long-sentence">
+            {% if eco_footprint_result == "No responses received!" %}
+                <div style="text-align:center; font-size:25px;">No eco-footprint result available, please try answering the questions <a href="#" onclick="redirectToAssessment()">here</a>.</div>
+            {% else %}
+            <p style="text-align:center;">Note this results are AI generated based on the information you gave, it may be prone to errors and biases. But it is correct almost 98% of the time though, pretty cool huh😊. Check out <a href="https://gemini.google.com/" target="_blank">Gemini AI</a></p>
+                {{ eco_footprint_result }}
+            {% endif %}
+        </div>
+
+    <div style= "background-color:#c9c8bb; border-radius:20px;">
+        <div style="text-align:center;">
+            <a href="/visualize_ai_results/">Visualize these results</a>
+        </div>
+        <div style="text-align:center;">
+            <a href="#" onclick="location.reload();">Refresh Page</a>
+        </div>
+  
+        <div style="text-align:center; color:blue;font-size:25px;">
+            
+            <a  href="/menu_f/">Menu</a>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function redirectToAssessment() {
+            window.location.href = '/eco-footprint-assessment/';
+        }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "extend.html" %}
+
+<title>{% block title %}Adminstrators{% endblock %}</title>
+
+
+{% block content %}
+
+
+<p>If you've landed on this page and you're not an administrator, please note that access to this area is restricted to authorized personnel only. 
+  If you believe you've reached this page in error or require assistance, kindly contact the appropriate department or your supervisor for further guidance. 
+  Thank you for your cooperation.</p>
+<h1>Current Authorized Administrators</h1>
+
+<ul>
+    {% for user in admin_users %}
+        <li>{{ user.first_name }} &nbsp;&nbsp; {{ user.last_name }}   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ user.email }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
