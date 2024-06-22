@@ -1,0 +1,15 @@
+/include
+/lib
+/Scripts
+/pyvenv.cfg
+
+**/*.pyc
+**/__pycache__/
+productionfiles/
+static/
+media/
+user_tokens/
+token/
+conversation_history.pkl
+debug.log
+db.sqlite3

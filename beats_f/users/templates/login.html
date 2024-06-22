@@ -1,0 +1,180 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Login{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            background-color:black;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y:auto;
+        }
+        .login-form {
+            background-color: #33312c;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+
+        .login-form h2 {
+            text-align: center;
+            color: #b5b4bf;
+        }
+        .login-form label {
+            color: #dfe8e4;
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-form button:hover {
+            background-color: #45a049;
+        }
+        .login-form p {
+            text-align: center;
+            color: #dfe8e4;
+        }
+        .login-form p a {
+            color: #4e91fc;
+            text-decoration: none;
+        }
+        .login-form p a:hover {
+            text-decoration: underline;
+        }
+        nav {
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            color: black;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+        nav ul li a:hover {
+            color: #b00e1c;
+        }
+        nav ul li a:visited {
+            color: #844885;
+        }
+        nav ul li a:visited:hover {
+            color: #941f16;
+        }
+        nav p {
+            margin: 10px 0 0;
+            color: #333;
+        }
+        .error-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+        @media (max-width: 600px) {
+            .login-form {
+                width: 90%;
+            }
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <main>
+        
+        <section class="login-form">
+            <h2 style=" font-size: 30px; color: #05ed8c; font-weight: bold; text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);">EcoPiBoe</h2>
+            <h2>Login</h2>
+            <form action="/login/" method="post">
+                {% csrf_token %}
+                <label for="username_or_email">Username or Email</label>
+                <input type="text" id="username_or_email" name="username_or_email" placeholder="Enter Your Username or Email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Forgot your password? <a href="/forgot_password/">Reset Password</a></p> 
+            <p>Don't have an account? <a href="/signup/">Sign up</a></p>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="/felix_about/">About</a></li>
+            </ul>
+            <p>&copy; <span id="currentYear"></span></p>
+        </nav>
+    </main>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="error-message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
+
+        const errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

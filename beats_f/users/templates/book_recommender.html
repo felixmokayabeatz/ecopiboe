@@ -1,0 +1,215 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Recommendation Form</title>
+  <link rel="icon" href="{% static 'favicon/book.png' %}" type="image/x-icon">
+  {% load static %}
+  <style>
+    body {
+      color: #fff;
+      font-weight: bold;
+      overflow: auto;
+    }
+
+    .background-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .background-slideshow img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .background-slideshow img.active {
+      opacity: 0.5;
+    }
+
+    .form-container {
+      box-shadow: 0 0 35px rgba(25, 25, 20, 0.4);
+      border-radius: 20px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      margin-top: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #recommendationResults .card {
+      border: 8px solid #0b471b;
+      border-radius: 5px;
+      transition: box-shadow 0.3s;
+      background-color: #222;
+    }
+
+    #recommendationResults .card:hover {
+      box-shadow: -10px -10px 80px 10px rgba(120, 25, 10, 0.4);
+    }
+
+    .card-body {
+      background-color: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background-slideshow">
+    <img src="{% static 'books_background/book.jpg' %}" class="active">
+    <img src="{% static 'books_background/book1.jpg' %}">
+    <img src="{% static 'books_background/book2.jpg' %}">
+    <img src="{% static 'books_background/book3.jpg' %}">
+    <img src="{% static 'books_background/book4.jpg' %}">
+    <!-- Add more images as needed -->
+  </div>
+
+  <div class="container form-container">
+    <h5 class="text-center font-weight-bold mb-4" style="font-size: 20px;">
+      Search for any book below. You will get 10 books that best match your requirements. Click a summarize button and the Gemni AI will give you a very short concise summary. There is an external direct link to the book if you want to borrow or read it.
+    </h5>
+    <form id="bookRecommendationForm" method="post" action="{% url 'book_recommendation' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_title">Title</label>
+        <input type="text" name="title" class="form-control" id="id_title">
+      </div>
+      <div class="form-group">
+        <label for="id_author">Author</label>
+        <input type="text" name="author" class="form-control" id="id_author">
+      </div>
+      <div class="form-group">
+        <label for="id_publishDate">Publication Year</label>
+        <input type="text" name="publishDate" class="form-control" id="id_publishDate">
+      </div>
+      <div class="form-group">
+        <label for="id_description">Description</label>
+        <input type="text" name="description" class="form-control" id="id_description">
+      </div>
+      <div class="text-center font-weight-bold">
+        <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+      </div>
+    </form>
+
+    <div class="row mt-4" id="recommendationResults">
+      <!-- Booj summaries are shown here -->
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    function submitForm() {
+      var formData = $('#bookRecommendationForm').serialize();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "book_recommendation" %}',
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            displayRecommendedBooks(response.data, response.totalBooksFound);
+          } else {
+            displayErrorMessage(response.message);
+          }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+        }
+      });
+    }
+
+    function displayRecommendedBooks(recommendedBooks, totalBooksFound) {
+      var resultsContainer = $('#recommendationResults');
+      resultsContainer.empty();
+
+      if (recommendedBooks.length > 0) {
+        resultsContainer.prepend('<div class="col-md-12"><p class="mb-4"><strong>Note: The summarize feature is heavily regulated, you may or may not get the correct summary, do your research.</strong></p></div>');
+        resultsContainer.prepend('<div class="col-md-12"><p class="mb-4"><strong>Number of books found: ' + totalBooksFound + '</strong></p></div>');
+        resultsContainer.prepend('<div class="col-md-12"><p class="mb-4"><strong>Top Ten Matching Books</strong></p></div>');
+
+        recommendedBooks.forEach(function(book, i) {
+          var card = `
+            <div class="col-md-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${book.title}</h5>
+                  <p class="card-text">Author: ${book.author}</p>
+                  <p class="card-text">Publish Date: ${book.publishDate}</p>
+                  <p class="card-text">Description: ${book.description}</p>
+                  <a href="${book.link}" target="_blank"><strong>View Book</strong></a>
+                  <button class="btn btn-secondary mt-2" onclick="summarizeBook(${i})" style="margin-left: 150px; font-weight:bold; color:black;">Summarize</button>
+                  <p class="card-text mt-2" id="summary-${i}"></p>
+                </div>
+              </div>
+            </div>`;
+          resultsContainer.append(card);
+        });
+      } else {
+        resultsContainer.append('<div class="col-md-12"><p class="mb-4">No books found based on the given criteria.</p></div>');
+      }
+    }
+
+    function summarizeBook(index) {
+      var bookCard = $('#recommendationResults .card').eq(index);
+      var bookData = {
+        title: bookCard.find('.card-title').text(),
+        author: bookCard.find('.card-text:contains("Author:")').text().replace('Author: ', ''),
+        publishDate: bookCard.find('.card-text:contains("Publish Date:")').text().replace('Publish Date: ', ''),
+        description: bookCard.find('.card-text:contains("Description:")').text().replace('Description: ', '')
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "summarize_book" %}',
+        contentType: 'application/json',
+        data: JSON.stringify(bookData),
+        success: function(response) {
+          if (response.success) {
+            $('#summary-' + index).html('<div style="text-align: center;color:#e4ebe5;"><strong>====================================<br>Summary:</strong></div><div style="text-align: center;">' + response.summary + '</div>');
+          } else {
+            $('#summary-' + index).text('Failed to generate summary.');
+          }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+          $('#summary-' + index).text('Error while generating summary.');
+        }
+      });
+    }
+
+    function displayErrorMessage(message) {
+      var resultsContainer = $('#recommendationResults');
+      resultsContainer.html('<div class="col-md-12"><p class="alert alert-danger">' + message + '</p></div>');
+    }
+
+    // JavaScript for background slideshow
+    const slides = document.querySelectorAll('.background-slideshow img');
+    let currentSlide = 0;
+
+    function showNextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    setInterval(showNextSlide, 3000);
+  </script>
+
+</body>
+
+</html>

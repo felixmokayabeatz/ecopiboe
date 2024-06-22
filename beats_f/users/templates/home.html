@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #050505;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main {
+            max-width: 600px;
+            width: 95%;
+            background-color: #383535;
+            border-radius: 10px;
+            padding: 40px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 22px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .year {
+            text-align: center;
+            font-size: 24px;
+            color: #453f40;
+        }
+
+        echo {
+            font-size: 35px;
+            color: #05ed8c;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
+        }
+
+        .main p a {
+            color: #5b67f0;
+            
+        }
+
+        .main b {
+            font-size: 20px;
+            color: #b0a9a9;
+        }
+
+        .year p a {
+            color: #5b67f0;
+            font-size: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                margin: 20px;
+                padding: 30px 15px;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h3 {
+                font-size: 25px;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            .year {
+                font-size: 20px;
+            }
+
+            echo {
+                font-size: 30px;
+            }
+
+            .year p a {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <echo>EcoPiBoe</echo>
+        {% comment %} <h1 style="color: #b0a9a9">Welcome</h1> {% endcomment %}
+        <b><p><a href="/login/">Sign In</a></p></b>
+        <b style="font-size: 20px; color:#b0a9a9">or<b/>
+        <b><p><a href="/signup/">Sign Up</a></p></b>
+    </div>
+
+    <div class="year">
+        <b><p><a href="/felix_about/">About Felix</a></p></b>
+        <b style="font-size: larger;">©️</b>
+        <b id="currentYear"></b>
+    </div>
+
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
+    </script>
+</body>
+</html>

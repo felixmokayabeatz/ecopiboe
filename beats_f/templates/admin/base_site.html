@@ -1,0 +1,28 @@
+{% extends 'admin/base_site.html' %}
+
+{% block branding %}
+<div>
+<style>
+    .export-link {
+        text-align: center; /* Center the text horizontally */
+    }
+    
+    .export-link a {
+        display: block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+</style>
+
+
+    <p class="export-link"><a href="/registered_users/">Click Here To See All Members</a></p>
+    <p class="export-link"><a href="">Adminstrator? Log In First. </a></p>
+
+</div>
+    
+{% endblock %}

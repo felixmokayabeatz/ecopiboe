@@ -1,0 +1,19 @@
+<!-- geminiAPI/upload.html -->
+
+<h1>Upload File</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+{% if file %}
+<hr>
+<h2>Uploaded File</h2>
+<p><strong>File Name:</strong> {{ file.file.name }}</p>
+<p><strong>Description:</strong> {{ file.description }}</p>
+<form action="{% url 'delete_file' pk=file.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete File">
+</form>
+{% endif %}
