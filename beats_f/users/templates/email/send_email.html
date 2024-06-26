@@ -14,7 +14,25 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
             color: #fff;
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            left: 10px;
+            top: 20px;
+            z-index: 1;
+        }
+
+        .dropdown select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #453b3b;
+            background-color: #1e2025;
+            color: #fff;
+            font-size: 16px;
         }
 
         .container {
@@ -22,7 +40,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             padding: 20px;
-            width: 35%;
+            width: 80%;
+            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -101,12 +120,12 @@
 
         .message {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 19px;
             font-weight: bold;
             color: #07f53f;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 1200px) {
             .container {
                 width: 90%;
                 padding: 15px;
@@ -119,12 +138,20 @@
             button {
                 font-size: 14px;
             }
+
+            .dropdown select {
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 400px) {
             input[type="email"],
             input[type="text"],
             textarea {
+                font-size: 12px;
+            }
+
+            .dropdown select {
                 font-size: 12px;
             }
         }
@@ -218,8 +245,18 @@
     </style>
 </head>
 <body>
+
+    <div class="dropdown">
+        <select id="menu">
+            <option value="" selected hidden>Menu</option>
+            <option value="menu_f">Menu</option>
+            <option value="about">About</option>
+        </select>
+    </div>
+    
+
     <div class="container">
-        <h1>EcoPiBoe</h1>
+        <h1>EcoPiBoE</h1>
         <h2>Smart Send Email</h2>
 
         <div id="errorMessage" class="message"></div>
@@ -388,6 +425,22 @@
         closeAiBtn.addEventListener('click', function() {
             aiModal.style.display = 'none';
         });
+
+
+
+            document.getElementById('menu').addEventListener('change', function() {
+                const urlMap = {
+                    'menu_f': '/menu_f/',
+                    'about': '/about/',
+                };
+        
+                const selectedValue = this.value;
+                if (urlMap[selectedValue]) {
+                    window.location.href = urlMap[selectedValue];
+                }
+            });
+       
+        
     </script>
 </body>
 </html>
