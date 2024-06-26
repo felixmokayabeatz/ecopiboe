@@ -28,6 +28,7 @@
             text-align: center;
             border: 5px solid #a4aab3;
             overflow-y: auto;
+            position: relative; /* Ensure relative positioning */
         }
         .main-container:hover {
             box-shadow: 0 0 1000px rgba(0, 0, 90, 0.5);
@@ -105,7 +106,7 @@
             text-decoration: none;
             color: blue;
         }
-        .ecopiboe{
+        .ecopiboe {
             font-size: 40px;
             color: #05ed8c;
             text-align: center;
@@ -113,11 +114,12 @@
             text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
         }
 
+        /* Dropdown Styling */
         .dropdown {
             position: absolute;
             left: 10px;
             top: 20px;
-            z-index: 1;
+            z-index: 2; /* Ensure dropdown is above other content */
         }
 
         .dropdown select {
@@ -132,55 +134,63 @@
 </head>
 <body>
 
-    <div class="dropdown">
-        <select id="menu">
-            <option value="" selected hidden>Menu</option>
-            <option value="menu_f">Menu</option>
-            <option value="about">About</option>
-        </select>
-    </div>
-
     <div class="main-container">
         <b class="ecopiboe">EcoPiBoe</b>
         <h1>All the operations below rely on gemni Language model/AI.</h1>
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown">
+            <select id="menu">
+                <option value="" selected hidden>EcoPiBoe</option>
+                <option value="eco-footprint-assessment">Eco-Footprint AI Analyser</option>
+                <option value="piano">Piano AI</option>
+                <option value="book_reccomender">Book Recommendor</option>
+                <option value="send-email">AI SMart Email</option>
+                <option value="about">About</option>
+            </select>
+        </div>
+
         <div class="sub-container">
-            <div class="box box-1"><p style="font-size:25px;">Personal Eco-Footprint Analyser</p>
+            <div class="box box-1">
+                <p style="font-size: 25px;">Personal Eco-Footprint Analyser</p>
                 <a href="/eco-footprint-assessment/" style="text-decoration: none; color: inherit;">
-                    
                     <p>Hello👋👋, click this box to measure your ecological footprint. Analysed by an Artificial Intelligence. Fill a presented form in the next page.</p>
                 </a>
             </div>
-            <div class="box box-2"><p style="font-size:25px;">This is the book section</p>
+            <div class="box box-2">
+                <p style="font-size: 25px;">This is the book section</p>
                 <a href="/recommend_books/" style="text-decoration: none; color: inherit;">
-                    
                     <p>Are you a reader or a book lover? Click here to use the advanced book finder system, and the AI will provide a short summary of the book you choose.</p>
                 </a>
             </div>
-            <div class="box box-3"><p style="font-size:25px;">AI Assisted Piano</p>
+            <div class="box box-3">
+                <p style="font-size: 25px;">AI Assisted Piano</p>
                 <a href="/piano/" style="text-decoration: none; color: inherit;">
-                    
                     <p>Here is a very simple yet enjoyable piano experience. Click here to learn about piano notes and chords, with AI as your instructor.</p>
                 </a>
             </div>
-            <div class="box box-4"><p style="font-size:25px;">Smart Email</p>
+            <div class="box box-4">
+                <p style="font-size: 25px;">Smart Email</p>
                 <a href="/send-email/" style="text-decoration: none; color: inherit;">
-                    
                     <p>Email writing can be tricky. This AI assistant helps you catch spelling, grammar, and punctuation errors.</p>
                 </a>
             </div>
         </div>
+
         <h1>Welcome, nice to see you. What do you wanna do today? Click any of the boxes above.</h1>
         <div class="footer">
             <a href="/login/">Back</a>
         </div>
     </div>
 
-
     <script>
         document.getElementById('menu').addEventListener('change', function() {
             const urlMap = {
-                'menu_f': '/menu_f/',
-                'about': '/about_ecopboe/',
+                'eco-footprint-assessment': '/eco-footprint-assessment/',
+                'recommend_books': '/recommend_books/',
+                'piano': '/piano/',
+                'send-email': '/send-email/',
+                'about': '/about_ecopiboe/',
             };
 
             const selectedValue = this.value;
