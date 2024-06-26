@@ -672,7 +672,9 @@ def summarize_book(request):
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method.'})
     
-
+    
+    
+    
 from email.mime.text import MIMEText
 import os
 import json
@@ -692,6 +694,12 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+
+def contact_us(request):
+
+    return render(request, 'contact/contact_us.html')
+
 
 @login_required(login_url='/login/')
 def send_email(request):

@@ -112,9 +112,34 @@
             font-weight: bold;
             text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
         }
+
+        .dropdown {
+            position: absolute;
+            left: 10px;
+            top: 20px;
+            z-index: 1;
+        }
+
+        .dropdown select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #453b3b;
+            background-color: #1e2025;
+            color: #fff;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
+
+    <div class="dropdown">
+        <select id="menu">
+            <option value="" selected hidden>Menu</option>
+            <option value="menu_f">Menu</option>
+            <option value="about">About</option>
+        </select>
+    </div>
+
     <div class="main-container">
         <b class="ecopiboe">EcoPiBoe</b>
         <h1>All the operations below rely on gemni Language model/AI.</h1>
@@ -149,5 +174,20 @@
             <a href="/login/">Back</a>
         </div>
     </div>
+
+
+    <script>
+        document.getElementById('menu').addEventListener('change', function() {
+            const urlMap = {
+                'menu_f': '/menu_f/',
+                'about': '/about_ecopboe/',
+            };
+
+            const selectedValue = this.value;
+            if (urlMap[selectedValue]) {
+                window.location.href = urlMap[selectedValue];
+            }
+        });
+    </script>
 </body>
 </html>

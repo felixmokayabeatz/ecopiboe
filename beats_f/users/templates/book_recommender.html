@@ -65,6 +65,22 @@
     .card-body {
       background-color: #333;
     }
+
+    .dropdown {
+      position: absolute;
+      left: 10px;
+      top: 20px;
+      z-index: 1;
+  }
+
+  .dropdown select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #453b3b;
+      background-color: #1e2025;
+      color: #fff;
+      font-size: 16px;
+  }
   </style>
 </head>
 
@@ -80,9 +96,16 @@
   </div>
 
   <div class="container form-container">
+    <div style= "text-align:center; color:#17cf48; font-weight:bold;">
+
+      <h1>EcoPiBoE</h1>
+
+    </div>
+    <div><br><br>
     <h5 class="text-center font-weight-bold mb-4" style="font-size: 20px;">
       Search for any book below. You will get 10 books that best match your requirements. Click a summarize button and the Gemni AI will give you a very short concise summary. There is an external direct link to the book if you want to borrow or read it.
     </h5>
+    </div>
     <form id="bookRecommendationForm" method="post" action="{% url 'book_recommendation' %}">
       {% csrf_token %}
       <div class="form-group">
@@ -107,8 +130,17 @@
     </form>
 
     <div class="row mt-4" id="recommendationResults">
-      <!-- Booj summaries are shown here -->
+      <!-- Booj summaries appended here below the book recommended here -->
     </div>
+
+    <div class="dropdown">
+      <select id="menu">
+          <option value="" selected hidden>Menu</option>
+          <option value="menu_f">Menu</option>
+          <option value="about">About</option>
+      </select>
+  </div>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -208,6 +240,22 @@
     }
 
     setInterval(showNextSlide, 3000);
+
+
+
+
+   
+      document.getElementById('menu').addEventListener('change', function() {
+          const urlMap = {
+              'menu_f': '/menu_f/',
+              'about': '/about_ecopboe/',
+          };
+
+          const selectedValue = this.value;
+          if (urlMap[selectedValue]) {
+              window.location.href = urlMap[selectedValue];
+          }
+      });
   </script>
 
 </body>
