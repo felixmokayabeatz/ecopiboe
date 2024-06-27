@@ -708,7 +708,7 @@ def send_email(request):
             try:
                 with open(token_path, 'r') as token:
                     creds_data = json.load(token)
-                    # logger.debug(f"Loaded credentials data: {creds_data}")
+
                     creds = Credentials.from_authorized_user_info(creds_data, SCOPES)
                     # Check if refresh_token is missing
                     if not creds.refresh_token:
@@ -813,8 +813,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .tasks import delete_file_task
 
 import fitz
-import os
-from django.conf import settings
+
 
 def pdf_to_images(pdf_path, output_dir):
     # Ensure output directory exists
@@ -841,7 +840,7 @@ def pdf_to_images(pdf_path, output_dir):
 
 
 def handle_uploaded_file(file):
-    if file.size > 10 * 1024 * 1024:  # 10 MB limit
+    if file.size > 10 * 1024 * 1024:
         raise ValueError("File size exceeds the 10MB limit.")
     
     upload_dir = os.path.join(settings.MEDIA_ROOT, 'uploads')
