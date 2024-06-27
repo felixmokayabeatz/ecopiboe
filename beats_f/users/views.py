@@ -381,17 +381,6 @@ def felix_about(request):
         'felix_photos/felix (4).jpg',
         'felix_photos/felix (5).jpg',
         'felix_photos/felix (6).jpg',
-        'felix_photos/felix (7).jpg',
-        'felix_photos/felix (8).jpg',
-        'felix_photos/felix (9).jpg',
-        'felix_photos/felix (10).jpg',
-        'felix_photos/felix (11).jpg',
-        'felix_photos/felix (12).jpg',
-        'felix_photos/felix (13).jpg',
-        'felix_photos/felix (14).jpg',
-        'felix_photos/felix (15).jpg',
-        'felix_photos/felix (16).jpg',
-        'felix_photos/felix (17).jpg',
         ]  
     context = {
         'lines': lines,
