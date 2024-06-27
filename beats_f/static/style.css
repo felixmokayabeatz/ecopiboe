@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font: 600 18px 'Source Sans Pro', sans-serif;
+  letter-spacing: 0.64px;
+  color: #3f5291;
+  background-color: #1f1c1c;
+  overflow: hidden;
+}
+
+
+html {
+  height: 100%;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form {
+  width: 350px;
+  background-color: #2e312f;
+  padding: 20px; 
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 30, 0, 0.1);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  text-align: center;
+  font-size: 16px;
+  padding: 16px;
+  border: 2px solid #059533;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.login-form button {
+  background-color: #f4690d;
+  color: #ffffff;
+  border: 2px solid #d5b187;;
+  padding: 20px 0;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.login-form button:hover {
+  background-color: #6d3110; /* Darken the button color on hover */
+}
+
+.login-form p {
+  text-align: center;
+  margin-top: 20px;
+  color: #999999;
+}
+
+.login-form p a {
+  color: #4852a1;
+}
+
+.login-form p a:hover {
+  text-decoration: underline;
+}

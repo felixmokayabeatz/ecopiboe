@@ -697,7 +697,6 @@ logger = logging.getLogger(__name__)
 
 
 def contact_us(request):
-
     return render(request, 'contact/contact_us.html')
 
 
@@ -712,7 +711,7 @@ def send_email(request):
         if not os.path.exists(token_dir):
             os.makedirs(token_dir)
         
-        user_id = request.user.id  # Use user ID to ensure uniqueness
+        user_id = request.user.id
         token_path = os.path.join(token_dir, f'{user_id}_token.json')
         
         creds = None

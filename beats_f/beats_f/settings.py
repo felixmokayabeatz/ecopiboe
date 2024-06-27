@@ -150,7 +150,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 LANGUAGE_CODE = 'en-us'
@@ -162,11 +161,10 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / 'productionfiles'
 
-STATIC_URL = 'static/'
 
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

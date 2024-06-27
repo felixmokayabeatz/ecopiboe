@@ -1,14 +1,15 @@
+
 {% extends "users/logout.html" %}
 
-{% load static %}
 {% load custom_tags %}
 
 {% block content %}
 
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EcoPiBoe - AI Powered</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -328,13 +329,12 @@
 <div class="video-wrapper">
     <video disablePictureInPicture loop autoplay muted controlsList="nodownload">
         <source src="{% static 'land_page_video/land_page_1.mp4' %}" type="video/mp4">
-        Your browser does not support the video tag.
+        Your browser does not support the video.
     </video>
     <div class="overlay"></div>
 </div>
 
 <div class="b_content additional-content">
-    {% comment %} <h2 style="text-align: center; color: #babcbf;">Read before proceeding</h2> {% endcomment %}
     <h4>
         {% read_file 'static/texts/land_page.txt' %}
     </h4>
@@ -363,16 +363,6 @@
 
 <img src="{% static 'gemni/Google Ai Gemini.png' %}" class="hidden-image" id="hiddenImage">
 
-{% comment %} <!-- Dropdown menu -->
-<div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
-    <button style="background-color: #383535; color: white; padding: 10px; font-size: 16px; border: none; cursor: pointer;">Menu</button>
-    <div class="dropdown-content">
-        <a href="/sign_in/">Sign In</a>
-        <a href="/sign_up/">Sign Up</a>
-    </div>
-</div> {% endcomment %}
-
-<!-- Chat box element -->
 <div style="font-weight: bold; text-align:center;" id="chat-box">
     <b>Test Connection. Ask me anything.</b>
     <div id="chat-container">
