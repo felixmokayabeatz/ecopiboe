@@ -19,6 +19,10 @@
             overflow-y: auto;
         }
 
+
+  
+
+        
         .main {
             max-width: 600px;
             margin: 10px auto;
@@ -27,12 +31,10 @@
             padding: 20px;
             box-shadow: 0 0 100px rgba(0, 100, 0, 0.4);
         }
-
         .main:hover {
             box-shadow: 0 0 100px rgba(0, 0, 150, 0.4);
             transform: scale(1.01);
         }
-
         h1 {
             font-size: 35px;
             color: #05ed8c;
@@ -40,7 +42,6 @@
             font-weight: bold;
             text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
         }
-
         .video-container {
             max-width: 600px;
             margin: 8px auto;
@@ -51,6 +52,8 @@
             padding-top: 30%;
         }
 
+
+
         video {
             position: absolute;
             top: 0;
@@ -60,7 +63,6 @@
             border-radius: 10px;
             object-fit: cover;
         }
-
         .video-wrapper {
             position: fixed;
             top: 0;
@@ -69,7 +71,6 @@
             height: 100%;
             z-index: -1;
         }
-
         .overlay {
             position: absolute;
             top: 0;
@@ -79,14 +80,12 @@
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
         }
-
         .additional-content {
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             margin-top: 20px;
         }
-
         .b_content {
             max-width: 600px;
             margin: 10px auto;
@@ -95,19 +94,16 @@
             padding: 20px;
             box-shadow: 0 0 100px rgba(0, 100, 0, 0.4);
         }
-
         .b_content:hover {
             box-shadow: 0 0 100px rgba(0, 0, 150, 0.4);
             transform: scale(1.01);
         }
-
         .year {
             text-align: center;
             font-weight: bold;
             font-size: 25px;
             color: white;
         }
-
         .hidden-image {
             position: fixed;
             bottom: 20px;
@@ -117,13 +113,10 @@
             top: 27%;
             opacity: 0;
         }
-
         .show-image {
-            position: fixed;
             right: 20px;
             opacity: 1;
         }
-
         .hidden-text {
             position: fixed;
             bottom: 300px;
@@ -133,15 +126,12 @@
             color: #3f157a;
             transition: right 1.5s ease-in-out;
         }
-
         .show-text {
-            position: fixed;
             right: 10px;
             opacity: 1;
             color: #7644bd;
             bottom: 460px;
         }
-
         .hidden-text_1 {
             position: fixed;
             bottom: 300px;
@@ -151,30 +141,24 @@
             color: #3f157a;
             transition: left 1.5s ease-in-out;
         }
-
         .show-text_1 {
-            position: fixed;
             left: 20px;
             opacity: 1;
             color: #caa7fa;
             top: 20px;
             font-size: 20px;
         }
-
         .checkbox-container {
             text-align: center;
             margin-top: 20px;
         }
-
         .checkbox-container input[type="checkbox"] {
             transform: scale(1.5);
             cursor: pointer;
         }
-
         #proceed-button {
             display: none;
         }
-
         #chat-box {
             position: fixed;
             bottom: 20px;
@@ -187,7 +171,6 @@
             width: 250px;
             height: 380px;
         }
-
         #chat-container {
             background-color: #333;
             border: 5px solid #6d07b5;
@@ -200,21 +183,17 @@
             overflow-x: hidden;
             scrollbar-width: thin;
         }
-
         #chat-history .message {
             color: #fff;
             margin-bottom: 10px;
         }
-
         form {
             margin-top: 20px;
         }
-
         label {
             font-weight: bold;
             color: #b0b4b5;
         }
-
         input[type="text"] {
             padding: 10px;
             margin-top: 5px;
@@ -224,7 +203,6 @@
             box-sizing: border-box;
             width: 240px;
         }
-
         button[type="submit"] {
             padding: 10px 20px;
             background-color: #007bff;
@@ -233,18 +211,15 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-
         .message {
             max-width: 70%;
             margin-bottom: 10px;
             clear: both;
             overflow-wrap: break-word;
         }
-
         .user-message {
             background-color: #007bff;
             color: #fff;
@@ -252,7 +227,6 @@
             border-radius: 10px 10px 0 10px;
             padding: 10px;
         }
-
         .bot-message {
             background-color: #949191;
             color: #000;
@@ -260,63 +234,68 @@
             border-radius: 10px 10px 10px 0;
             padding: 10px;
         }
-
         .message-content {
             padding: 10px;
         }
-
         @media (max-width: 600px) {
             .main, .video-container, .b_content {
-                max-width: 100%;
-                margin: 0;
-                border-radius: 0;
+                max-width: 60%;
+                margin: 0 auto;  /* Center horizontally */
+                border-radius: 10px;
                 box-shadow: none;
             }
-
-            .video-wrapper, .additional-content, .checkbox-container, .year {
-                margin: 0 10px;
-                width: calc(100% - 20px);
-            }
-
-            .hidden-text, .hidden-text_1 {
+            .video-wrapper {
                 width: 100%;
-                right: 0;
+                height: 100%;  /* Ensure it takes full height */
+                margin: 0 auto;
+            }
+            .video-container {
+                position: relative;
+                width: 100%;
+                padding-top: 20%; /* 16:9 Aspect Ratio */
+                margin: 0 auto;
+            }
+            .video-container video {
+                position: absolute;
+                top: 0;
                 left: 0;
-                text-align: center;
-                opacity: 1;
-                transition: none;
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                object-fit: cover;  /* Ensure the video covers the container */
             }
-
-            .hidden-image {
-                width: 100px;
-                right: 0;
-                top: auto;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                opacity: 1;
-                transition: none;
+            .additional-content, .checkbox-container, .year {
+                margin: 0 auto; 
+                width: 60%;
             }
-
             #chat-box {
-                width: calc(100% - 20px);
+                width: calc(60% - 20px);
                 right: 10px;
                 left: 10px;
             }
-
             #chat-container {
                 width: calc(100% - 40px);
+                height: calc(40% - 40px);
             }
-
             input[type="text"] {
                 width: calc(100% - 20px);
             }
+            
+            .hidden-text, .hidden-text_1, .hidden-image {
+                display: none;
+            }
         }
+        
+        
+        
     </style>
+
 </head>
 <body>
+  
 
 <div class="main">
+    
     <h1>EcoPiBoe</h1>
     <div class="video-container">
         <video disablePictureInPicture loop autoplay muted>
@@ -505,6 +484,8 @@ agreeCheckbox.addEventListener('change', () => {
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
+
+
 </script>
 
 {% endblock %}
