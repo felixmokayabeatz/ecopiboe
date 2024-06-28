@@ -252,7 +252,7 @@
             .video-container {
                 position: relative;
                 width: 100%;
-                padding-top: 20%; /* 16:9 Aspect Ratio */
+                padding-top: 20%;
                 margin: 0 auto;
             }
             .video-container video {
@@ -281,7 +281,7 @@
                 width: calc(100% - 20px);
             }
             
-            .hidden-text, .hidden-text_1, .hidden-image {
+            .hidden-text, .hidden-text_1, .hidden-image  {
                 display: none;
             }
         }
@@ -292,203 +292,209 @@
 
 </head>
 <body>
+    <div class="main">
+        <h1>EcoPiBoe</h1>
+        <div class="video-container">
+            <video disablePictureInPicture loop autoplay muted>
+                <source src="{% static 'land_page_video/land_page.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <div class="video-wrapper">
+        <video disablePictureInPicture loop autoplay muted controlsList="nodownload">
+            <source src="{% static 'land_page_video/land_page_1.mp4' %}" type="video/mp4">
+            Your browser does not support the video.
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <div class="b_content additional-content">
+        <h4>
+            {% read_file 'static/texts/land_page.txt' %}
+        </h4>
+        <div style="font-weight: bold; font-size: 20px; color: white;" class="checkbox-container">
+            <input type="checkbox" id="agree-checkbox">
+            <label for="agree-checkbox">I agree to the <a href = '/' style="color: #5b67f0;">Policy terms and conditions.</a></label>
+        </div>
+
+
+        <div style="text-align: center; color: #caa7fa; font-weight: bold; font-size: 25px;">
+            <b id="proceed-button"><a href="/home/" style="color: #5b67f0;">Proceed</a></b>
+        </div>
+    
+        <div class="year">
+            <b style="font-size: larger;">©️</b>
+            <b id="currentYear"></b>
+        </div>
+    </div>
+
   
 
-<div class="main">
-    
-    <h1>EcoPiBoe</h1>
-    <div class="video-container">
-        <video disablePictureInPicture loop autoplay muted>
-            <source src="{% static 'land_page_video/land_page.mp4' %}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div class="hidden-text" id="hiddenElement">
+        <h2>Powered By</h2>
     </div>
-</div>
 
-<div class="video-wrapper">
-    <video disablePictureInPicture loop autoplay muted controlsList="nodownload">
-        <source src="{% static 'land_page_video/land_page_1.mp4' %}" type="video/mp4">
-        Your browser does not support the video.
-    </video>
-    <div class="overlay"></div>
-</div>
-
-<div class="b_content additional-content">
-    <h4>
-        {% read_file 'static/texts/land_page.txt' %}
-    </h4>
-    <div style="font-weight: bold; font-size: 20px; color: white;" class="checkbox-container">
-        <input type="checkbox" id="agree-checkbox">
-        <label for="agree-checkbox">I agree to the <a href = '/' style="color: #5b67f0;">Policy terms and conditions.</a></label>
+    <div class="hidden-text_1" id="hiddentxt">
+        <h2>Check below the page to proceed</h2>
     </div>
-</div>
 
-<div style="text-align: center; color: #caa7fa; font-weight: bold; font-size: 25px;">
-    <b id="proceed-button"><a href="/home/" style="color: #5b67f0;">Proceed</a></b>
-</div>
+    <img src="{% static 'gemni/Google Ai Gemini.png' %}" class="hidden-image" id="hiddenImage">
 
-<div class="year">
-    <b style="font-size: larger;">©️</b>
-    <b id="currentYear"></b>
-</div>
-
-<div class="hidden-text" id="hiddenElement">
-    <h2>Powered By</h2>
-</div>
-
-<div class="hidden-text_1" id="hiddentxt">
-    <h2>Check below the page to proceed</h2>
-</div>
-
-<img src="{% static 'gemni/Google Ai Gemini.png' %}" class="hidden-image" id="hiddenImage">
-
-<div style="font-weight: bold; text-align:center;" id="chat-box">
-    <b>Test Connection. Ask me anything.</b>
-    <div id="chat-container">
-        <div id="chat-history"></div>
+    <div style="font-weight: bold; text-align:center;" id="chat-box">
+        <b>Test Connection. Ask me anything.</b>
+        <div id="chat-container">
+            <div id="chat-history"></div>
+        </div>
+        <form id="question-form" action="{% url 'ask_question' %}" method="post">
+            <div><label for="text">Type below</label></div>
+            <div><input type="text" name="text" id="text" required autocomplete="off"></div>
+            <div><button type="submit">Ask</button></div>
+        </form>
     </div>
-    <form id="question-form" action="{% url 'ask_question' %}" method="post">
-        
-        <div><label for="text">Type below</label></div>
-        <div><input type="text" name="text" id="text" required autocomplete="off"></div>
-        <div><button type="submit">Ask</button></div>
-    </form>
-</div>
 
-<script>
-function handleSubmit(event) {
-    event.preventDefault();
-    var form = event.target;
-    var formData = new FormData(form);
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
 
-    var userMessage = formData.get('text');
+            var userMessage = formData.get('text');
 
-    document.getElementById('text').value = '';
+            document.getElementById('text').value = '';
 
-    appendUserMessage(userMessage);
+            appendUserMessage(userMessage);
 
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken')
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                appendBotMessage(data.data.text);
+                scrollToBottom();
+            })
+            .catch(error => console.error('Error:', error));
         }
-    })
-    .then(response => response.json())
-    .then(data => {
 
-        appendBotMessage(data.data.text);
-        scrollToBottom();
-    })
-    .catch(error => console.error('Error:', error));
-}
+        function appendUserMessage(message) {
+            const chatHistory = document.getElementById('chat-history');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message user-message';
+            messageElement.textContent = message;
+            chatHistory.appendChild(messageElement);
+            scrollToBottom();
+        }
 
-function appendUserMessage(message) {
-    const chatHistory = document.getElementById('chat-history');
-    const messageElement = document.createElement('div');
-    messageElement.className = 'message user-message';
-    messageElement.textContent = message;
-    chatHistory.appendChild(messageElement);
-    scrollToBottom();
-}
+        function appendBotMessage(message) {
+            const chatHistory = document.getElementById('chat-history');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message bot-message';
+            messageElement.textContent = message;
+            chatHistory.appendChild(messageElement);
+            scrollToBottom();
+        }
 
-function appendBotMessage(message) {
-    const chatHistory = document.getElementById('chat-history');
-    const messageElement = document.createElement('div');
-    messageElement.className = 'message bot-message';
-    messageElement.textContent = message;
-    chatHistory.appendChild(messageElement);
-    scrollToBottom();
-}
+        function scrollToBottom() {
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
-function scrollToBottom() {
-    const chatContainer = document.getElementById('chat-container');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-}
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
             }
+            return cookieValue;
         }
-    }
-    return cookieValue;
-}
 
-document.getElementById('question-form').addEventListener('submit', handleSubmit);
+        document.getElementById('question-form').addEventListener('submit', handleSubmit);
 
-const currentYear = new Date().getFullYear();
-document.getElementById('currentYear').textContent = currentYear;
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
 
-let imageVisible = false;
-window.addEventListener('mousemove', () => {
-    const hiddenImage = document.getElementById('hiddenImage');
-    if (!imageVisible) {
-        hiddenImage.classList.add('show-image');
-        imageVisible = true;
-    }
-});
+        let imageVisible = false;
+        window.addEventListener('mousemove', () => {
+            const hiddenImage = document.getElementById('hiddenImage');
+            if (!imageVisible) {
+                hiddenImage.classList.add('show-image');
+                imageVisible = true;
+            }
+        });
 
-window.addEventListener('touchstart', () => {
-    const hiddenImage = document.getElementById('hiddenImage');
-    if (!imageVisible) {
-        hiddenImage.classList.add('show-image');
-        imageVisible = true;
-    }
-});
+        window.addEventListener('touchstart', () => {
+            const hiddenImage = document.getElementById('hiddenImage');
+            if (!imageVisible) {
+                hiddenImage.classList.add('show-image');
+                imageVisible = true;
+            }
+        });
 
-const hiddenElement = document.getElementById('hiddenElement');
-let elementVisible = false;
-window.addEventListener('mousemove', () => {
-    if (!elementVisible) {
-        hiddenElement.classList.add('show-text');
-        elementVisible = true;
-    }
-});
+        const hiddenElement = document.getElementById('hiddenElement');
+        let elementVisible = false;
+        window.addEventListener('mousemove', () => {
+            if (!elementVisible) {
+                hiddenElement.classList.add('show-text');
+                elementVisible = true;
+            }
+        });
 
-window.addEventListener('touchstart', () => {
-    if (!elementVisible) {
-        hiddenElement.classList.add('show-text');
-        elementVisible = true;
-    }
-});
+        window.addEventListener('touchstart', () => {
+            if (!elementVisible) {
+                hiddenElement.classList.add('show-text');
+                elementVisible = true;
+            }
+        });
 
-const hiddenElement_1 = document.getElementById('hiddentxt');
-let elementVisible_1 = false;
-window.addEventListener('mousemove', () => {
-    if (!elementVisible_1) {
-        hiddenElement_1.classList.add('show-text_1');
-        elementVisible_1 = true;
-    }
-});
+        const hiddenElement_1 = document.getElementById('hiddentxt');
+        let elementVisible_1 = false;
+        window.addEventListener('mousemove', () => {
+            if (!elementVisible_1) {
+                hiddenElement_1.classList.add('show-text_1');
+                elementVisible_1 = true;
+            }
+        });
 
-window.addEventListener('touchstart', () => {
-    if (!elementVisible_1) {
-        hiddenElement_1.classList.add('show-text_1');
-        elementVisible_1 = true;
-    }
-});
+        window.addEventListener('touchstart', () => {
+            if (!elementVisible_1) {
+                hiddenElement_1.classList.add('show-text_1');
+                elementVisible_1 = true;
+            }
+        });
 
-const agreeCheckbox = document.getElementById('agree-checkbox');
-const proceedButton = document.getElementById('proceed-button');
-agreeCheckbox.addEventListener('change', () => {
-    proceedButton.style.display = agreeCheckbox.checked ? 'block' : 'none';
-    document.getElementById('chat-box').style.display = agreeCheckbox.checked ? 'block' : 'none';
-    if (agreeCheckbox.checked) {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-});
+        const agreeCheckbox = document.getElementById('agree-checkbox');
+        const proceedButton = document.getElementById('proceed-button');
+        
+        function checkScreenSize() {
+            return window.innerWidth > 600;
+        }
 
+        agreeCheckbox.addEventListener('change', () => {
+            const isChecked = agreeCheckbox.checked;
+            proceedButton.style.display = isChecked ? 'block' : 'none';
+            if (checkScreenSize()) {
+                document.getElementById('chat-box').style.display = isChecked ? 'block' : 'none';
+            } else {
+                document.getElementById('chat-box').style.display = 'none';
+            }
+            if (isChecked) {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
 
-</script>
+    </script>
 
-{% endblock %}
-
+    {% endblock %}
 </body>
 </html>
