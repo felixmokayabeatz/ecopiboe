@@ -8,10 +8,19 @@
     <link rel="icon" href="{% static 'favicon/land_page/land_page_2.ico' %}" type="image/x-icon">
 
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #050505;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+        }
+
         .dropdown {
             position: fixed;
             top: 10px;
             right: 10px;
+            z-index: 5;
         }
 
         .dropdown button {
@@ -22,8 +31,6 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            width:200px;
-            z-index: 4;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
@@ -53,8 +60,6 @@
             display: block;
             border-bottom: 1px solid #4d4d4d;
             transition: background-color 0.3s ease;
-            pointer-events: none;
-            cursor: default;
         }
 
         .dropdown-content a:last-child {
@@ -71,15 +76,45 @@
             transform: translateY(0);
         }
 
-        .dropdown-content a.enabled {
-            pointer-events: auto;
-            cursor: pointer;
-        }
-
         .dropdown-content a.disabled {
             pointer-events: none;
             cursor: default;
             color: grey;
+        }
+
+        @media (max-width: 600px) {
+            .dropdown {
+                width: 70%;
+                margin: 0 auto;
+                text-align: center;
+                position: relative;
+                top: 0;
+                right: 0;
+                
+            }
+
+            .dropdown button {
+                width: 100%;
+                padding: 15px;
+                font-weight:bold;
+                font-size:20px;
+                color:blue;
+            }
+
+            .dropdown-content {
+                position: relative;
+                width: 100%;
+                min-width: 0;
+                box-shadow: none;
+                border-radius: 0;
+                transform: none;
+                
+            }
+
+            .dropdown-content a {
+                padding: 15px;
+                border-bottom: 1px solid #4d4d4d;
+            }
         }
     </style>
 </head>
@@ -87,11 +122,10 @@
     <div class="dropdown">
         <button>Menu</button>
         <div class="dropdown-content">
-            <a href="/home/" class="disabled">Next Page</a>
-            <a href="/home/" class="disabled">Agree to terms below to proceed</a>
+            <a href="/home/" class="disabled">To proceed, agree to the terms, policy, and conditions below.</a>
         </div>
     </div>
-    
+
     {% block content %}
     {% endblock %}
 
@@ -104,11 +138,9 @@
                 if (checkbox.checked) {
                     links.forEach(link => {
                         link.classList.remove('disabled');
-                        link.classList.add('enabled');
                     });
                 } else {
                     links.forEach(link => {
-                        link.classList.remove('enabled');
                         link.classList.add('disabled');
                     });
                 }
