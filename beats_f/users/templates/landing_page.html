@@ -1,5 +1,6 @@
-
 {% extends "users/logout.html" %}
+
+{% load custom_tags static %}
 
 {% load custom_tags %}
 
@@ -10,7 +11,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'footer/footer.css' %}">
     <style>
+        
+       
+          
+        
         body {
             font-family: Arial, sans-serif;
             background-color: #050505;
@@ -500,6 +506,15 @@
 
     </script>
 
+
+
+    {% include 'footer/footer.html' %}
+    
+<!-- Include scripts at the end -->
+<script src="{% static 'js/scripts.js' %}"></script>
+
     {% endblock %}
+
+
 </body>
 </html>
