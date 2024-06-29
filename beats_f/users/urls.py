@@ -16,7 +16,9 @@ urlpatterns = [
     path('login_success/', views.login_success, name='login_success'), 
     path('user_logout/', views.user_logout, name='user_logout'),
     path('signup_success/', views.signup_success, name='signup_success'),
-    # path('accounts/', include('allauth.urls')),
+    
+    path('accounts/profile/', views.signup_success, name='signup_success'),
+    
     path('google/login/callback/', views.google_login_callback, name='google_login_callback'),
     
     path('felix_about/', views.felix_about, name='felix_about'),
