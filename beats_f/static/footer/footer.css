@@ -1,40 +1,82 @@
-/* Place this in static/css/footer.css */
+
 .mega-footer {
-    background-color: #f8f9fa;
-    padding: 40px 0;
+    background-color: #414346;
+    padding: 10px 0;
+    max-width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    overflow: auto;
+    border-radius: 15px;
 }
 
-.mega-footer h4 {
-    color: #333;
+
+.container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 0 2px;
+    color: #fff;
+    height: 200px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row.horizontal {
+    flex-direction: row;
+}
+
+.col-md-3 {
+    flex: 1;
+    margin: 10px;
+}
+
+.col-md-12 {
+    flex: 1 100%;
+    text-align: center;
+}
+
+h4 {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-.mega-footer ul {
-    list-style: none;
+ul {
+    list-style-type: none;
     padding: 0;
 }
 
-.mega-footer ul li {
+ul li {
     margin-bottom: 10px;
 }
 
-.mega-footer ul li a {
-    color: #666;
+ul li a {
     text-decoration: none;
-    transition: color 0.3s ease;
+    color: #755ff5;
+    font-weight: bold;
 }
 
-.mega-footer ul li a:hover {
-    color: #428bca;
+ul li a:hover {
+    text-decoration: underline;
 }
 
-.mega-footer .btn-primary {
-    background-color: #428bca;
-    border-color: #428bca;
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.mega-footer .btn-primary:hover {
-    background-color: #357ebd;
-    border-color: #357ebd;
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.year {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    color: rgb(184, 156, 156);
 }
