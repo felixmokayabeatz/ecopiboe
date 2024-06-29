@@ -12,7 +12,7 @@
 
 <footer class="mega-footer">
     <div class="container">
-        <div class="row">
+        <div class="row horizontal">
             <div class="col-md-3">
                 <h4>Company</h4>
                 <ul>
@@ -46,15 +46,23 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Products</h4>
-                <p>Explore our range of products and services.</p>
-                <a href="#" class="btn btn-primary">View Products</a>
-            </div>
-        </div>
+    </div>
+
+    <div class="year">
+        <b style="font-size: larger;">©️</b>
+        <b id="currentYear"></b>
+        
     </div>
 </footer>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
+        console.log(`Current Year: ${currentYear}`);
+    });
+</script>
 
 </body>
 </html>
