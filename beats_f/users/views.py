@@ -375,12 +375,12 @@ def felix_about(request):
         for line_1 in file_1:
             lines_1.append(line_1.strip())  
     images = [
-        'felix_photos/felix (1).jpg',
-        'felix_photos/felix (2).jpg',
-        'felix_photos/felix (3).jpg',
-        'felix_photos/felix (4).jpg',
-        'felix_photos/felix (5).jpg',
-        'felix_photos/felix (6).jpg',
+        'felix_photos/felix(1).jpg',
+        'felix_photos/felix(2).png',
+        'felix_photos/felix(3).png',
+        'felix_photos/felix(4).png',
+        'felix_photos/felix(5).png',
+        'felix_photos/felix(6).jpg',
         ]  
     context = {
         'lines': lines,
