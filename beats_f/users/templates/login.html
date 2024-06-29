@@ -44,9 +44,11 @@
             color: #c0c1c2;
             display: block;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 25px;
             margin-bottom: 5px;
         }
+
+
 
         .container input[type="text"],
         .container input[type="password"] {
@@ -57,12 +59,24 @@
             border-radius: 10px;
             box-sizing: border-box;
             transition: border-color 0.3s;
+            text-align: center;
+            font-weight: bold;
+            
+            align-items: center;
+            justify-content: center;
         }
-
+        
         .container input[type="text"]:focus,
         .container input[type="password"]:focus {
-            border-color: #007bff;
+            border-color: #0056b3;
+            text-align: center;
+            font-weight: bold;
+            align-items: center;
+            justify-content: center;
+            
         }
+        
+    
 
         .container button {
             display: block;
@@ -86,9 +100,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color:green;
+            background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
             color: white;
-
             border-radius: 5px;
             border: none;
             font-size: 16px;
@@ -98,13 +111,14 @@
             margin: 10px auto;
             text-align: center;
             font-weight: bold;
-            
             height: 45px;
+            transition: background 0.3s ease;
         }
-
+        
         .container .btn-google:hover {
-            background-color: #357ae8;
+            background: linear-gradient(45deg, #EA4335, #FBBC05, #34A853, #4285F4);
         }
+        
 
         .container .btn-google img {
             width: 32px;
@@ -113,8 +127,8 @@
            
         }
         .google-logo {
-            margin-right: 10px; /* Adjust the value as needed */
-            vertical-align: middle; /* Optional: Align the image vertically with the text */
+            margin-right: 10px;
+            vertical-align: middle;
         }
         
 
