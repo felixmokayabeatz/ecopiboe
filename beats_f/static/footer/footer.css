@@ -1,0 +1,40 @@
+/* Place this in static/css/footer.css */
+.mega-footer {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+}
+
+.mega-footer h4 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.mega-footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mega-footer ul li {
+    margin-bottom: 10px;
+}
+
+.mega-footer ul li a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mega-footer ul li a:hover {
+    color: #428bca;
+}
+
+.mega-footer .btn-primary {
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.mega-footer .btn-primary:hover {
+    background-color: #357ebd;
+    border-color: #357ebd;
+}
