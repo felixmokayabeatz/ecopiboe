@@ -30,7 +30,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
-GOOGLE_CREDENTIALS = os.path.join(BASE_DIR, 'static/felix.json')
+GOOGLE_CREDENTIALS = os.path.join(BASE_DIR, 'static/_auth/e_c_o_p_i_b_o_e.json')
 
 
 SECRET_KEY = 'django-insecure-whjw0%0mshega*an20sht(y*)dj5oyhij(yrw!65qsj5(=1jk6'
@@ -53,9 +53,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     
+    
+    
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend', 
@@ -63,18 +65,42 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         },
+#         # 'REDIRECT_URI': 'http://127.0.0.1:8001/accounts/google/login/callback/',
+        
+#     }
+    
+# }
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-            'https://mail.google.com/',
-        ],
+        'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {
-            'access_type': 'offline',
-        }
+            'access_type': 'online',
+        },
+        'FIELDS': ['email', 'first_name', 'last_name'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4',
     }
 }
+
+
+SOCIALACCOUNT_LOGIN_ON_GET = True  # This shows google's authorization page, skipping a sign-in page that pops up
+SOCIALACCOUNT_AUTO_SIGNUP = True   # This automatically signs up a user after using google to sign in
+LOGIN_REDIRECT_URL = "login_success"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = False

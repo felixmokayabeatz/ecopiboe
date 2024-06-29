@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from .views import visualize_ai_results
 from django.views.generic import TemplateView
-
+from django.urls import path, include
 
 
 urlpatterns = [
@@ -12,8 +12,12 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('login/', views.user_login, name='user_login'), 
     path('signup/', views.signup, name='signup'),
+    # path('google-login/', views.google_login, name='google_login'),
     path('login_success/', views.login_success, name='login_success'), 
     path('user_logout/', views.user_logout, name='user_logout'),
+    path('signup_success/', views.signup_success, name='signup_success'),
+    # path('accounts/', include('allauth.urls')),
+    path('google/login/callback/', views.google_login_callback, name='google_login_callback'),
     
     path('felix_about/', views.felix_about, name='felix_about'),
     path('registered_users/', views.registered_users, name='registered_users'),
@@ -33,7 +37,7 @@ urlpatterns = [
     path('assessment-complete/', views.assessment_complete, name='assessment_complete'),
     path('get_ai_responses/', views.get_ai_responses, name='get_ai_responses'),
     path('menu_f/', views.menu_f, name='menu_f'),
-    path('signup_success/', views.signup_success, name='signup_success'),
+    
     path('get_ai_responses_error/', views.get_ai_responses_error, name='get_ai_responses_error'),
     path('visualize_ai_results/', visualize_ai_results, name='visualize_ai_results'),
     path('recommend_books/', views.recommend_books, name='book_recommendation'),

@@ -1,3 +1,7 @@
+
+{% load socialaccount %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,13 +126,13 @@
             animation: blink 2s infinite;
         }
 
-    eco {
-        font-size: 30px;
-        color: #05ed8c;
-        text-align: center;
-        font-weight: bold;
-        text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
-    }
+        eco {
+            font-size: 30px;
+            color: #05ed8c;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -159,7 +163,18 @@
             <button type="submit">Sign Up</button>
         </form>
 
-        <p style= "font-size: 16px; font-weight:bold;">Already have an account? <a href="/login/">Log in</a></p>
+
+        <!-- signup.html -->
+        {% if social_app %}
+            <a href="{% provider_login_url 'google' %}">
+                <button>Sign Up with Google</button>
+            </a>
+        {% else %}
+            <p>Google login is currently unavailable. Please try again later or contact support.</p>
+        {% endif %}
+
+
+        <p style="font-size: 16px; font-weight:bold;">Already have an account? <a href="/login/">Log in</a></p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
