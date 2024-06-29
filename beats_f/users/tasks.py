@@ -1,4 +1,4 @@
-# tasks.py
+
 
 from celery import shared_task
 from datetime import timedelta
@@ -23,11 +23,6 @@ def delete_file_task(file_id):
     except Exception as e:
         print(f"Failed to delete file {file_id}: {str(e)}")
 
-
-from celery import shared_task
-import os
-from django.conf import settings
-from .models import UploadFile
 
 @shared_task
 def delete_file_after_delay(file_path):

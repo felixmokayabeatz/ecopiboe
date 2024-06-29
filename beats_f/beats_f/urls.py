@@ -12,7 +12,12 @@ urlpatterns = [
     path('reset_password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
   
     path('email/', include('users.urls')),
-    path('accounts/google/', include('users.urls')), 
+    path('accounts/', include('allauth.urls')),
+    path('accounts/google/', include('users.urls')),
+    
+    
+    path("", include("users.urls"), name="users"),
+    
 ]
 
 if settings.DEBUG:

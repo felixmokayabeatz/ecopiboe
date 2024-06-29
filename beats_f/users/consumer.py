@@ -11,4 +11,3 @@ class PianoConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         note = json.loads(text_data)['note']
-        # Process the received note, e.g., play sound, update database, etc.

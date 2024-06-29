@@ -418,24 +418,48 @@ def login_success(request):
     template = loader.get_template('login_success.html')
     return HttpResponse(template.render())
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.db.models import Q
+from allauth.socialaccount.models import SocialAccount, SocialApp
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 def user_login(request):
     if request.method == 'POST':
         username_or_email = request.POST.get('username_or_email')
         password = request.POST.get('password')
+        
+        try:
+            user = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
+            has_social_account = SocialAccount.objects.filter(user=user, provider='google').exists()
+        except User.DoesNotExist:
+            user = None
+            has_social_account = False
+
         user = authenticate(request, username=username_or_email, password=password)
-        if user is None:
-            try:
-                user = User.objects.get(email=username_or_email)
-                user = authenticate(request, username=user.username, password=password)
-            except User.DoesNotExist:
-                pass
+
         if user is not None:
             login(request, user)
-            return redirect('/login_success')
+            return redirect('/login_success/')
         else:
-            messages.error(request, 'Invalid Username or Email, or Password.')  
-    return render(request, 'login.html')
+            if has_social_account:
+                messages.error(request, 'The account is registered with a google account. Log in with your google account instead.')
+            else:
+                messages.error(request, 'Invalid Username or Email, or Password. Try Logging in with your google account')
+            return redirect('/login/')
+
+   
+    try:
+        social_app = SocialApp.objects.get(provider='google')
+    except SocialApp.DoesNotExist:
+        social_app = None
+
+    return render(request, 'login.html', {'social_app': social_app})
+
+
+
 
 def signup_success(request):
     template = loader.get_template('signup_success.html')
@@ -448,16 +472,37 @@ def signup(request):
         password = request.POST.get('password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        username=request.POST.get('username')
+        username = request.POST.get('username')
+
+        # Check if the email or username already exists
         if User.objects.filter(Q(email=email) | Q(username=username)).exists():
-            error = 'Email or Username already exists'
-            return render(request, 'signup.html', {'error': error})
-        else:
-            user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
-            print(user)
-            return redirect('/signup_success/')
+            error_message = 'Email or Username already exists.'
+            return render(request, 'signup.html', {'error_message': error_message})
+
+        # Create the new user
+        user = User.objects.create_user(
+            username=username, email=email, password=password,
+            first_name=first_name, last_name=last_name
+        )
+
+        return redirect('/signup_success/')
+
+    social_app = SocialApp.objects.filter(provider='google').first()
+    return render(request, 'signup.html', {'social_app': social_app})
+
+
+def google_login_callback(request):
+    # Authenticate the user using the Google backend
+    user = request.user  # This should already be authenticated via allauth
+
+    # Check if the user is authenticated and handle accordingly
+    if user.is_authenticated:
+        login(request, user)
+        return redirect('/login_success/')  # Replace with your desired login success URL
     else:
-        return render(request, 'signup.html')
+        # Handle authentication failure or redirect to an error page
+        return redirect('/login/')  # Adjust as needed
+
 
 @login_required(login_url='/admin/login/')
 def testing(request):
