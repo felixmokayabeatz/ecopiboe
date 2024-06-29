@@ -135,7 +135,7 @@
             position: relative;
             overflow: hidden;
             width: 90%;
-            max-width: 800px;
+            max-width: 840px;
             margin: 20px auto;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(10, 0, 60, 0.5);
@@ -163,7 +163,7 @@
             }
 
             .link-card {
-                width: 100%;
+                width: 95%;
             }
 
             .card-content {
@@ -174,6 +174,34 @@
                 margin-right: 0;
                 margin-bottom: 10px;
             }
+
+
+            .image-container {
+                position: relative;
+                overflow: hidden;
+                width: 90%;
+                max-width: 600px;
+                margin: 20px auto;
+                border-radius: 15px;
+               
+                box-shadow: 0 0 20px rgba(10, 0, 60, 0.5);
+            }
+    
+            .image-container img {
+                display: none;
+                width: 100%;
+                height: 200px;;
+                border-radius: 15px;
+            }
+    
+            .image-container img.active {
+                display: block;
+            }
+    
+            .image-container img.active:hover {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+                transition: box-shadow 0.3s ease;
+            }
         }
     </style>
 </head>
@@ -182,7 +210,7 @@
 <div class="dropdown">
     <button class="dropbtn">Menu</button>
     <div class="dropdown-content">
-        <a href="/home/">Sign in or sign up</a>
+        <a href="/home/">Go Back</a>
     </div>
 </div>
     
@@ -329,7 +357,7 @@
 var images = document.querySelectorAll('.image-container img');
 var index = 0;
 images[index].classList.add('active');
-setInterval(scrollImages, 3000);
+setInterval(scrollImages, 5000);
 
 function scrollImages() {
     images.forEach(function(image) {
