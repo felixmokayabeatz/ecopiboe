@@ -403,7 +403,7 @@ def admin_users(request):
     }
     return render(request, 'admin_users.html', context)
 
-@login_required(login_url='/login/')
+
 def home(request):
     template = loader.get_template('home.html')
     return HttpResponse(template.render())
@@ -484,10 +484,11 @@ def signup(request):
             username=username, email=email, password=password,
             first_name=first_name, last_name=last_name
         )
-
-        return redirect('/signup_success/')
+        
+        return redirect('signup_success')
 
     social_app = SocialApp.objects.filter(provider='google').first()
+  
     return render(request, 'signup.html', {'social_app': social_app})
 
 

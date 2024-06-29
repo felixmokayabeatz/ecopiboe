@@ -64,6 +64,13 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# settings.py
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+
+SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
 
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
@@ -90,6 +97,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
+        
         'EXCHANGE_TOKEN': True,
         'LOCALE_FUNC': 'path.to.callable',
         'VERIFIED_EMAIL': False,
@@ -98,9 +106,17 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-SOCIALACCOUNT_LOGIN_ON_GET = True  # This shows google's authorization page, skipping a sign-in page that pops up
-SOCIALACCOUNT_AUTO_SIGNUP = True   # This automatically signs up a user after using google to sign in
-LOGIN_REDIRECT_URL = "login_success"
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+
+
+# LOGIN_REDIRECT_URL = 'login_success'
+LOGOUT_REDIRECT_URL = '/'
+SIGNUP_REDIRECT_URL = 'signup_success'
+
+
+
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = False
