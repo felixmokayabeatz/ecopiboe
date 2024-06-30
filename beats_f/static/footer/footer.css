@@ -4,16 +4,16 @@
     max-width: 80%;
     margin: 0 auto;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0); /* Fully transparent background */
+    background-color: rgba(255, 255, 255, 0);
     border-radius: 15px;
 }
 
 .container {
     max-width: 90%;
     margin: 0 auto;
-    padding: 0 2px;
+    padding: 0 10px;
     color: #ffffff;
-    height: 150px; /* Adjust as necessary */
+    height: 150px;
 }
 
 .row {
@@ -82,10 +82,9 @@ ul li a:hover {
 
 @media (max-width: 768px) {
     .col-md-3 {
-        flex: 1 0 50%; /* Two items per row on smaller screens */
-        max-width: 50%; /* Two items per row on smaller screens */
-        margin: 10px 0; /* Adjust vertical margin for spacing */
-        /* overflow: hidden; */
+        flex: 1 0 50%;
+        max-width: 50%;
+        margin: 10px 0;
         height: 150px;
         font-size: large;
         font-weight: bold;
@@ -96,6 +95,6 @@ ul li a:hover {
         padding: 0 2px;
         color: #f9cdcd;
         font-size: 22px;
-        height: 350px; /* Adjust as necessary */
+        height: 350px;
     }
 }

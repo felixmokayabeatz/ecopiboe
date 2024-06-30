@@ -363,11 +363,13 @@
     <div class="main">
         <h1>EcoPiBoe</h1>
         <div class="video-container">
-            <video disablePictureInPicture loop autoplay muted>
+            <video id="myVideo" controls disablePictureInPicture loop autoplay muted controlsList="nodownload">
                 <source src="{% static 'land_page_video/land_page.mp4' %}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
+        
+
     </div>
 
     <div class="video-wrapper">
@@ -558,6 +560,27 @@
             }
         });
 
+
+       
+            document.addEventListener('DOMContentLoaded', function() {
+                var video = document.getElementById('myVideo');
+        
+                video.addEventListener('contextmenu', function(event) {
+                    event.preventDefault(); // Prevent right-click menu on the video
+                });
+        
+                video.addEventListener('mousedown', function(event) {
+                    if (event.button === 2) { // Right mouse button
+                        event.preventDefault(); // Prevent right-click on the video
+                    }
+                });
+        
+                video.addEventListener('click', function(event) {
+                    if (event.ctrlKey || event.metaKey) { // Ctrl + Click or Command + Click
+                        event.preventDefault(); // Prevent opening in new tab on Ctrl/Command + Click
+                    }
+                });
+            });
     </script>
 
 
