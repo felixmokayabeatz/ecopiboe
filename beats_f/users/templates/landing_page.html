@@ -566,18 +566,18 @@
                 var video = document.getElementById('myVideo');
         
                 video.addEventListener('contextmenu', function(event) {
-                    event.preventDefault(); // Prevent right-click menu on the video
+                    event.preventDefault();
                 });
         
                 video.addEventListener('mousedown', function(event) {
-                    if (event.button === 2) { // Right mouse button
-                        event.preventDefault(); // Prevent right-click on the video
+                    if (event.button === 2) {
+                        event.preventDefault();
                     }
                 });
         
                 video.addEventListener('click', function(event) {
-                    if (event.ctrlKey || event.metaKey) { // Ctrl + Click or Command + Click
-                        event.preventDefault(); // Prevent opening in new tab on Ctrl/Command + Click
+                    if (event.ctrlKey || event.metaKey) {
+                        event.preventDefault();
                     }
                 });
             });
