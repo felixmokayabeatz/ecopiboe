@@ -7,6 +7,13 @@ from django.views.generic import TemplateView
 from django.urls import path, include
 
 
+
+from .footer_pages import (
+    about_us, careers, contact_us, blog, whitepapers, case_studies,
+    help_center, faqs, support_services, feature_1, feature_2, feature_3
+)
+
+
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('home/', views.home, name='home'),
@@ -61,6 +68,25 @@ urlpatterns = [
     path('file/<int:pk>/', views.file_detail, name='file_detail'),
     path('delete/<int:pk>/', views.delete_file, name='delete_file'),
     
+    
+    
+    
+    
+    
+    
+    
+    path('about/', about_us, name='about_us'),
+    path('careers/', careers, name='careers'),
+    path('contact/', contact_us, name='contact_us'),
+    path('blog/', blog, name='blog'),
+    path('whitepapers/', whitepapers, name='whitepapers'),
+    path('case-studies/', case_studies, name='case_studies'),
+    path('help-center/', help_center, name='help_center'),
+    path('faqs/', faqs, name='faqs'),
+    path('support-services/', support_services, name='support_services'),
+    path('feature-1/', feature_1, name='feature_1'),
+    path('feature-2/', feature_2, name='feature_2'),
+    path('feature-3/', feature_3, name='feature_3'),
 
 ]
 
@@ -69,3 +95,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
