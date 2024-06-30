@@ -7,6 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Footer Template</title>
     <link rel="stylesheet" type="text/css" href="{% static 'footer/footer.css' %}">
+    <style>
+        /* Add your pop-up styles here */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .popup-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            z-index: 1001;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,33 +46,33 @@
             <div class="col-md-3">
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="/404.html/" class="popup-link" data-content="About Us content">About Us</a></li>
+                    <li><a href="#" class="popup-link" data-content="Careers content">Careers</a></li>
+                    <li><a href="#" class="popup-link" data-content="Contact Us content">Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <h4>Resources</h4>
                 <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Whitepapers</a></li>
-                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#" class="popup-link" data-content="Blog content">Blog</a></li>
+                    <li><a href="#" class="popup-link" data-content="Whitepapers content">Whitepapers</a></li>
+                    <li><a href="#" class="popup-link" data-content="Case Studies content">Case Studies</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Support Services</a></li>
+                    <li><a href="#" class="popup-link" data-content="Help Center content">Help Center</a></li>
+                    <li><a href="#" class="popup-link" data-content="FAQs content">FAQs</a></li>
+                    <li><a href="#" class="popup-link" data-content="Support Services content">Support Services</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <h4>Features</h4>
                 <ul>
-                    <li><a href="#">Feature 1</a></li>
-                    <li><a href="#">Feature 2</a></li>
-                    <li><a href="#">Feature 3</a></li>
+                    <li><a href="#" class="popup-link" data-content="Feature 1 content">Feature 1</a></li>
+                    <li><a href="#" class="popup-link" data-content="Feature 2 content">Feature 2</a></li>
+                    <li><a href="#" class="popup-link" data-content="Feature 3 content">Feature 3</a></li>
                 </ul>
             </div>
         </div>
@@ -51,16 +81,44 @@
     <div class="year">
         <b style="font-size: larger;">©️</b>
         <b id="currentYear"></b>
-        
     </div>
 </footer>
 
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-content">
+        <span class="popup-close" id="popupClose">&times;</span>
+        <div id="popupText"></div>
+    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const currentYear = new Date().getFullYear();
         document.getElementById('currentYear').textContent = currentYear;
-        console.log(`Current Year: ${currentYear}`);
+
+        const popupLinks = document.querySelectorAll('.popup-link');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupClose = document.getElementById('popupClose');
+        const popupText = document.getElementById('popupText');
+
+        popupLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const content = link.getAttribute('data-content');
+                popupText.textContent = content;
+                popupOverlay.style.display = 'block';
+            });
+        });
+
+        popupClose.addEventListener('click', function() {
+            popupOverlay.style.display = 'none';
+        });
+
+        popupOverlay.addEventListener('click', function(event) {
+            if (event.target === popupOverlay) {
+                popupOverlay.style.display = 'none';
+            }
+        });
     });
 </script>
 
