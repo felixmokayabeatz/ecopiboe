@@ -12,4 +12,3 @@ user_tokens/
 token/
 conversation_history.pkl
 debug.log
-db.sqlite3
