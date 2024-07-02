@@ -409,8 +409,13 @@ def home(request):
     return HttpResponse(template.render())
 
 
+from django.conf import settings
+from django.shortcuts import render
+import os
+
 def landing_page(request):
-    file_path = os.path.join(settings.STATIC_ROOT, 'texts/land_page.txt')
+    file_path = os.path.join(settings.BASE_DIR, 'static/texts/land_page.txt')
+    print(file_path)
     with open(file_path, 'r') as file:
         content = file.read()
 
@@ -418,6 +423,8 @@ def landing_page(request):
         'content': content,
     }
     return render(request, 'landing_page.html', context)
+
+
 
 @login_required(login_url='/login/')
 def login_success(request):
