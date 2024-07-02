@@ -364,12 +364,12 @@ def export_users_excel(request):
 
 
 def felix_about(request):
-    file_path = os.path.join(settings.BASE_DIR, 'static', 'texts\\about_Felix.txt')
+    file_path = os.path.join(settings.BASE_DIR, 'static', 'texts/about_Felix.txt')
     lines = []
     with open(file_path, 'r') as file:     
         for line in file:
             lines.append(line.strip())
-    file_path_1 = os.path.join(settings.BASE_DIR, 'static', 'texts\\quotes.txt')
+    file_path_1 = os.path.join(settings.BASE_DIR, 'static', 'texts/quotes.txt')
     lines_1 = []
     with open(file_path_1, 'r') as file_1:
         for line_1 in file_1:
@@ -410,8 +410,14 @@ def home(request):
 
 
 def landing_page(request):
-    template = loader.get_template('landing_page.html')
-    return HttpResponse(template.render())
+    file_path = os.path.join(settings.STATIC_ROOT, 'texts/land_page.txt')
+    with open(file_path, 'r') as file:
+        content = file.read()
+
+    context = {
+        'content': content,
+    }
+    return render(request, 'landing_page.html', context)
 
 @login_required(login_url='/login/')
 def login_success(request):
