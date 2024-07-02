@@ -102,6 +102,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'LOCALE_FUNC': 'path.to.callable',
         'VERIFIED_EMAIL': False,
         'VERSION': 'v2.4',
+        'REDIRECT_URI': 'https://felixmokayabeatz.pythonanywhere.com/accounts/google/login/callback/',
     }
 }
 
