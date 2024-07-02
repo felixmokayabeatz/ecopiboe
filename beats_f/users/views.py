@@ -721,16 +721,12 @@ def summarize_book(request):
         return JsonResponse({'success': False, 'message': 'Invalid request method.'})
     
 
-def contact_us(request):
-    return render(request, 'contact/contact_us.html')
-
-
 from email.mime.text import MIMEText
 import os
 import json
 import base64
 import logging
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -744,6 +740,10 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+
+def contact_us(request):
+    return render(request, 'contact/contact_us.html')
 
 
 @login_required(login_url='/login/')
@@ -767,11 +767,11 @@ def send_email(request):
                     with open(token_path, 'r') as token:
                         creds_data = json.load(token)
 
-                    creds = Credentials.from_authorized_user_info(creds_data, SCOPES)
-                    # Check if refresh_token is missing
-                    if not creds.refresh_token:
-                        os.remove(token_path)
-                        return JsonResponse({'success': False, 'message': 'Missing refresh_token. Please authenticate again.'})
+                        creds = Credentials.from_authorized_user_info(creds_data, SCOPES)
+                        # Check if refresh_token is missing
+                        if not creds.refresh_token:
+                            os.remove(token_path)
+                            return JsonResponse({'success': False, 'message': 'Missing refresh_token. Please authenticate again.'})
                 except ValueError as e:
                     os.remove(token_path)  # Delete the invalid token
                     return JsonResponse({'success': False, 'message': 'Invalid token format. Please authenticate again.'})
@@ -787,46 +787,31 @@ def send_email(request):
                         return JsonResponse({'success': False, 'message': 'Failed to refresh token. Please authenticate again.'})
                 else:
                     flow = InstalledAppFlow.from_client_secrets_file(
-                        settings.GOOGLE_CREDENTIALS, SCOPES,
-                        redirect_uri='http://felixmokayabeatz.pythonanywhere.com/accounts/google/login/callback/'  # Replace with your actual redirect URI
-                    )
-                    authorization_url, state = flow.authorization_url(prompt='consent')
-
-                    # Save state in session or wherever necessary for callback verification
-                    request.session['oauth_state'] = state
-
-                    # Redirect user to Google's OAuth consent screen
-                    return redirect(authorization_url)
+                        settings.GOOGLE_CREDENTIALS, SCOPES)
+                    creds = flow.run_local_server(prompt='consent')  # Use run_console instead of run_local_server
+                    # Save the credentials to a file
+                    try:
+                        with open(token_path, 'w') as token:
+                            token.write(creds.to_json())
+                    except Exception as e:
+                        return JsonResponse({'success': False, 'message': 'Failed to save credentials. Please try again.'})
             
-            # Handle callback from Google OAuth consent screen
-            if 'code' in request.GET:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    settings.GOOGLE_CREDENTIALS, SCOPES,
-                    redirect_uri='http://felixmokayabeatz.pythonanywhere.com/accounts/google/login/callback/'  # Replace with your actual redirect URI
-                )
-                flow.fetch_token(code=request.GET.get('code'))
-
-                creds = flow.credentials
-
-                # Save the credentials to a file
-                try:
-                    with open(token_path, 'w') as token:
-                        token.write(creds.to_json())
-                except Exception as e:
-                    return JsonResponse({'success': False, 'message': 'Failed to save credentials. Please try again.'})
+            try:
+                service = build('gmail', 'v1', credentials=creds)
+                
+                message = MIMEText(message_text)
+                message['to'] = to
+                message['subject'] = subject
+                
+                raw = base64.urlsafe_b64encode(message.as_bytes()).decode()
+                message = {'raw': raw}
+                sent_message = service.users().messages().send(userId="me", body=message).execute()
+                
+                return JsonResponse({'success': True, 'message': 'Email sent successfully!'})
             
-            # If after OAuth flow, continue with sending email
-            service = build('gmail', 'v1', credentials=creds)
-            
-            message = MIMEText(message_text)
-            message['to'] = to
-            message['subject'] = subject
-            
-            raw = base64.urlsafe_b64encode(message.as_bytes()).decode()
-            message = {'raw': raw}
-            sent_message = service.users().messages().send(userId="me", body=message).execute()
-            
-            return JsonResponse({'success': True, 'message': 'Email sent successfully!'})
+            except Exception as error:
+                logger.error(f"Error sending email: {error}")
+                return JsonResponse({'success': False, 'message': str(error)})
         
         except Exception as error:
             logger.error(f"Unexpected error in send_email view: {error}")
