@@ -788,7 +788,7 @@ def send_email(request):
                 else:
                     flow = InstalledAppFlow.from_client_secrets_file(
                         settings.GOOGLE_CREDENTIALS, SCOPES)
-                    creds = flow.run_console(prompt='consent')  # Use run_console instead of run_local_server
+                    creds = flow(prompt='consent')  # Use run_console instead of run_local_server
                     # Save the credentials to a file
                     try:
                         with open(token_path, 'w') as token:
