@@ -8,7 +8,7 @@
 productionfiles/
 
 media/
-user_tokens/
-token/
+# user_tokens/
+# token/
 conversation_history.pkl
 debug.log
