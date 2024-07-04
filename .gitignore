@@ -5,8 +5,8 @@
 
 **/*.pyc
 **/__pycache__/
-productionfiles/
-
+# productionfiles/
+static/
 media/
 # user_tokens/
 # token/
