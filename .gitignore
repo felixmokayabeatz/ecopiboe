@@ -10,5 +10,5 @@ productionfiles/
 media/
 # user_tokens/
 # token/
-conversation_history.pkl
+# conversation_history.pkl
 debug.log
