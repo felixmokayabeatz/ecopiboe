@@ -6,7 +6,7 @@ from .views import visualize_ai_results
 from django.views.generic import TemplateView
 from django.urls import path, include
 
-
+from .views import google_login_callback
 
 from .footer_pages import (
     about_us, careers, contact_us, blog, whitepapers, case_studies,
@@ -24,9 +24,11 @@ urlpatterns = [
     path('user_logout/', views.user_logout, name='user_logout'),
     path('signup_success/', views.signup_success, name='signup_success'),
     
-    path('accounts/profile/', views.signup_success, name='signup_success'),
+    path('accounts/profile/', views.g_login_signup, name='signup_success'),
     
-    path('google/login/callback/', views.google_login_callback, name='google_login_callback'),
+    path('accounts/google/login/callback/', google_login_callback, name='google_login_callback'),
+    
+    # path('google/login/callback/', views.google_login_callback, name='google_login_callback'),
     
     path('felix_about/', views.felix_about, name='felix_about'),
     path('registered_users/', views.registered_users, name='registered_users'),
