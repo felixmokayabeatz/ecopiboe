@@ -427,6 +427,12 @@ def landing_page(request):
 
 
 @login_required(login_url='/login/')
+def g_login_signup(request):
+        return redirect('/login_success/')
+  
+
+
+@login_required(login_url='/login/')
 def login_success(request):
     template = loader.get_template('login_success.html')
     return HttpResponse(template.render())
@@ -437,7 +443,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from allauth.socialaccount.models import SocialAccount, SocialApp
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 
 def user_login(request):
     if request.method == 'POST':
@@ -455,6 +460,7 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
+            request.session['login_or_signup'] = 'login'
             return redirect('/login_success/')
         else:
             if has_social_account:
@@ -505,17 +511,30 @@ def signup(request):
     return render(request, 'signup.html', {'social_app': social_app})
 
 
-def google_login_callback(request):
-    # Authenticate the user using the Google backend
-    user = request.user  # This should already be authenticated via allauth
 
-    # Check if the user is authenticated and handle accordingly
-    if user.is_authenticated:
-        login(request, user)
-        return redirect('/login_success/')  # Replace with your desired login success URL
-    else:
-        # Handle authentication failure or redirect to an error page
-        return redirect('/login/')  # Adjust as needed
+from django.shortcuts import redirect
+
+def google_login_callback(request):
+    # Check if the 'code' parameter is present in the callback URL
+    if 'code' in request.GET:
+        # Retrieve the state parameter to determine the action (login or signup)
+        state = request.GET.get('state')
+        print(f"State parameter received: {state}")  # Debugging output
+
+        if state == 'login':
+            return redirect('/login_success/')  # Redirect to login success page
+        elif state == 'signup':
+            return redirect('/signup_success/')  # Redirect to signup success page
+        else:
+            print("Invalid state parameter")
+            # Default redirect if state parameter is missing or unrecognized
+            return redirect('/')  # Redirect to homepage or appropriate URL
+
+    # Handle other cases or errors if necessary
+    print("No 'code' parameter found or invalid request")
+    return redirect('/login/')  # Default redirect if 'code' parameter is missing or invalid
+
+
 
 
 @login_required(login_url='/admin/login/')
