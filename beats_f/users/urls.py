@@ -22,13 +22,16 @@ urlpatterns = [
     path('user_logout/', views.user_logout, name='user_logout'),
     path('signup_success/', views.signup_success, name='signup_success'),
     
-    path('accounts/profile/', views.g_login_signup, name='signup_success'),
+    path('accounts/profile/', views.login_success, name='login_success'),
     
     path('felix_about/', views.felix_about, name='felix_about'),
     path('registered_users/', views.registered_users, name='registered_users'),
     path('export_users_csv/', views.export_users_csv, name='export_users_csv'),
     path('export_users_excel/', views.export_users_excel, name='export_users_excel'),
-    path('testing/', views.testing, name='testing'),
+    
+    path('test_db_connection/', views.testing, name='test_db_connection/'),
+    
+    
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('reset_password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
     path('password_reset_success/', views.password_reset_success, name='password_reset_success'),

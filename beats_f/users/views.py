@@ -423,22 +423,12 @@ def landing_page(request):
 
 
 @login_required(login_url='/login/')
-def g_login_signup(request):
-        return redirect('/login_success/')
-  
-
-
-@login_required(login_url='/login/')
 def login_success(request):
-    template = loader.get_template('login_success.html')
+    template = loader.get_template('login/login_success.html')
     return HttpResponse(template.render())
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.db.models import Q
+
 from allauth.socialaccount.models import SocialAccount, SocialApp
-from django.contrib import messages
 
 def user_login(request):
     if request.method == 'POST':
@@ -456,7 +446,6 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            request.session['login_or_signup'] = 'login'
             return redirect('/login_success/')
         else:
             if has_social_account:
@@ -471,12 +460,12 @@ def user_login(request):
     except SocialApp.DoesNotExist:
         social_app = None
 
-    return render(request, 'login.html', {'social_app': social_app})
+    return render(request, 'login/login.html', {'social_app': social_app})
 
 
 
 def signup_success(request):
-    template = loader.get_template('signup_success.html')
+    template = loader.get_template('registration/signup_success.html')
     return HttpResponse(template.render())
 
 
@@ -490,32 +479,28 @@ def signup(request):
 
         if User.objects.filter(Q(email=email) | Q(username=username)).exists():
             error_message = 'Email or Username already exists.'
-            return render(request, 'signup.html', {'error_message': error_message})
+            return render(request, 'registration/signup.html', {'error_message': error_message})
 
         user = User.objects.create_user(
             username=username, email=email, password=password,
             first_name=first_name, last_name=last_name
         )
         
-        return redirect('signup_success')
+        return redirect('registration/signup_success')
 
     social_app = SocialApp.objects.filter(provider='google').first()
   
-    return render(request, 'signup.html', {'social_app': social_app})
+    return render(request, 'registration/signup.html', {'social_app': social_app})
 
 
 
 @login_required(login_url='/admin/login/')
 def testing(request):
     try:
-        registered_users = User.objects.all()
-        users = User.objects.all()
         db_is_connected = True
     except OperationalError:
-        registered_users = []
-        users= []
         db_is_connected = False
-    return render(request, 'testing.html', {'registered_users': registered_users, 'users' : users, 'db_is_connected': db_is_connected})
+    return render(request, 'test_db_connection/testing.html', {'db_is_connected': db_is_connected})
 
 def forgot_password(request):
     error_message = None
