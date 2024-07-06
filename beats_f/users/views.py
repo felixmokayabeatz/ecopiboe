@@ -409,10 +409,6 @@ def home(request):
     return HttpResponse(template.render())
 
 
-from django.conf import settings
-from django.shortcuts import render
-import os
-
 def landing_page(request):
     file_path = os.path.join(settings.BASE_DIR, 'static/texts/land_page.txt')
     print(file_path)
@@ -479,7 +475,6 @@ def user_login(request):
 
 
 
-
 def signup_success(request):
     template = loader.get_template('signup_success.html')
     return HttpResponse(template.render())
@@ -493,12 +488,10 @@ def signup(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
 
-        # Check if the email or username already exists
         if User.objects.filter(Q(email=email) | Q(username=username)).exists():
             error_message = 'Email or Username already exists.'
             return render(request, 'signup.html', {'error_message': error_message})
 
-        # Create the new user
         user = User.objects.create_user(
             username=username, email=email, password=password,
             first_name=first_name, last_name=last_name
@@ -509,31 +502,6 @@ def signup(request):
     social_app = SocialApp.objects.filter(provider='google').first()
   
     return render(request, 'signup.html', {'social_app': social_app})
-
-
-
-from django.shortcuts import redirect
-
-def google_login_callback(request):
-    # Check if the 'code' parameter is present in the callback URL
-    if 'code' in request.GET:
-        # Retrieve the state parameter to determine the action (login or signup)
-        state = request.GET.get('state')
-        print(f"State parameter received: {state}")  # Debugging output
-
-        if state == 'login':
-            return redirect('/login_success/')  # Redirect to login success page
-        elif state == 'signup':
-            return redirect('/signup_success/')  # Redirect to signup success page
-        else:
-            print("Invalid state parameter")
-            # Default redirect if state parameter is missing or unrecognized
-            return redirect('/')  # Redirect to homepage or appropriate URL
-
-    # Handle other cases or errors if necessary
-    print("No 'code' parameter found or invalid request")
-    return redirect('/login/')  # Default redirect if 'code' parameter is missing or invalid
-
 
 
 
