@@ -515,7 +515,7 @@ def forgot_password(request):
             return redirect('/reset_link_sent/')
         else:
           error_message = 'No user found with that email address. Please verify your email and try again.'
-    return render(request, 'forgot_password.html', {'error_message': error_message})
+    return render(request, 'password_reset/forgot_password.html', {'error_message': error_message})
 
 def reset_password(request, uidb64, token):
     try:
@@ -529,15 +529,15 @@ def reset_password(request, uidb64, token):
             user.set_password(password)
             user.save()
             return redirect('/password_reset_success/')
-        return render(request, 'reset_password.html')
+        return render(request, 'password_reset/reset_password.html')
     else:
         return redirect('/login/')
     
 def password_reset_success(request):
-    return render(request, 'password_reset_success.html')
+    return render(request, 'password_reset/password_reset_success.html')
 
 def reset_link_sent(request):
-    return render(request, 'reset_link_sent.html')
+    return render(request, 'password_reset/reset_link_sent.html')
 
 def send_password_reset_email(first_name, last_name, email, reset_link):
     subject = 'Reset Your Password'
@@ -549,8 +549,6 @@ def visualize_ai_results(request):
     user = request.user
     current_date = timezone.localdate()
     user_results = AIResult.objects.filter(user=user)
-
-    
     
     if not user_results:
         return JsonResponse({"error": "No AI results found for the current user."}, safe=False)
@@ -611,7 +609,7 @@ def visualize_ai_results(request):
     }
     if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         return JsonResponse(date_scores)
-    return render(request, 'visualize_ai_results.html', context)
+    return render(request, 'eco_footprint_assessment/visualize_ai_results.html', context)
 
 
 
