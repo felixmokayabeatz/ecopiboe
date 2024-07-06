@@ -55,12 +55,10 @@ urlpatterns = [
    
     path('analyze_note/', views.analyze_note, name='analyze_note'), 
     
-
-    path('success/', TemplateView.as_view(template_name='success.html'), name='success'),
     
     path('improve_email/', views.improve_email, name='improve_email'),
-    
     path('send-email/', views.send_email, name='send_email'),
+    
     path('contact_us/', views.contact_us, name='contact_us'),
     
     #geminiAPI FILE analyser
