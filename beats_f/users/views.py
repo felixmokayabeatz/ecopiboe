@@ -169,7 +169,7 @@ def get_ai_responses(request):
         )
         ai_result_instance.save()
         context = {"eco_footprint_result": eco_footprint_result}
-        return render(request, "eco_footprint_result.html", context)
+        return render(request, "eco_footprint_assessment/eco_footprint_result.html", context)
     except Exception as e:
         return redirect('/get_ai_responses_error/')
     
@@ -191,7 +191,7 @@ def eco_footprint_assessment(request):
         last_submission_date = None
     recent_submission = last_submission_date == today
     if recent_submission:
-        return render(request, 'wait_24.html', {'recent_submission': recent_submission, 'last_submission_time': last_response.date, 'first_name': user.first_name})
+        return render(request, 'eco_footprint_assessment/wait_24_hrs.html', {'recent_submission': recent_submission, 'last_submission_time': last_response.date, 'first_name': user.first_name})
     if request.method == 'POST':
         for question_id, response_text in request.POST.items():
             if question_id.startswith('response_'):
@@ -205,14 +205,14 @@ def eco_footprint_assessment(request):
         return redirect('assessment_complete')
     else:
         categories = EcoFootprintCategory.objects.all()
-        return render(request, 'assessment.html', {
+        return render(request, 'eco_footprint_assessment/assessment.html', {
             'categories': categories, 
             'last_submission_time': last_response.date if last_response else None
         })
 
 @login_required(login_url='/login/')
 def assessment_complete(request):
-    return render(request, 'assessment_complete.html')
+    return render(request, 'eco_footprint_assessment/assessment_complete.html')
 
 logger = logging.getLogger(__name__)
 
