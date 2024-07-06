@@ -50,11 +50,11 @@ genai.configure(api_key=API_KEY)
 @login_required(login_url='/login/')
 def piano(request):
     octaves = [0, 1, 2]
-    return render(request, 'piano.html', {'octaves': octaves})
+    return render(request, 'piano/piano.html', {'octaves': octaves})
 
 @login_required(login_url='/login/')
 def menu_f(request):
-    return render(request, 'menu_f.html')
+    return render(request, 'ecopiboe_menu/menu_f.html')
 
 @login_required(login_url='/login/')
 def get_ai_responses(request):
@@ -333,7 +333,7 @@ def chat(request):
     return render(request, "chat_bot.html", context)
 
 def video_page(request):
-    return render(request, 'videos.html')
+    return render(request, 'sample_beats/videos.html')
 
 @login_required(login_url='/admin/login/')
 def export_users_csv(request):
@@ -380,14 +380,13 @@ def felix_about(request):
         'felix_photos/felix(3).png',
         'felix_photos/felix(4).png',
         'felix_photos/felix(5).png',
-        'felix_photos/felix(6).jpg',
         ]  
     context = {
         'lines': lines,
         'lines_1':lines_1,
         'images':images,
     }
-    return render(request, 'felix_about.html', context)
+    return render(request, 'about/felix_about.html', context)
 
 @login_required(login_url='/admin/login/')
 def registered_users(request):
@@ -405,7 +404,7 @@ def admin_users(request):
 
 
 def home(request):
-    template = loader.get_template('home.html')
+    template = loader.get_template('ecopiboe_home/home.html')
     return HttpResponse(template.render())
 
 
@@ -418,7 +417,7 @@ def landing_page(request):
     context = {
         'content': content,
     }
-    return render(request, 'landing_page.html', context)
+    return render(request, 'land_page/landing_page.html', context)
 
 
 
@@ -694,14 +693,6 @@ def summarize_book(request):
     
 
 from email.mime.text import MIMEText
-import os
-import json
-import base64
-import logging
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -709,14 +700,11 @@ from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
-# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-
 def contact_us(request):
     return render(request, 'contact/contact_us.html')
-
 
 @login_required(login_url='/login/')
 def send_email(request):
@@ -740,12 +728,11 @@ def send_email(request):
                         creds_data = json.load(token)
 
                         creds = Credentials.from_authorized_user_info(creds_data, SCOPES)
-                        # Check if refresh_token is missing
                         if not creds.refresh_token:
                             os.remove(token_path)
                             return JsonResponse({'success': False, 'message': 'Missing refresh_token. Please authenticate again.'})
                 except ValueError as e:
-                    os.remove(token_path)  # Delete the invalid token
+                    os.remove(token_path)
                     return JsonResponse({'success': False, 'message': 'Invalid token format. Please authenticate again.'})
                 except Exception as e:
                     return JsonResponse({'success': False, 'message': 'Unexpected error. Please try again.'})
@@ -755,13 +742,12 @@ def send_email(request):
                     try:
                         creds.refresh(Request())
                     except Exception as error:
-                        os.remove(token_path)  # Delete the invalid token
+                        os.remove(token_path)
                         return JsonResponse({'success': False, 'message': 'Failed to refresh token. Please authenticate again.'})
                 else:
                     flow = InstalledAppFlow.from_client_secrets_file(
                         settings.GOOGLE_CREDENTIALS, SCOPES)
-                    creds = flow.run_local_server(prompt='consent')  # Use run_console instead of run_local_server
-                    # Save the credentials to a file
+                    creds = flow.run_local_server(prompt='consent')
                     try:
                         with open(token_path, 'w') as token:
                             token.write(creds.to_json())
@@ -794,11 +780,9 @@ def send_email(request):
 
 from django.contrib.auth import logout
 
-
 def user_logout(request):
     logout(request)
     return redirect('/login/')
-
 
 @login_required(login_url='/login/')
 def improve_email(request):
@@ -830,20 +814,13 @@ def improve_email(request):
         return JsonResponse({"error": "Invalid request method."}, status=405)
 
 
-
-
 import time
 from .forms import UploadFileForm
 from .models import UploadFile
-from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from .tasks import delete_file_task
-
 import fitz
 
 
 def pdf_to_images(pdf_path, output_dir):
-    # Ensure output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 

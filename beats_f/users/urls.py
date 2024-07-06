@@ -38,6 +38,7 @@ urlpatterns = [
     path('reset_link_sent/', views.reset_link_sent, name='reset_link_sent'),
     path('admin_users/', views.admin_users, name='admin_users'),
     path('videos/', views.video_page, name='video_page'),
+    
     path('chat/', views.chat, name='chat'),
     path('ask_question/', views.ask_question, name='ask_question'),
     path('piano_ask/', views.piano_ask, name='piano_ask'),

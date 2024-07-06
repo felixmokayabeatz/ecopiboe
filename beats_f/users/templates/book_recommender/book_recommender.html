@@ -101,7 +101,6 @@
     <img src="{% static 'books_background/book2.jpg' %}">
     <img src="{% static 'books_background/book3.jpg' %}">
     <img src="{% static 'books_background/book4.jpg' %}">
-    <!-- Add more images as needed -->
   </div>
 
   <div class="container form-container">
@@ -201,16 +200,14 @@
           resultsContainer.append(card);
         });
     
-        // Scroll to a specific percentage of the document height
-        var scrollHeightPercentage = 0.2; // Adjust this value as needed (40% in this case)
+        var scrollHeightPercentage = 0.2;
         var scrollPosition = $(document).height() * scrollHeightPercentage;
-        $('html, body').animate({ scrollTop: scrollPosition }, 'slow'); // Use animate for smooth scrolling
+        $('html, body').animate({ scrollTop: scrollPosition }, 'slow');
       } else {
         resultsContainer.append('<div class="col-md-12"><p class="mb-4">No books found based on the given criteria.</p></div>');
       }
     }
     
-
     
     function summarizeBook(index) {
       var bookCard = $('#recommendationResults .card').eq(index);

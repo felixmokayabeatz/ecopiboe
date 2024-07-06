@@ -35,7 +35,7 @@ GOOGLE_CREDENTIALS = os.path.join(BASE_DIR, 'static/_auth/e_c_o_p_i_b_o_e.json')
 
 SECRET_KEY = 'django-insecure-whjw0%0mshega*an20sht(y*)dj5oyhij(yrw!65qsj5(=1jk6'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
