@@ -517,6 +517,16 @@ def forgot_password(request):
           error_message = 'No user found with that email address. Please verify your email and try again.'
     return render(request, 'password_reset/forgot_password.html', {'error_message': error_message})
 
+def send_password_reset_email(first_name, last_name, email, reset_link):
+    subject = 'Reset Your Password'
+    message = f'<strong><p>Hello <strong>{first_name} {last_name}</strong>,</p><p>You have requested to reset your password.</p><p>If you did not, please ignore this email.</p><p>Report to us if you suspect your account is being compromised.</p><p>Otherwise, click the link below to reset your password:</p><p><a href="{reset_link}">{reset_link}</a></p><p>Reply to this email for support and technical assistance.</p><p>Best Regards.<br>Felix Mokaya</p></strong>'
+    send_mail(subject, '', settings.EMAIL_HOST_USER, [email], html_message=message)
+    
+
+def reset_link_sent(request):
+    return render(request, 'password_reset/reset_link_sent.html')
+
+
 def reset_password(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64)
@@ -536,14 +546,6 @@ def reset_password(request, uidb64, token):
 def password_reset_success(request):
     return render(request, 'password_reset/password_reset_success.html')
 
-def reset_link_sent(request):
-    return render(request, 'password_reset/reset_link_sent.html')
-
-def send_password_reset_email(first_name, last_name, email, reset_link):
-    subject = 'Reset Your Password'
-    message = f'<strong><p>Hello <strong>{first_name} {last_name}</strong>,</p><p>You have requested to reset your password.</p><p>If you did not, please ignore this email.</p><p>Report to us if you suspect your account is being compromised.</p><p>Otherwise, click the link below to reset your password:</p><p><a href="{reset_link}">{reset_link}</a></p><p>Reply to this email for support and technical assistance.</p><p>Best Regards.<br>Felix Mokaya</p></strong>'
-    send_mail(subject, '', settings.EMAIL_HOST_USER, [email], html_message=message)
-    
 @login_required(login_url='/login/')
 def visualize_ai_results(request):
     user = request.user
@@ -670,7 +672,7 @@ def recommend_books(request):
                 return JsonResponse({'success': False, 'message': 'Form is not valid.'})
         else:
             form = BookRecommendationForm()
-            return render(request, 'book_recommender.html', {'form': form})
+            return render(request, 'book_recommender/book_recommender.html', {'form': form})
     except Exception as e:
         logging.error(f'An error occurred: {e}')
         return JsonResponse({'success': False})
