@@ -1,0 +1,747 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Piano</title>
+    <link rel="icon" href="{% static 'favicon/piano.ico' %}" type="image/x-icon">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2b2c2e;
+            margin: 0;
+            padding: 0;
+        }
+
+        .piano-container {
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            z-index: 999; 
+            position:fixed;            
+        }
+
+        .piano-container:hover > .piano::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(10, 35, 20, 0), rgba(10, 35, 20, 0.4));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .piano-container > .piano::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(10, 25, 20, 0), rgba(10, 35, 20, 0.6));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .piano {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            position:fixed;
+            top:300px;
+            left:90px;
+        }
+
+        .key {
+            width: 50px;
+            height: 250px;
+            border: 1px solid #000;
+            cursor: pointer;
+            margin-right: 2px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+            z-index: 0;
+            transition: box-shadow 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .key.white {
+            background-color: #fff;
+        }
+
+        .key.black {
+            background-color: #000;
+            height: 150px;
+            margin-left: -25px;
+            margin-right: -25px;
+            z-index: 1;
+            width: 50px;
+        }
+
+        .key span {
+            font-size: 12px;
+            color: #000;
+            padding-bottom: 6px;
+        }
+
+        .key.black span {
+            color: #fff;
+        }
+
+        .key.glow {
+            box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.9);
+        }
+
+        .octave-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2px;
+            border-radius: 15px;
+            background-color: #7a7e85;
+            position: fixed;
+            left: 10px;
+            width: 50px;
+            height: 110px;
+            border: 3px solid green;
+            top:300px;
+        }
+
+        .octave-icon {
+            margin: 10px;
+            cursor: pointer;
+           
+        }
+
+        .octave-icon img {
+            width: 30px;
+            height: 60px;
+        }
+
+        .octave-icons-1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2px;
+            border-radius: 15px;
+            background-color: #7a7e85;
+            position: absolute;
+            left: 10px;
+            width: 50px;
+            height: 110px;
+            border: 3px solid green;
+            top:420px;
+            position:fixed;
+        }
+
+        .octave-icon-1 {
+            margin: 10px;
+            cursor: pointer;
+          
+           
+        }
+
+        .octave-icon-1 img {
+            width: 30px;
+            height: 60px;
+            
+        }
+
+        .record-button {
+            position: fixed;
+            bottom: 350px;
+            right: 5px;
+            padding: 10px 5px;
+            background-color: red;
+            color: white;
+            border: 2px solid yellow;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .about-section {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            padding: 0 20px;
+            position:fixed;
+            top:530px;
+            
+        }
+
+        @media (max-width: 768px) {
+            .key {
+                width: 40px;
+                height: 120px;
+            }
+
+            .key.black {
+                height: 80px;
+                width: 40px;
+                margin-left: -20px;
+                margin-right: -20px;
+            }
+        }
+        .octave-icons, .octave-icons-1 {
+            display: inline-block;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="piano-container">
+        <div class="piano">
+            <div data-note="C4" class="key white"><span>C4</span></div>
+            <div data-note="C#4" class="key black"><span>C#4</span></div>
+            <div data-note="D4" class="key white"><span>D4</span></div>
+            <div data-note="D#4" class="key black"><span>D#4</span></div>
+            <div data-note="E4" class="key white"><span>E4</span></div>
+            <div data-note="F4" class="key white"><span>F4</span></div>
+            <div data-note="F#4" class="key black"><span>F#4</span></div>
+            <div data-note="G4" class="key white"><span>G4</span></div>
+            <div data-note="G#4" class="key black"><span>G#4</span></div>
+            <div data-note="A4" class="key white"><span>A4</span></div>
+            <div data-note="A#4" class="key black"><span>A#4</span></div>
+            <div data-note="B4" class="key white"><span>B4</span></div>
+            <div data-note="C5" class="key white"><span>C5</span></div>
+            <div data-note="C#5" class="key black"><span>C#5</span></div>
+            <div data-note="D5" class="key white"><span>D5</span></div>
+            <div data-note="D#5" class="key black"><span>D#5</span></div>
+            <div data-note="E5" class="key white"><span>E5</span></div>
+            <div data-note="F5" class="key white"><span>F5</span></div>
+            <div data-note="F#5" class="key black"><span>F#5</span></div>
+            <div data-note="G5" class="key white"><span>G5</span></div>
+            <div data-note="G#5" class="key black"><span>G#5</span></div>
+            <div data-note="A5" class="key white"><span>A5</span></div>
+            <div data-note="A#5" class="key black"><span>A#5</span></div>
+            <div data-note="B5" class="key white"><span>B5</span></div>
+            <div data-note="C6" class="key white"><span>C6</span></div>
+            <div data-note="C#6" class="key black"><span>C#6</span></div>
+            <div data-note="D6" class="key white"><span>D6</span></div>
+            <div data-note="D#6" class="key black"><span>D#6</span></div>
+            <div data-note="E6" class="key white"><span>E6</span></div>
+            <div data-note="F6" class="key white"><span>F6</span></div>
+            <div data-note="F#6" class="key black"><span>F#6</span></div>
+            <div data-note="G6" class="key white"><span>G6</span></div>
+            <div data-note="G#6" class="key black"><span>G#6</span></div>
+            <div data-note="A6" class="key white"><span>A6</span></div>
+            <div data-note="A#6" class="key black"><span>A#6</span></div>
+            <div data-note="B6" class="key white"><span>B6</span></div>
+        </div>
+
+        <a href="#" class="octave-icons" id="decrease-octave">
+            <div class="octave-icon">
+                <img src="{% static 'oct/Down.svg' %}" alt="Decrease Octave">
+            </div>
+        </a>
+        <a href="#" class="octave-icons-1" id="increase-octave">
+            <div class="octave-icon-1">
+                <img src="{% static 'oct/Up.svg' %}" alt="Increase Octave">
+            </div>
+        </a>
+
+
+    </div>
+    <audio id="C4" src="{% static 'piano/C(B#)Lower.mp3' %}"></audio>
+    <audio id="C#4" src="{% static 'piano/C# sharp(Db flat)Lower.mp3' %}"></audio>
+    <audio id="D4" src="{% static 'piano/DLower.mp3' %}"></audio>
+    <audio id="D#4" src="{% static 'piano/D#(sharp) E(Fb flat)Lower.mp3' %}"></audio>
+    <audio id="E4" src="{% static 'piano/E (Fb flat)Lower.mp3' %}"></audio>
+    <audio id="F4" src="{% static 'piano/F(E# sharp)Lower.mp3' %}"></audio>
+    <audio id="F#4" src="{% static 'piano/F# (Gb flat)Lower.mp3' %}"></audio>
+    <audio id="G4" src="{% static 'piano/GLower.mp3' %}"></audio>
+    <audio id="G#4" src="{% static 'piano/G#(sharp) Ab(flat)Lower.mp3' %}"></audio>
+    <audio id="A4" src="{% static 'piano/ALower.mp3' %}"></audio>
+    <audio id="A#4" src="{% static 'piano/A#(sharp) (Bb flat)Lower.mp3' %}"></audio>
+    <audio id="B4" src="{% static 'piano/B(Cb flat)Lower.mp3' %}"></audio>
+    <audio id="C5" src="{% static 'piano/C(B#).mp3' %}"></audio>
+    <audio id="C#5" src="{% static 'piano/C# sharp(Db flat).mp3' %}"></audio>
+    <audio id="D5" src="{% static 'piano/D.mp3' %}"></audio>
+    <audio id="D#5" src="{% static 'piano/D#(sharp) E(Fb flat).mp3' %}"></audio>
+    <audio id="E5" src="{% static 'piano/E (Fb flat).mp3' %}"></audio>
+    <audio id="F5" src="{% static 'piano/F(E# sharp).mp3' %}"></audio>
+    <audio id="F#5" src="{% static 'piano/F# (Gb flat).mp3' %}"></audio>
+    <audio id="G5" src="{% static 'piano/G.mp3' %}"></audio>
+    <audio id="G#5" src="{% static 'piano/G#(sharp) Ab(flat).mp3' %}"></audio>
+    <audio id="A5" src="{% static 'piano/A.mp3' %}"></audio>
+    <audio id="A#5" src="{% static 'piano/A#(sharp) (Bb flat).mp3' %}"></audio>
+    <audio id="B5" src="{% static 'piano/B(Cb flat).mp3' %}"></audio>
+    <audio id="C6" src="{% static 'piano/C(B#)Upper.mp3' %}"></audio>
+    <audio id="C#6" src="{% static 'piano/C# sharp(Db flat)Upper.mp3' %}"></audio>
+    <audio id="D6" src="{% static 'piano/DUpper.mp3' %}"></audio>
+    <audio id="D#6" src="{% static 'piano/D#(sharp) E(Fb flat)Upper.mp3' %}"></audio>
+    <audio id="E6" src="{% static 'piano/E (Fb flat)Upper.mp3' %}"></audio>
+    <audio id="F6" src="{% static 'piano/F(E# sharp)Upper.mp3' %}"></audio>
+    <audio id="F#6" src="{% static 'piano/F# (Gb flat)Upper.mp3' %}"></audio>
+    <audio id="G6" src="{% static 'piano/GUpper.mp3' %}"></audio>
+    <audio id="G#6" src="{% static 'piano/G#(sharp) Ab(flat)Upper.mp3' %}"></audio>
+    <audio id="A6" src="{% static 'piano/AUpper.mp3' %}"></audio>
+    <audio id="A#6" src="{% static 'piano/A#(sharp) (Bb flat)Upper.mp3' %}"></audio>
+    <audio id="B6" src="{% static 'piano/B(Cb flat)Upper.mp3' %}"></audio>
+
+
+    <button id="recordButton" class="record-button">Record</button>
+
+    <div class="about-section">
+        <h3>The main purpose of this virtual piano is to provide you with fundamental knowledge of music theory - roughly 1%.<br>
+        The AI will assist you along this brief journey.<br>
+        Click the notes, connect an external musical keyboard/midi keyboard or use QWERTY keys on your typing keyboard to control this virtual piano.<br>Use the + and - icons on your left side of the screen to change octaves, or the shortcut keys 'z' and 'x' to do the same.</h3>
+    </div>
+    
+
+   
+    <script>
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.addEventListener('click', function() {
+                    const note = key.dataset.note;
+                    playSound(note);
+                    key.classList.add('glow');
+                    setTimeout(() => key.classList.remove('glow'), 300);
+                });
+            });
+
+            document.getElementById('text').addEventListener('keydown', function(event) {
+                event.stopPropagation();
+            });
+            
+            
+            let currentOctave = 4;
+
+            const decreaseOctaveButton = document.getElementById('decrease-octave');
+            const increaseOctaveButton = document.getElementById('increase-octave');
+
+            decreaseOctaveButton.addEventListener('click', function() {
+                currentOctave = Math.max(currentOctave - 1, 1);
+                updateOctaveDisplay();
+            });
+
+            increaseOctaveButton.addEventListener('click', function() {
+                currentOctave = Math.min(currentOctave + 1, 6);
+                updateOctaveDisplay();
+            });
+
+            document.addEventListener('keydown', function(event) {
+                const keyMap = generateKeyMap(currentOctave);
+                const key = event.key.toLowerCase();
+                if (key in keyMap && key !== '-' && key !== '+' && key !== '=') {
+                    if (key === 'z') {
+                        currentOctave = Math.max(currentOctave - 1, 1);
+                        updateOctaveDisplay();
+                    } else if (key === 'x') {
+                        currentOctave = Math.min(currentOctave + 1, 6);
+                        updateOctaveDisplay();
+                    } else {
+                        const note = keyMap[key];
+                        playSound(note);
+                        const keyElement = document.querySelector(`[data-note="${note}"]`);
+                        keyElement.classList.add('glow');
+                        setTimeout(() => keyElement.classList.remove('glow'), 300);
+                    }
+                }
+            });
+            
+            
+
+            function updateOctaveDisplay() {
+                console.log(`Current Octave: ${currentOctave}`);
+            }
+
+            function generateKeyMap(octave) {
+                return {
+                    'a': `C${octave}`, 'w': `C#${octave}`, 's': `D${octave}`, 'e': `D#${octave}`, 'd': `E${octave}`,
+                    'f': `F${octave}`, 't': `F#${octave}`, 'g': `G${octave}`, 'y': `G#${octave}`, 'h': `A${octave}`,
+                    'u': `A#${octave}`, 'j': `B${octave}`, 'k': `C${octave + 1}`, 'o': `C#${octave + 1}`, 'l': `D${octave + 1}`,
+                    'p': `D#${octave + 1}`, 'z': '', 'x': '', 
+
+                };
+            }
+
+            function playSound(note) {
+                const audioElement = document.getElementById(note);
+                if (audioElement) {
+                    audioElement.currentTime = 0;
+                    audioElement.play();
+                } else {
+                    console.error('Note unaivalable:', note);
+                }
+            }
+
+            if (navigator.requestMIDIAccess) {
+                navigator.requestMIDIAccess()
+                    .then(midiAccess => {
+                        for (const input of midiAccess.inputs.values()) {
+                            input.onmidimessage = handleMIDIMessage;
+                        }
+                    })
+                    .catch(err => console.error('Failed to access MIDI devices:', err));
+            } else {
+                console.error('Midi API not supported in this browser.');
+            }
+
+            function handleMIDIMessage(event) {
+                const command = event.data[0];
+                const note = event.data[1];
+                const velocity = event.data[2];
+
+                if (command === 144 && velocity > 0) {
+                    const noteName = getNoteName(note);
+                    playSound(noteName);
+                    const keyElement = document.querySelector(`[data-note="${noteName}"]`);
+                    if (keyElement) {
+                        keyElement.classList.add('glow');
+                        setTimeout(() => keyElement.classList.remove('glow'), 300);
+                    }
+                }
+            }
+
+            function getNoteName(midiNote) {
+                const octave = Math.floor(midiNote / 12) - 1;
+                const noteIndex = midiNote % 12;
+                const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+                return `${noteNames[noteIndex]}${octave}`;
+            }
+        });
+        recordButton.addEventListener('click', toggleRecording);
+
+        function toggleRecording() {
+            if (recordButton.innerText === 'Record') {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+        function startRecording() {
+            alert("Recording functionality is disabled. Hopefully it will be added in the future.");
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.addEventListener('click', function() {
+                    const note = key.dataset.note;
+                    playSound(note);
+                    key.classList.add('glow');
+                    setTimeout(() => key.classList.remove('glow'), 300);
+                    sendNoteToAI(note);
+                });
+            });
+        
+            function playSound(note) {
+                const audioElement = document.getElementById(note);
+                if (audioElement) {
+                    audioElement.currentTime = 0;
+                    audioElement.play();
+                } else {
+                    console.error('Note unavailable:', note);
+                }
+            }
+        
+            function sendNoteToAI(note) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/analyze_note/', true);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  // Ensure you have CSRF token setup
+        
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        displayMessage(response.data.text, 'data');
+                        scrollToBottom();
+
+                        
+                    }
+                };
+        
+                xhr.send(JSON.stringify({ note: note }));
+            }
+        
+            function displayMessage(message, sender) {
+                const chatHistory = document.getElementById('chat-history');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.innerHTML = `<div class="message-content">${message}</div>`;
+                chatHistory.appendChild(messageDiv);
+                scrollToBottom();
+            }
+        });
+    </script>
+
+    <style>
+        #chat-box {
+            position: fixed;
+            top: 2px;
+            left: 10px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            width:100%;
+            height: 250px;
+            display:none;    
+        }
+       
+        #chat-container {
+            background-color: #333;
+            border: 5px solid #6d07b5;
+            border-radius: 15px;
+            padding: 20px;
+            width: 75%;
+            height: 180px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: thin; 
+            position:fixed;
+           
+        }
+        #chat-history .message {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #b0b4b5;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            width: 250px;
+            top:90px;
+            height:60px;
+            right:5px;
+            position:fixed;
+            font-weight:bold;
+            font-size:15px;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            top:170px;
+            right:100px;
+            position:fixed;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .checkbox-container {
+            text-align: center;
+            margin-top: 5px;
+            position:fixed;
+            top:200px;
+            right:60px;
+            z-index: 1
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+
+    </style>
+
+    <div style="font-weight: bold; font-size: 20px; color: white;" class="checkbox-container">
+        <input type="checkbox" id="agree-checkbox" checked>
+        <label for="agree-checkbox" id="checkbox-label">AI Enabled<br>Uncheck to Disable</label>
+    </div>
+
+    <div style="text-align: center; position: fixed; top: 0; right: 10px; z-index: 1000;">
+        <h2>
+            <a href="/menu_f/" style="color: #5b67f0; font-weight: bold; font-size: 25px;">Main Menu</a>
+        </h2>
+    </div>
+
+    <div style="font-weight: bold; text-align:center; display: block;" id="chat-box">
+        <div id="chat-container">
+            <div id="chat-history">
+                <div class="message bot-message">Hey welcome, a quick note here. This is not an AI response. To disable this window there is a checkbox on the right to enable or disable it. By clicking a note/s the ai will explain the note/notes and suggest a chord and other features, Or try asking a question on the text field on your right. Feel free to explore. Enjoy.</div>
+            </div>
+            
+        </div>
+        <form id="question-form" action="{% url 'piano_ask' %}" method="post">
+            {% csrf_token %}
+            <div style="top:70px; right:80px; position:fixed;"><label for="text">Ask me a question</label></div>
+            <div><input type="text" name="text" id="text" placeholder="Enter text here..." required autocomplete="off"></div>
+            <div><button type="submit">Ask</button></div>
+        </form>
+    </div>
+    
+    <style>
+        .message {
+            max-width: 70%;
+            margin-bottom: 10px;
+            clear: both;
+            overflow-wrap: break-word;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+            float: right;
+            border-radius: 10px 10px 0 10px; 
+            padding: 10px;
+        }
+        .bot-message {
+            background-color: #949191;
+            color: #000;
+            float: left;
+            border-radius: 10px 10px 10px 0; 
+            padding: 10px;
+        }
+        .message-content {
+            padding: 10px;
+        }
+
+        .checkbox-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+
+        #proceed-button {
+            display: none;
+        }
+        #chatWindow {
+            display: block;
+            opacity: 1;
+        }
+        
+    </style>
+
+    <script>
+        const checkbox = document.getElementById('agree-checkbox');
+        const label = document.getElementById('checkbox-label');
+    
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                label.innerHTML= 'AI Enabled<br>Uncheck to Disable';
+            } else {
+                label.innerHTML = 'AI Disabled<br>Check to Enable';
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('agree-checkbox');
+            const chatBox = document.getElementById('chat-box');
+        
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    chatBox.style.opacity = '1';
+                    chatBox.querySelectorAll('input, button').forEach(function(el) {
+                        el.removeAttribute('disabled');
+                    });
+                } else {
+                    chatBox.style.opacity = '0.5';
+                    chatBox.querySelectorAll('input, button').forEach(function(el) {
+                        el.setAttribute('disabled', true);
+                    });
+                }
+            });
+        });
+        
+            
+            function handleSubmit(event) {
+                event.preventDefault();
+                var form = event.target;
+                var formData = new FormData(form); 
+    
+                var userMessage = formData.get('text');
+                console.log(userMessage)
+                document.getElementById('text').value = '';
+                appendUserMessage(userMessage);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    appendBotMessage(data.data.text);
+                    scrollToBottom();
+                    console.log(data.data.text)
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+                 
+            function scrollToBottom() {
+                const chatContainer = document.getElementById('chat-container');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            
+            function appendUserMessage(message) {
+                const chatHistory = document.getElementById('chat-history');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message user-message';
+                messageElement.textContent = message;
+                chatHistory.appendChild(messageElement);
+                scrollToBottom();
+            }
+    
+            function appendBotMessage(message) {
+                const chatHistory = document.getElementById('chat-history');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message bot-message';
+                messageElement.textContent = message;
+                chatHistory.appendChild(messageElement);
+                scrollToBottom();
+            }
+    
+            function scrollToBottom() {
+                const chatContainer = document.getElementById('chat-container');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+    
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+    
+            document.getElementById('question-form').addEventListener('submit', handleSubmit);
+        </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/felix.ico' %}?v=2">
+    <title>Beat Snippets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .video-container {
+            border: 5px solid #5a5c5a;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
+            width: 70%;
+            max-width: 800px;
+            background-color: #fff;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .video-container:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .like-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .dislike-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        @media screen and (max-width: 768px) {
+            .video-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Beat Snippets</h1>
+
+    <div class="video-container">
+        <video controls>
+            <source src="{% static 'my_music_school/sample_beats/video_0.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="buttons">
+            <button class="button like-button">Like</button>
+            <button class="button dislike-button">Dislike</button>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <video controls>
+            <source src="{% static 'my_music_school/sample_beats/video_1.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="buttons">
+            <button class="button like-button">Like</button>
+            <button class="button dislike-button">Dislike</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('play', function(event){
+            var videos = document.getElementsByTagName('video');
+            for(var i =0; i < videos.length; i++){
+                if(videos[i] != event.target){
+                    videos[i].pause();
+                }
+            }
+        }, true);
+    </script>
+</body>
+</html>
