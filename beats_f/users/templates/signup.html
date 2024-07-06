@@ -1,6 +1,5 @@
-
+{% load static %}
 {% load socialaccount %}
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,26 +18,28 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 900px;
             width: 90%;
-            padding: 15px;
+            padding: 20px;
             background-color: #2d3036;
             border-radius: 40px;
-            position: relative;
-            margin: 10px auto;
+            margin: 30px auto;
             box-shadow: 0 0 800px rgba(0, 100, 255, 0.1);
             transition: box-shadow 0.3s ease;
             text-align: center;
             overflow: hidden;
+            height: auto;
         }
 
         .container h2 {
-            color: #0f0;
+            color: #cfccc6;
             font-weight: bold;
+            font-size: 30px;
+            margin: 5px 0;
         }
 
         .container form {
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .container label {
@@ -49,13 +50,24 @@
             margin-bottom: 5px;
         }
 
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .form-row div {
+            flex: 1;
+            min-width: 48%;
+        }
+
         .container input[type="text"],
         .container input[type="password"],
         .container input[type="email"],
         .container input[type="tel"],
         .container input[type="date"] {
-            width: 90%;
-            padding: 15px;
+            width: 100%;
+            padding: 10px;
             margin-bottom: 10px;
             border: 2px solid #453b3b;
             border-radius: 10px;
@@ -80,9 +92,10 @@
             border-radius: 5px;
             padding: 10px 20px;
             cursor: pointer;
-            width: 220px;
+            width: 100%;
             font-weight: bold;
-            height:45px;
+            height: 45px;
+            font-size: 18px;
         }
 
         .container:hover {
@@ -95,8 +108,9 @@
 
         .container p {
             color: #fff;
-            margin-top: 20px;
-        }
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;       }
 
         .container a {
             color: #007bff;
@@ -133,6 +147,119 @@
             font-weight: bold;
             text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
         }
+
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+            color: white;
+            border-radius: 5px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            margin: 10px auto;
+            text-align: center;
+            font-weight: bold;
+            height: 45px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-google:hover {
+            background: linear-gradient(45deg, #EA4335, #FBBC05, #34A853, #4285F4);
+        }
+
+        .btn-google img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            border-radius: 15%;
+        }
+
+        .required-asterisk::after {
+            content: " *";
+            color: red;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.info-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 160px;
+    background-color: #2d3036;
+    color: #080147;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    font-weight: bold;
+    background-color: #b7b1f2;
+    opacity: 1;
+}
+
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .container button {
+                font-size: 16px;
+                padding: 10px;
+                height: 40px;
+            }
+
+            .container h2 {
+                font-size: 24px;
+                
+            }
+
+            .btn-google {
+                font-size: 16px;
+                height: 40px;
+            }
+
+        }
     </style>
 </head>
 <body>
@@ -146,35 +273,54 @@
 
         <form action="/signup/" method="post">
             {% csrf_token %}
-            <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
-            <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" required>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-            <label for="password">Password</label>
+            <div class="form-row">
+                <div>
+                    <label for="first_name" class="required-asterisk">First Name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
+                </div>
+                <div>
+                    <label for="last_name" class="required-asterisk">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="email" class="required-asterisk">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                </div>
+                <div>
+                    <label for="username" class="required-asterisk">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                </div>
+            </div>
+            <label for="password" class="required-asterisk">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            <label for="phone_number">Phone Number(Optional)</label>
+            <label for="phone_number">Phone Number (Optional)</label>
             <input type="tel" id="phone_number" name="phone_number" placeholder="Enter your phone number">
-            <label for="dob">Date of Birth(Optional)</label>
+
+            <label for="dob">
+                <span class="tooltip">
+                    <span class="info-icon">ℹ️</span>
+                    <span class="tooltip-text">You MUST be atleast 13 Years or older to sign up.</span>
+                </span>
+                Date of Birth (Optional)
+            </label>
             <input type="date" id="dob" name="dob" placeholder="Select your date of birth">
+            
+            
             <button type="submit">Sign Up</button>
         </form>
 
-
-        <!-- signup.html -->
         {% if social_app %}
-            <a href="{% provider_login_url 'google' %}">
-                <button>Sign Up with Google</button>
+            <a href="{% provider_login_url 'google' %}" class="btn-google">
+                <img src="{% static 'google-log_o/google-l_0_g_o.jpg' %}" alt="Google logo">
+                Sign Up with Google
             </a>
         {% else %}
             <p>Google login is currently unavailable. Please try again later or contact support.</p>
         {% endif %}
 
-
-        <p style="font-size: 16px; font-weight:bold;">Already have an account? <a href="/login/">Log in</a></p>
+        <p>Already have an account? <a href="/login/">Log in</a></p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -182,11 +328,17 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Calculate minimum birth year (e.g., born in or before 2011)
+            var today = new Date();
+            var minBirthDate = new Date(today.getFullYear() - 13, today.getMonth(), today.getDate()); // Date 11 years ago
+
+            // Initialize datepicker
             $('#dob').datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true,
-                yearRange: '1900:2030'
+                maxDate: '-13y', // Maximum selectable date is today minus 11 years (born in or before 2011)
+                yearRange: '1920:' + today.getFullYear() // Year range from 1930 to current year
             });
         });
     </script>
