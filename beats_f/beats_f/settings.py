@@ -158,6 +158,22 @@ WSGI_APPLICATION = 'beats_f.wsgi.application'
 
 SITE_ID = 3
 
+
+# #pythonanywhere server
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'xxxxxx',
+#         'USER': 'xxxxxxx',
+#         'PASSWORD': '*******',
+#         'HOST': 'host-adress',
+#         'PORT': '13931',
+#     }
+# }
+
+##Local server sqlite3 database
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -166,8 +182,7 @@ SITE_ID = 3
 # }
 
 
-
-
+#Local server posgres database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
