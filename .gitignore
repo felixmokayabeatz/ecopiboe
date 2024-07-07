@@ -5,12 +5,9 @@
 
 **/*.pyc
 **/__pycache__/
-# productionfiles/
-# static/
-media/
-# user_tokens/
-# token/
-# conversation_history.pkl
+__pycache__
+
+
 debug.log
 db.sqlite3
 .env
