@@ -159,7 +159,7 @@ WSGI_APPLICATION = 'beats_f.wsgi.application'
 SITE_ID = 3
 
 
-# #pythonanywhere server
+# #pythonanywhere server postgres database
 
 # DATABASES = {
 #     'default': {
