@@ -1,6 +1,6 @@
 *EcoPiBoE* - An achronym for Eco-footprint, Piano, Book recommender and Email all utilizing an LLM to run.
 
-*Eco* ~ Eco-footprint analysis app that uses Gemini AI API to analyse the data fropm the user.
+*Eco* ~ Eco-footprint analysis app that uses Gemini AI API to analyse the data from the user.
 
 *Pi(Piano)* ~ Piano that explains notes, chords etc by use of an LLM
 
