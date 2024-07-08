@@ -462,7 +462,6 @@ def user_login(request):
     return render(request, 'login/login.html', {'social_app': social_app})
 
 
-
 def signup_success(request):
     template = loader.get_template('registration/signup_success.html')
     return HttpResponse(template.render())
@@ -485,11 +484,8 @@ def signup(request):
             first_name=first_name, last_name=last_name
         )
         
-<<<<<<< HEAD
+
         return redirect('signup_success')
-=======
-        return redirect('/signup_success')
->>>>>>> origin/main
 
     social_app = SocialApp.objects.filter(provider='google').first()
   
@@ -761,7 +757,7 @@ def send_email(request):
                     os.remove(token_path)
                     return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize')})
                 except Exception as e:
-                    return JsonResponse({'success': False, 'message': f'Unexpected error: {str(e)}. Please try again.'})
+                    return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize'), 'message': f'Unexpected error: {str(e)}. Please try again.'})
 
             if not creds or not creds.valid:
                 if creds and creds.expired and creds.refresh_token:
@@ -771,7 +767,7 @@ def send_email(request):
                         os.remove(token_path)
                         return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize')})
                     except Exception as error:
-                        return JsonResponse({'success': False, 'message': f'Unexpected error: {str(error)}. Please try again.'})
+                        return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize'), 'message': f'Unexpected error: {str(error)}. Please try again.'})
                 else:
                     return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize')})
 
@@ -788,14 +784,13 @@ def send_email(request):
                 return JsonResponse({'success': True, 'message': 'Email sent successfully!'})
 
             except Exception as error:
-                logger.error(f"Error sending email: {error}")
-                return JsonResponse({'success': False, 'message': f'Error sending email: {str(error)}'})
+                return JsonResponse({'success': False, 'message': f'Error sending email: {str(error)} '})
 
         except Exception as error:
-            logger.error(f"Unexpected error in send_email view: {error}")
             return JsonResponse({'success': False, 'message': 'An unexpected error occurred. Please try again later.'})
 
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
+
 
 @login_required(login_url='/login/')
 def google_reauthorize(request):
