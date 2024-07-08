@@ -792,12 +792,16 @@ def send_email(request):
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
 
 
+
 @login_required(login_url='/login/')
 def google_reauthorize(request):
     try:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            'C:/Programming/my_website/beats_f/static/json/e_c_o_p_i_b_o_e.json', SCOPES)
+        client_secrets_file = settings.GOOGLE_CREDENTIALS
+
+        flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
+        
         creds = flow.run_local_server(port=8000, prompt='consent')
+
         # Save the credentials for the user
         user_id = request.user.id
         token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
@@ -806,13 +810,14 @@ def google_reauthorize(request):
         token_path = os.path.join(token_dir, f'{user_id}_token.json')
         with open(token_path, 'w') as token_file:
             token_file.write(creds.to_json())
-        return redirect('send_email')
+
+        return redirect('send_email')  # Replace 'send_email' with your actual redirect URL
+
     except PermissionError as e:
         return JsonResponse({'success': False, 'message': f'Permission error: {str(e)}. Please try again with a different port.'})
+
     except Exception as e:
         return JsonResponse({'success': False, 'message': f'Unexpected error: {str(e)}. Please try again.'})
-
-
 
 
 from django.contrib.auth import logout
