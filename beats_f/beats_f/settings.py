@@ -242,4 +242,3 @@ EMAIL_HOST_PASSWORD = 'pfsg dkxr kkrw azwg'
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 
-
