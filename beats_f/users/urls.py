@@ -58,6 +58,8 @@ urlpatterns = [
     
     path('improve_email/', views.improve_email, name='improve_email'),
     path('send-email/', views.send_email, name='send_email'),
+    # Add this URL pattern to your urls.py
+    path('google-reauthorize/', views.google_reauthorize, name='google_reauthorize'),
     
     path('contact_us/', views.contact_us, name='contact_us'),
     
