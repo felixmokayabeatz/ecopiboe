@@ -485,7 +485,11 @@ def signup(request):
             first_name=first_name, last_name=last_name
         )
         
+<<<<<<< HEAD
         return redirect('signup_success')
+=======
+        return redirect('/signup_success')
+>>>>>>> origin/main
 
     social_app = SocialApp.objects.filter(provider='google').first()
   
