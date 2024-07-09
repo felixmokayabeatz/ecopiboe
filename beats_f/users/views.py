@@ -335,33 +335,6 @@ def chat(request):
 def video_page(request):
     return render(request, 'sample_beats/videos.html')
 
-@login_required(login_url='/admin/login/')
-def export_users_csv(request):
-    users = User.objects.all().order_by('id')
-
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="registered_users.csv"'
-    content = "User ID,First Name,Last Name,Email,Notes\n"
-    user_counter = 1
-    for user in users:
-        content += f"{user_counter},{user.first_name},{user.last_name},{user.email}\n" 
-        user_counter += 1
-    response.write(content)
-    return response
-
-@login_required(login_url='/admin/login/')
-def export_users_excel(request):
-    users = User.objects.all().order_by('id')
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="registered_users.xls"'
-    content = "User ID\tFirst Name\tLast Name\tEmail\tNotes\n"
-    user_counter = 1
-    for user in users:
-        content += f"{user_counter}\t{user.first_name}\t{user.last_name}\t{user.email}\n" 
-        user_counter += 1
-    response.write(content)
-    return response
-
 
 def felix_about(request):
     file_path = os.path.join(settings.BASE_DIR, 'static', 'texts/about_Felix.txt')
@@ -388,19 +361,6 @@ def felix_about(request):
     }
     return render(request, 'about/felix_about.html', context)
 
-@login_required(login_url='/admin/login/')
-def registered_users(request):
-    registered_users = User.objects.all().order_by('id')
-    users = User.objects.all()
-    return render(request, 'registered_users.html', {'registered_users': registered_users, 'users': users})
-
-@login_required(login_url='/admin/login/')
-def admin_users(request):
-    admin_users = User.objects.filter(is_superuser=True)
-    context = {
-        'admin_users': admin_users,
-    }
-    return render(request, 'admin_users.html', context)
 
 
 def home(request):
