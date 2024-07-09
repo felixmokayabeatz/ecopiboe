@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from .blog import BlogPost
+from django.contrib.auth.models import User
+from .models import BlogPost
 
 def blog_list(request):
-    posts = BlogPost.objects.all().order_by('-created_at')
+    # Filter authors who are staff or admin
+    authors = User.objects.filter(is_staff=True)
+    posts = BlogPost.objects.filter(author__in=authors).order_by('-created_at')
+    
     for post in posts:
         post.author_full_name = post.author.get_full_name()
+
     return render(request, 'blog/blog_list.html', {'posts': posts})
 
 def blog_detail(request, pk):
