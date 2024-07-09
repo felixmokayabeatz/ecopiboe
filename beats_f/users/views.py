@@ -797,12 +797,12 @@ def send_email(request):
 def google_reauthorize(request):
     try:
         client_secrets_file = settings.GOOGLE_CREDENTIALS
+        print(client_secrets_file)
 
         flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
         
         creds = flow.run_local_server(port=8000, prompt='consent')
 
-        # Save the credentials for the user
         user_id = request.user.id
         token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
         if not os.path.exists(token_dir):
@@ -811,7 +811,7 @@ def google_reauthorize(request):
         with open(token_path, 'w') as token_file:
             token_file.write(creds.to_json())
 
-        return redirect('send_email')  # Replace 'send_email' with your actual redirect URL
+        return redirect('send_email')
 
     except PermissionError as e:
         return JsonResponse({'success': False, 'message': f'Permission error: {str(e)}. Please try again with a different port.'})
