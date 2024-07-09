@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import blog_view
 from django.conf.urls.static import static
 from django.conf import settings
 from .views import visualize_ai_results
@@ -68,6 +69,9 @@ urlpatterns = [
     path('file/<int:pk>/', views.file_detail, name='file_detail'),
     path('delete/<int:pk>/', views.delete_file, name='delete_file'),
     
+    
+    path('blog/', blog_view.blog_list, name='blog_list'),
+    path('blog/<int:pk>/', blog_view.blog_detail, name='blog_detail'),
         
     #The foooter links
     
