@@ -12,7 +12,8 @@ def blog_list(request):
 
     return render(request, 'blog/blog_list.html', {'posts': posts})
 
-def blog_detail(request, pk):
-    post = get_object_or_404(BlogPost, pk=pk)
-    post.author_full_name = post.author.get_full_name()
+
+
+def blog_detail(request, slug):
+    post = get_object_or_404(BlogPost, slug=slug)
     return render(request, 'blog/blog_detail.html', {'post': post})

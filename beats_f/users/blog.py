@@ -13,13 +13,15 @@ class BlogPost(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-            if not self.slug:
-                original_slug = slugify(self.title)
-                queryset = BlogPost.objects.all()
-                slug = original_slug
+        if not self.slug:
+            self.slug = slugify(self.title)  # Generate slug from title
+            queryset = BlogPost.objects.filter(slug=self.slug).exists()
+            if queryset:
                 counter = 1
-                while queryset.filter(slug=slug).exists():
-                    slug = f'{original_slug}-{counter}'
+                while queryset:
+                    new_slug = f'{self.slug}-{counter}'
+                    queryset = BlogPost.objects.filter(slug=new_slug).exists()
                     counter += 1
-                self.slug = slug
-            super().save(*args, **kwargs)
+                    if not queryset:
+                        self.slug = new_slug
+        super().save(*args, **kwargs)
