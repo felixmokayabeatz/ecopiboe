@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(BASE_DIR)
 
 
 
@@ -101,7 +102,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'LOCALE_FUNC': 'path.to.callable',
         'VERIFIED_EMAIL': False,
         'VERSION': 'v2.4',
-        'REDIRECT_URI': 'https://felixmokayabeatz.pythonanywhere.com/accounts/google/login/callback/',
+        'REDIRECT_URI': 'https://ecopiboe.com/accounts/google/login/callback/',
     }
 }
 
