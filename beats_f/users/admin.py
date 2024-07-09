@@ -33,7 +33,18 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
 
+from django import forms
+from .models import BlogPost
 
-from .blog import BlogPost
+class BlogPostAdminForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = '__all__'
 
-admin.site.register(BlogPost)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['author'].queryset = User.objects.filter(is_staff=True)
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    form = BlogPostAdminForm

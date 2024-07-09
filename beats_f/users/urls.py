@@ -74,6 +74,8 @@ urlpatterns = [
     path('blog/<int:pk>/', blog_view.blog_detail, name='blog_detail'),
         
     #The foooter links
+    path('', blog_view.blog_list, name='blog_list'),
+    path('<slug:slug>/', blog_view.blog_detail, name='blog_detail'),
     
     path('about/', about_us, name='about_us'),
     path('careers/', careers, name='careers'),
