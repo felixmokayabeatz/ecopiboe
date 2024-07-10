@@ -216,20 +216,34 @@ def assessment_complete(request):
 
 logger = logging.getLogger(__name__)
 
+
 def ask_question(request):
     if request.method == "POST":
+        # Initialize session counter if not present
+        if 'message_count' not in request.session:
+            request.session['message_count'] = 0
+
+        # Check if user has already sent 3 messages
+        if request.session['message_count'] >= 3:
+            return JsonResponse({"error": "You have reached the maximum number of 3 messages for this session."}, status=400)
+        
         text = request.POST.get("text")
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
-        directive = (
-            "Provide a concise answer (≤ 60 words)."
+        
+        directive_to_gemini = (
+            "Provide a concise answer (Less than 30 words). And confirm to the user that connection to you is active they can proceed to EcoPiBoE Website. Also tell them they can only send a maximum of 3 chats in this window."
         )
-        prompt = f"{get_conversation_context()}{directive}\n{text}\n\n"
+        prompt = f"{directive_to_gemini}\n{text}\n\n"
+        
         try:
             model = genai.GenerativeModel("gemini-pro")
             chat = model.start_chat()
             response = chat.send_message(prompt)
-            update_conversation_history(text, response.text)
+            
+            # Increment the session message counter
+            request.session['message_count'] += 1
+            
             if hasattr(response, 'image_url'):
                 return JsonResponse({"data": {"image_url": response.image_url}})
             else:
@@ -238,7 +252,9 @@ def ask_question(request):
             logger.error(f"Error while getting AI response: {e}")
             return JsonResponse({"error": "An error occurred while processing your request."}, status=500)
     else:
-        return HttpResponseRedirect(reverse("chat"))
+        return HttpResponseRedirect(reverse("ask_question"))
+
+    
     
 import pickle
 
@@ -370,7 +386,6 @@ def home(request):
 
 def landing_page(request):
     file_path = os.path.join(settings.BASE_DIR, 'static/texts/land_page.txt')
-    print(file_path)
     with open(file_path, 'r') as file:
         content = file.read()
 
