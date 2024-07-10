@@ -16,4 +16,6 @@ def blog_list(request):
 
 def blog_detail(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
+    post.author_full_name = post.author.get_full_name()
+    
     return render(request, 'blog/blog_detail.html', {'post': post})
