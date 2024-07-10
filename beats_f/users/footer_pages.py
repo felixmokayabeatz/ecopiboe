@@ -1,7 +1,12 @@
 from django.shortcuts import render
+from django.conf import settings
+import os
 
 def about_us(request):
-    return render(request, 'footer/about_us.html')
+    file_path = os.path.join(settings.STATIC_ROOT, 'about_content_text/about_content_text.txt')
+    with open(file_path, 'r') as file:
+        content = file.read()
+    return render(request, 'footer/about_us.html', {'content': content})
 
 def careers(request):
     return render(request, 'footer/careers.html')

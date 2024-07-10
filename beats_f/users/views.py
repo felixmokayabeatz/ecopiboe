@@ -219,11 +219,9 @@ logger = logging.getLogger(__name__)
 
 def ask_question(request):
     if request.method == "POST":
-        # Initialize session counter if not present
         if 'message_count' not in request.session:
             request.session['message_count'] = 0
 
-        # Check if user has already sent 3 messages
         if request.session['message_count'] >= 3:
             return JsonResponse({"error": "You have reached the maximum number of 3 messages for this session."}, status=400)
         
@@ -241,7 +239,6 @@ def ask_question(request):
             chat = model.start_chat()
             response = chat.send_message(prompt)
             
-            # Increment the session message counter
             request.session['message_count'] += 1
             
             if hasattr(response, 'image_url'):
