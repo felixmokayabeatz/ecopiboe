@@ -181,6 +181,7 @@
     <div class="dropdown">
         <select id="menu">
             <option value="" selected hidden>Menu</option>
+            <option value ="back"> Back </option>
             <option value="menu_f">Menu</option>
             <option value="about">About</option>
         </select>
@@ -203,6 +204,7 @@
     <script>
         document.getElementById('menu').addEventListener('change', function() {
             const urlMap = {
+                'back': 'javascript:history.back()',
                 'menu_f': '/menu_f/',
                 'about': '/about_ecopboe/',
             };
@@ -221,16 +223,12 @@
             var emailAddress = 'ecopiboe@gmail.com';
             var mailtoLink = 'mailto:' + encodeURIComponent(emailAddress);
             
-            // Create a temporary link element to check for browser capability
             var tempLink = document.createElement('a');
             tempLink.setAttribute('href', mailtoLink);
             
-            // Check if the browser can handle mailto links directly
             if (tempLink.href.startsWith('mailto:')) {
-                // Browser can handle mailto links, open it
                 window.location.href = mailtoLink;
             } else {
-                // Browser cannot handle mailto links, open webmail
                 window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + emailAddress, '_blank');
             }
         });

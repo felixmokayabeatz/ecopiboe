@@ -186,15 +186,15 @@
         
         #chat-box {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             right: 20px;
             background-color: #333;
             color: #fff;
             padding: 10px;
             border-radius: 10px;
             display: none;
-            width: 250px;
-            height: 380px;
+            width: 300px;
+            height: 300px;
         }
         
         #chat-container {
@@ -203,8 +203,8 @@
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            width: 200px;
-            height: 200px;
+            width: 240px;
+            height: 60px;
             overflow-y: scroll;
             overflow-x: hidden;
             scrollbar-width: thin;
@@ -231,7 +231,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            width: 240px;
+            width: 280px;
         }
         
         button[type="submit"] {
@@ -241,6 +241,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width:280px;
         }
         
         button[type="submit"]:hover {
@@ -353,26 +354,6 @@
                 text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
                 position: relative;
             }
-
-
-
-          
-            {% comment %} body {
-                font-family: Arial, sans-serif;
-                background-color: #050505;
-                color: #ffffff;
-                transition: background-color 0.3s ease;
-            } {% endcomment %}
-    
-            .dark-theme {
-                background-color: #050505;
-                color: #ffffff;
-            }
-    
-            .light-theme {
-                background-color: #ffffff;
-                color: #050505;
-            }
         </style>
         }
         
@@ -434,7 +415,7 @@
     <img src="{% static 'gemni/Google Ai Gemini.png' %}" class="hidden-image" id="hiddenImage">
 
     <div style="font-weight: bold; text-align:center;" id="chat-box">
-        <b>Test Connection. Ask me anything.</b>
+        <b>Test Connection. Ask me anything.(3 Prompts Max)</b>
         <div id="chat-container">
             <div id="chat-history"></div>
         </div>
@@ -603,24 +584,16 @@
                 });
             });
 
-
-
-
             window.onload = function() {
                 if (performance.navigation.type === 2) {
-                    // Reload the page if navigating back
                     location.reload(true);
                 }
             };
 
-
     </script>
-
-
 
     {% include 'footer/footer.html' %}
     
-<!-- Include scripts at the end -->
 <script src="{% static 'js/scripts.js' %}"></script>
 
     {% endblock %}
