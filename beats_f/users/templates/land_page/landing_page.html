@@ -585,13 +585,12 @@
 
 
 
-            function reloadPageOnVisit() {
-                if (!sessionStorage.getItem('visited')) {
-                    sessionStorage.setItem('visited', true);
-                    window.location.reload(true);
+            window.onload = function() {
+                if (performance.navigation.type === 2) {
+                    // Reload the page if navigating back
+                    location.reload(true);
                 }
-            }
-            reloadPageOnVisit();
+            };
     </script>
 
 
