@@ -581,6 +581,17 @@
                     }
                 });
             });
+
+
+
+
+            function reloadPageOnVisit() {
+                if (!sessionStorage.getItem('visited')) {
+                    sessionStorage.setItem('visited', true);
+                    window.location.reload(true);
+                }
+            }
+            reloadPageOnVisit();
     </script>
 
 
