@@ -65,6 +65,10 @@ urlpatterns = [
     path('blog/', blog_view.blog_list, name='blog_list'),
     path('blog/<int:pk>/', blog_view.blog_detail, name='blog_detail'),
     path('blog/<slug:slug>/', blog_view.blog_detail, name='blog_detail'),
+    
+    
+    #User Settings
+    path('settings/', views.user_settings, name='user_settings'),
         
     #footer pages
     path('about/', about_us, name='about_us'),
