@@ -1,0 +1,281 @@
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - EcoPiBoE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        body.light-mode {
+            background-color: #f5f5f5;
+            color: #000000;
+        }
+        .container {
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 800px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+        }
+        body.light-mode .container {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .container h1 {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container p {
+            line-height: 1.6;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .theme-toggle {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        .menu-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .menu-toggle {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        .menu-dropdown {
+            position: fixed;
+            top: 35px;
+            left: 10px;
+            z-index: 10;
+            display: none;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .menu-toggle:hover + .menu-dropdown,
+        .menu-dropdown:hover {
+            display: block;
+        }
+        .menu-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .menu-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+        header, footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        body.light-mode header, body.light-mode footer {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        footer {
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+        }
+        .image-placeholder, img {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        .image-placeholder.dark-mode, img.dark-mode {
+            background-color: #444;
+        }
+        body.light-mode .image-placeholder, body.light-mode img {
+            background-color: #eee;
+        }
+
+
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+            border-radius: 10px;
+            padding: 2px;
+            background: linear-gradient(to right, #99068f, darkred);
+        }
+        
+        .custom-image {
+            width: 700px;
+            height: 400px;
+            border-radius: 16px;
+            display: block;
+        }
+        
+        
+        
+    </style>
+</head>
+<body class="dark-mode">
+    <button class="menu-toggle">Menu</button>
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="javascript:history.back()">Back</a>
+        <a href="/">Home</a>
+    </div>
+    <div class="dropdown">
+        <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
+    </div>
+    <header>
+        <h1>EcoPiBoE</h1>
+    </header>
+    <main>
+        <div class="container">
+            <h2 style="text-align:center;">Help Center</h2>
+
+            <h1 style="font-weight:bold; font-size:25px; text-align:left; color:grey;">Landing page- Introduction to EcoPiBoE</h1>
+
+
+            <p style="font-size:16px;">
+                Welcome to the EcoPiBoE Help Center. Here, you will find answers to frequently asked questions, detailed guides on using our services, and various support resources. Please explore the sections below to find the information you need.
+            </p>
+            
+            <p style="font-size:16px;">
+                Below is an overview of the EcoPiBoE Website's landing page. To proceed, you are required to agree to our website's terms and policies by checking the provided box. Once you have confirmed your agreement by checking the box, the 'Proceed' button will appear, and the navigation menu link will be activated. This ensures that you have read and understood our website's policies.
+            </p>
+            
+            <p style="font-size:16px;">
+                After confirming your agreement, you will be able to navigate the site smoothly. 
+            </p>
+
+            <p style="font-size:16px;">
+                Note that these terms include Google's <a style="font-weight:bold;" href="https://policies.google.com/terms/generative-ai/use-policy" target="_blank">Generative AI Use Policy</a> and <a style = "font-weight:bold;" href="https://policies.google.com/terms" target="_blank">Terms of Service</a>
+            </p>
+            
+
+            <p style="font-size:16px;">
+                A small window pops up on the bottom-right side of your screen. This window allows you to type a text prompt to the Chatbot, which uses Google's Gemini Large Language Model (LLM). Users have a limited number of prompts in this window if they are not signed in. The purpose of this chat window is to ensure that the Gemini AI API is functioning correctly.
+            </p>
+            
+            
+            
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/land_page_help_1.png' %}" alt="Ecopiboe Image" class="custom-image">
+            </div>
+            
+           
+            <h1 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Registration and Login </p></h1>
+            
+
+            <p style="font-size:16px;">Learn how to create an account, set up your profile, and navigate the EcoPiBoE platform.</p>
+
+            <p style="font-size:16px;">
+                You will need to choose either to log in or sign up if you don't already have an account with EcoPiBoE. EcoPiBoE supports logging in with a Google account, which will automatically create an account for you with EcoPiBoE if you don't have any account associated traditional account or google account in the EcoPiBoe database. This makes it quick and easy to get started using our Website (EcoPiBoE).
+            </p>
+            
+
+
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/registration_login.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+            
+           
+            
+            
+            {% comment %} <div class="image-wrapper">
+                <img src="{% static 'help_images/land_page_help_1.png' %}" alt="Ecopiboe Image" class="custom-image">
+            </div> {% endcomment %}
+
+
+            
+            <h3 style="text-align:center;">Account Management</h3>
+            <p style="font-size:16px;">Find out how to update your account information, reset your password, and manage your subscriptions.</p>
+            <img src="{% static 'images/landing-page-image3.jpg' %}" alt="Landing Page Image 3">
+            
+            <h3 style="text-align:center;">Using Our Services</h3>
+            <p style="font-size:16px;">Discover how to make the most of EcoPiBoE's features, including creating projects, tracking progress, and collaborating with others.</p>
+            <img src="{% static 'images/landing-page-image4.jpg' %}" alt="Landing Page Image 4">
+            
+            <h3 style="text-align:center;">Troubleshooting</h3>
+            <p style="font-size:16px;">If you encounter any issues, check our troubleshooting guides to find solutions to common problems.</p>
+            <img src="{% static 'images/landing-page-image5.jpg' %}" alt="Landing Page Image 5">
+            
+            <h3 style="text-align:center;">Contact Support</h3>
+            <p style="font-size:16px;">Can't find the answer you're looking for? Reach out to our support team for assistance. Email us at <a href="mailto:ecopiboe@gmail.com">ecopiboe@gmail.com</a> or call us at 1-800-ECO-HELP.</p>
+            <img src="{% static 'images/landing-page-image6.jpg' %}" alt="Landing Page Image 6">
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 EcoPiBoE. All rights reserved.</p>
+    </footer>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+            }
+        }
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuDropdown = document.getElementById('menuDropdown');
+
+        menuToggle.addEventListener('mouseenter', function() {
+            menuDropdown.style.display = 'block';
+        });
+
+        menuToggle.addEventListener('mouseleave', function() {
+            menuDropdown.style.display = 'none';
+        });
+
+        menuDropdown.addEventListener('mouseenter', function() {
+            menuDropdown.style.display = 'block';
+        });
+
+        menuDropdown.addEventListener('mouseleave', function() {
+            menuDropdown.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}

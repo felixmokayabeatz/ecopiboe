@@ -222,7 +222,7 @@ def ask_question(request):
         if 'message_count' not in request.session:
             request.session['message_count'] = 0
 
-        if request.session['message_count'] >= 3:
+        if request.session['message_count'] >= 5:
             return JsonResponse({"error": "You have reached the maximum number of 3 messages for this session."}, status=400)
         
         text = request.POST.get("text")
@@ -230,7 +230,7 @@ def ask_question(request):
             return JsonResponse({"error": "Text must not be empty"}, status=400)
         
         directive_to_gemini = (
-            "Provide a concise answer (Less than 30 words). And confirm to the user that connection to you is active they can proceed to EcoPiBoE Website. Also tell them they can only send a maximum of 3 chats in this window."
+            "In consice manner greet the user with one or two words then in (Less than 12 words) confirm to the user that AI connection to you is active they can proceed to EcoPiBoE Website.Tell them all is good they can proceed AI is working and then Answer their Question(if it there) in less than 12 words in a new paragraph."
         )
         prompt = f"{directive_to_gemini}\n{text}\n\n"
         
@@ -950,3 +950,34 @@ def delete_file(request, pk):
     file.delete()
 
     return redirect('home') 
+
+
+
+
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .forms import UserProfileForm, CustomPasswordChangeForm
+
+@login_required
+def user_settings(request):
+    if request.method == 'POST':
+        user_form = UserProfileForm(request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if user_form.is_valid() and password_form.is_valid():
+            user_form.save()
+            user = password_form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('user_settings')
+    else:
+        user_form = UserProfileForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user)
+
+    return render(request, 'users/user_settings.html', {
+        'user_form': user_form,
+        'password_form': password_form
+    })

@@ -1,0 +1,146 @@
+<!-- user_settings.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        body.light-mode {
+            background-color: #f9f9f9;
+            color: #000000;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+        body.light-mode .container {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        h1 {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .theme-toggle {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
+    <div class="container">
+        <h1>EcoPiBoE</h1>
+        <h2>User Settings</h2>
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Profile Information</legend>
+                <div class="form-group">
+                    <label for="id_username">Username:</label>
+                    {{ user_form.username }}
+                </div>
+                <div class="form-group">
+                    <label for="id_first_name">First Name:</label>
+                    {{ user_form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name">Last Name:</label>
+                    {{ user_form.last_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email:</label>
+                    {{ user_form.email }}
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Change Password</legend>
+                <!-- Custom instructions for changing the password -->
+                <p style="font-size: 16px;">To change your password, please fill in the fields below with your current password, your new password, and confirm your new password.</p>
+                <div class="form-group">
+                    <label for="id_old_password">Old Password:</label>
+                    {{ password_form.old_password }}
+                </div>
+                <div class="form-group">
+                    <label for="id_new_password1">New Password:</label>
+                    {{ password_form.new_password1 }}
+                </div>
+                <div class="form-group">
+                    <label for="id_new_password2">Confirm New Password:</label>
+                    {{ password_form.new_password2 }}
+                </div>
+            </fieldset>
+            <button type="submit">Save changes</button>
+        </form>
+    </div>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggleButton = document.querySelector('.theme-toggle');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggleButton.classList.add('light-mode');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggleButton.classList.remove('light-mode');
+            }
+        }
+    </script>
+</body>
+</html>
