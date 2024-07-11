@@ -30,17 +30,20 @@ class UploadFileForm(forms.ModelForm):
         
         
         
-from django.contrib.auth.forms import PasswordChangeForm
+# forms.py
+from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
         widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
         }
 
 class CustomPasswordChangeForm(PasswordChangeForm):

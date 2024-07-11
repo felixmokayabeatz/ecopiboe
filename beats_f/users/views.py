@@ -972,7 +972,7 @@ def user_settings(request):
             user = password_form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your profile was successfully updated!')
-            return redirect('user_settings')
+            return redirect('/')
     else:
         user_form = UserProfileForm(instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user)
