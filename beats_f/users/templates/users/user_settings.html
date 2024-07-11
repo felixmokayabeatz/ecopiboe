@@ -18,7 +18,7 @@
             color: #000000;
         }
         .container {
-            max-width: 80%;
+            max-width: 6zzzz00px;
             margin: 50px auto;
             padding: 20px;
             background-color: #1e1e1e;
@@ -85,17 +85,24 @@
     <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
     <div class="container">
         <h1>EcoPiBoE</h1>
-        <h2>User Settings - Edit Profile</h2>
+        <h2>User Settings</h2>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
         <form method="post">
             {% csrf_token %}
             <fieldset>
                 <legend>Profile Information</legend>
                 <div class="form-group">
-                    <div class="form-group">
-                        <label for="id_email">Email(Cannot Change):</label>
-                        {{ user_form.email }}
-                    </div>
-                    <label for="id_username">Your Username(Cannot Change):</label>
+                    <label for="id_username">Username:</label>
                     {{ user_form.username }}
                 </div>
                 <div class="form-group">
@@ -106,12 +113,18 @@
                     <label for="id_last_name">Last Name:</label>
                     {{ user_form.last_name }}
                 </div>
-
+                <div class="form-group">
+                    <label for="id_email">Email:</label>
+                    {{ user_form.email }}
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Change Password</legend>
                 <!-- Custom instructions for changing the password -->
                 <p style="font-size: 16px;">To change your password, please fill in the fields below with your current password, your new password, and confirm your new password.</p>
+                
+                <p style="font-size: 16px;">Use uniquue password</p>
+                <p style="font-size: 16px;">Your name or part of your name will not be accepted as password, previously used password, too short and weak passwords.</p>
                 <div class="form-group">
                     <label for="id_old_password">Old Password:</label>
                     {{ password_form.old_password }}
