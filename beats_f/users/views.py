@@ -954,8 +954,6 @@ def delete_file(request, pk):
 
 
 
-
-# views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
@@ -972,7 +970,7 @@ def user_settings(request):
             user = password_form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your profile was successfully updated!')
-            return redirect('/')
+            return redirect('/')  # Redirect to home after successful update
     else:
         user_form = UserProfileForm(instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user)
