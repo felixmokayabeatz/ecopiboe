@@ -953,7 +953,6 @@ def delete_file(request, pk):
 
 
 
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
@@ -970,7 +969,11 @@ def user_settings(request):
             user = password_form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your profile was successfully updated!')
-            return redirect('/')  # Redirect to home after successful update
+            return redirect('/')
+        else:
+            for field, errors in password_form.errors.items():
+                for error in errors:
+                    messages.error(request, f'Error in {field}: {error}')
     else:
         user_form = UserProfileForm(instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user)
@@ -979,3 +982,4 @@ def user_settings(request):
         'user_form': user_form,
         'password_form': password_form
     })
+
