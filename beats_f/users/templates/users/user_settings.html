@@ -18,7 +18,7 @@
             color: #000000;
         }
         .container {
-            max-width: 600px;
+            max-width: 80%;
             margin: 50px auto;
             padding: 20px;
             background-color: #1e1e1e;
@@ -85,13 +85,17 @@
     <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
     <div class="container">
         <h1>EcoPiBoE</h1>
-        <h2>User Settings</h2>
+        <h2>User Settings - Edit Profile</h2>
         <form method="post">
             {% csrf_token %}
             <fieldset>
                 <legend>Profile Information</legend>
                 <div class="form-group">
-                    <label for="id_username">Username:</label>
+                    <div class="form-group">
+                        <label for="id_email">Email(Cannot Change):</label>
+                        {{ user_form.email }}
+                    </div>
+                    <label for="id_username">Your Username(Cannot Change):</label>
                     {{ user_form.username }}
                 </div>
                 <div class="form-group">
@@ -102,10 +106,7 @@
                     <label for="id_last_name">Last Name:</label>
                     {{ user_form.last_name }}
                 </div>
-                <div class="form-group">
-                    <label for="id_email">Email:</label>
-                    {{ user_form.email }}
-                </div>
+
             </fieldset>
             <fieldset>
                 <legend>Change Password</legend>
