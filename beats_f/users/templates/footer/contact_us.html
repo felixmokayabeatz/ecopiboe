@@ -182,7 +182,6 @@
         <select id="menu">
             <option value="" selected hidden>Menu</option>
             <option value ="back"> Back </option>
-            <option value="menu_f">Menu</option>
             <option value="about">About</option>
         </select>
     </div>
@@ -205,8 +204,7 @@
         document.getElementById('menu').addEventListener('change', function() {
             const urlMap = {
                 'back': 'javascript:history.back()',
-                'menu_f': '/menu_f/',
-                'about': '/about_ecopboe/',
+                'about': '/about/',
             };
 
             const selectedValue = this.value;

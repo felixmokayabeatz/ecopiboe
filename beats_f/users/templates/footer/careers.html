@@ -121,15 +121,13 @@
         }
     </style>
 </head>
-<body class="dark-mode">
+<body>
     <button class="menu-toggle">Menu</button>
     <div class="menu-dropdown" id="menuDropdown">
         <a href="javascript:history.back()">Back</a>
         <a href="/">Home</a>
     </div>
-    <div class="dropdown">
-        <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
-    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
     <header>
         <h1>EcoPiBoE</h1>
     </header>
@@ -143,34 +141,60 @@
         <p>&copy; 2024 EcoPiBoE. All rights reserved.</p>
     </footer>
     <script>
-        function toggleTheme() {
+        document.addEventListener("DOMContentLoaded", function() {
+            const themeToggle = document.querySelector(".theme-toggle");
+            const menuToggle = document.querySelector('.menu-toggle');
+            const menuDropdown = document.getElementById('menuDropdown');
             const body = document.body;
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
+
+            // Toggle theme function
+            function toggleTheme() {
+                if (body.classList.contains("dark-mode")) {
+                    body.classList.remove("dark-mode");
+                    body.classList.add("light-mode");
+                    themeToggle.textContent = "Switch to Dark Mode";
+                    localStorage.setItem('theme', 'light-mode');
+                } else {
+                    body.classList.remove("light-mode");
+                    body.classList.add("dark-mode");
+                    themeToggle.textContent = "Switch to Light Mode";
+                    localStorage.setItem('theme', 'dark-mode');
+                }
             }
-        }
 
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menuDropdown = document.getElementById('menuDropdown');
+            // Load theme from localStorage
+            if (localStorage.getItem('theme')) {
+                body.classList.add(localStorage.getItem('theme'));
+                if (body.classList.contains("dark-mode")) {
+                    themeToggle.textContent = "Switch to Light Mode";
+                } else {
+                    themeToggle.textContent = "Switch to Dark Mode";
+                }
+            } else {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = "Switch to Light Mode";
+                localStorage.setItem('theme', 'dark-mode');
+            }
 
-        menuToggle.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
+            // Add click event listener to theme toggle button
+            themeToggle.addEventListener("click", toggleTheme);
 
-        menuToggle.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
-        });
+            // Menu toggle
+            menuToggle.addEventListener('mouseenter', function() {
+                menuDropdown.style.display = 'block';
+            });
 
-        menuDropdown.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
+            menuToggle.addEventListener('mouseleave', function() {
+                menuDropdown.style.display = 'none';
+            });
 
-        menuDropdown.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
+            menuDropdown.addEventListener('mouseenter', function() {
+                menuDropdown.style.display = 'block';
+            });
+
+            menuDropdown.addEventListener('mouseleave', function() {
+                menuDropdown.style.display = 'none';
+            });
         });
     </script>
 </body>
