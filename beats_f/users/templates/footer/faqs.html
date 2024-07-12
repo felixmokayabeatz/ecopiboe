@@ -190,7 +190,6 @@
             const faqQuestions = document.querySelectorAll(".faq-question");
             const body = document.body;
 
-            // Toggle theme function
             function toggleTheme() {
                 if (body.classList.contains("dark-mode")) {
                     body.classList.remove("dark-mode");
@@ -205,7 +204,6 @@
                 }
             }
 
-            // Load theme from localStorage
             if (localStorage.getItem('theme')) {
                 body.classList.add(localStorage.getItem('theme'));
                 if (body.classList.contains("dark-mode")) {
@@ -219,10 +217,8 @@
                 localStorage.setItem('theme', 'dark-mode');
             }
 
-            // Add click event listener to theme toggle button
             themeToggle.addEventListener("click", toggleTheme);
 
-            // Toggle FAQ answers
             faqQuestions.forEach(question => {
                 question.addEventListener("click", function() {
                     this.nextElementSibling.classList.toggle("faq-answer");
@@ -230,12 +226,10 @@
                 });
             });
 
-            // Menu toggle
             menuToggle.addEventListener("click", function() {
                 menuDropdown.style.display = menuDropdown.style.display === "block" ? "none" : "block";
             });
 
-            // Close menu if clicked outside
             window.onclick = function(event) {
                 if (!event.target.matches('.menu-toggle')) {
                     if (menuDropdown.style.display === "block") {
