@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Center - EcoPiBoE</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> {% endcomment %}
     <style>
         body {
             display: flex;
@@ -153,7 +153,7 @@
         
     </style>
 </head>
-<body class="dark-mode">
+<body>
     <button class="menu-toggle">Menu</button>
     <div class="menu-dropdown" id="menuDropdown">
         <a href="javascript:history.back()">Back</a>
@@ -227,14 +227,51 @@
             <div class="image-wrapper">
                 <img src="{% static 'help_images/eco_.png' %}" alt="EcoPiBoE Image" class="custom-image">
             </div>
+            <h2 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Analysed Results and Recommendations by GEMINI</p></h2>
+            <p style="font-size:16px;">After clicking submit you will be presented this page showing your eco-footprint in detail explained clearly by GEMINI, might go wrong sometimes so be sure to confirm your results. If you wish to view your results in form of a visual, then we got you, just click visualize eco-footprrint results and you will be represented with a graph page showing your analysed ecofootprint result. See picture below.</p>
             
-            <h3 style="text-align:center;">Troubleshooting</h3>
-            <p style="font-size:16px;">If you encounter any issues, check our troubleshooting guides to find solutions to common problems.</p>
-            <img src="{% static 'images/landing-page-image5.jpg' %}" alt="Landing Page Image 5">
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/eco_result_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+
+            <p style="font-size:16px;">Eco-footprint Results sample Line Graph</p>
+            <div class="image-wrapper">
+                <img style="height:350px;" src="{% static 'help_images/eco_graph_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+            
+
+            <h2 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Analysed Results and Recommendations by GEMINI</p></h2>
+            <p style="font-size:16px;"> </p>
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/eco_result_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+
+
+            <h1 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Search books, get summaries and a link to the actual book, Summary feature capable and smarter thanks to smart Language Model Gemini</p></h1>
+            <p style="font-size:16px;">The second box leads to this page below, where you can search books, summarize them by clicking summarize feature and get the link to the actual book all in one page. The summarizing feature is powered by Gemini.
+            
+            <div class="image-wrapper">
+                <img style="height:350px;" src="{% static 'help_images/book_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+
+
+            <h2 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Piano section</p></h2>
+            <p style="font-size:16px;">You click a note/notes on the piano, the AI tells you which chords match the clicked note/notes, scales etc. You can ask anything music on the chat field too. Midi keyboard is supported you can plug a midi keyboard and play like a real piano.</p>
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/piano_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+
+            <h2 style="font-weight:bold; font-size:25px; text-align:left; color:grey;"> <p>Smart Email</p></h2>
+     
+            <p style="font-size:16px;"> Just write your email and click check with AI that is it, it checks email content, corrects your grammar and adds to it as long it picks your context needed in an email. Click accept and click check with AI as many times as you want. ALl in one page</p>
+            <div class="image-wrapper">
+                <img src="{% static 'help_images/email_.png' %}" alt="EcoPiBoE Image" class="custom-image">
+            </div>
+        
             
             <h3 style="text-align:center;">Contact Support</h3>
-            <p style="font-size:16px;">Can't find the answer you're looking for? Reach out to our support team for assistance. Email us at <a href="mailto:ecopiboe@gmail.com">here</a> or call us at 1-800-ECO-HELP.</p>
-            <img src="{% static 'images/landing-page-image6.jpg' %}" alt="Landing Page Image 6">
+            <p style="font-size:16px;">Can't find the answer you're looking for? Reach out to our support team for assistance. Email us <a style ="font-size:2px;" href="mailto:ecopiboe@gmail.com">here</a>.</p>
+            
         </div>
     </main>
     <footer>
@@ -243,32 +280,15 @@
     <script>
         function toggleTheme() {
             const body = document.body;
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-            }
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
         }
 
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menuDropdown = document.getElementById('menuDropdown');
-
-        menuToggle.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
-
-        menuToggle.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
-        });
-
-        menuDropdown.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
-
-        menuDropdown.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.classList.add(savedTheme + '-mode');
         });
     </script>
 </body>

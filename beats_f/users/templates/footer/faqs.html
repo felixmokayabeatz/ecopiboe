@@ -1,0 +1,251 @@
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - EcoPiBoE</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        body.light-mode {
+            background-color: #f5f5f5;
+            color: #000000;
+        }
+        .container {
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 800px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+        }
+        body.light-mode .container {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .container h1 {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container p {
+            line-height: 1.6;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .theme-toggle {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        .menu-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .menu-toggle {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        .menu-dropdown {
+            position: fixed;
+            top: 35px;
+            left: 10px;
+            z-index: 10;
+            display: none;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .menu-toggle:hover + .menu-dropdown,
+        .menu-dropdown:hover {
+            display: block;
+        }
+        .menu-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .menu-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+        header, footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        body.light-mode header, body.light-mode footer {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        footer {
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+        }
+        .faq-question {
+            cursor: pointer;
+            margin: 0;
+            padding: 10px;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        body.light-mode .faq-question {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        .faq-answer {
+            display: none;
+            margin: 0;
+            padding: 10px;
+            background: #444;
+            border: 1px solid #555;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        body.light-mode .faq-answer {
+            background: #ffffff;
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle">Menu</button>
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="javascript:history.back()">Back</a>
+        <a href="/">Home</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">Change Theme</button>
+    <header>
+        <h1>EcoPiBoE</h1>
+    </header>
+    <main>
+        <div class="container">
+            <h2 style="text-align:center;">Frequently Asked Questions (FAQs)</h2>
+            <h3 class="faq-question">What Is EcoPiBoE?</h3>
+            <div class="faq-answer">
+                <p>
+                    EcoPiBoE is a multifunctional platform that combines an eco-footprint analyzer, a digital piano for fun, a book recommender, and a smart email service. It utilizes advanced AI technologies, including Google's Gemini Large Language Model (LLM), to provide users with insightful and engaging experiences.
+                </p>
+            </div>
+            <h3 class="faq-question">What is Gemini A?</h3>
+            <div class="faq-answer">
+                <p>
+                    Gemini AI is a powerful AI model developed by Google. It is designed to understand and generate human-like text, making it ideal for various applications such as content creation, recommendation systems, and interactive chatbots. In EcoPiBoE, Gemini AI powers the smart email service and book recommender and basically all services in the webste.
+                </p>
+            </div>
+            <h3 class="faq-question">Does Gemini require a subscription?</h3>
+            <div class="faq-answer">
+                <p>
+                    Access to certain features of Gemini AI is free for basic and standard use but may require a subscription, depending on the implementation and usage. Some basic functionalities might be available for free, but advanced features and extended usage typically require a paid subscription to support the maintenance and further development of the service. Check out google to get the latest information.
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>EcoPiBoE &copy; 2024</p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const themeToggle = document.querySelector(".theme-toggle");
+            const menuToggle = document.querySelector(".menu-toggle");
+            const menuDropdown = document.getElementById("menuDropdown");
+            const faqQuestions = document.querySelectorAll(".faq-question");
+            const body = document.body;
+
+            // Toggle theme function
+            function toggleTheme() {
+                if (body.classList.contains("dark-mode")) {
+                    body.classList.remove("dark-mode");
+                    body.classList.add("light-mode");
+                    themeToggle.textContent = "Switch to Dark Mode";
+                    localStorage.setItem('theme', 'light-mode');
+                } else {
+                    body.classList.remove("light-mode");
+                    body.classList.add("dark-mode");
+                    themeToggle.textContent = "Switch to Light Mode";
+                    localStorage.setItem('theme', 'dark-mode');
+                }
+            }
+
+            // Load theme from localStorage
+            if (localStorage.getItem('theme')) {
+                body.classList.add(localStorage.getItem('theme'));
+                if (body.classList.contains("dark-mode")) {
+                    themeToggle.textContent = "Switch to Light Mode";
+                } else {
+                    themeToggle.textContent = "Switch to Dark Mode";
+                }
+            } else {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = "Switch to Light Mode";
+                localStorage.setItem('theme', 'dark-mode');
+            }
+
+            // Add click event listener to theme toggle button
+            themeToggle.addEventListener("click", toggleTheme);
+
+            // Toggle FAQ answers
+            faqQuestions.forEach(question => {
+                question.addEventListener("click", function() {
+                    this.nextElementSibling.classList.toggle("faq-answer");
+                    this.nextElementSibling.style.display = this.nextElementSibling.style.display === "block" ? "none" : "block";
+                });
+            });
+
+            // Menu toggle
+            menuToggle.addEventListener("click", function() {
+                menuDropdown.style.display = menuDropdown.style.display === "block" ? "none" : "block";
+            });
+
+            // Close menu if clicked outside
+            window.onclick = function(event) {
+                if (!event.target.matches('.menu-toggle')) {
+                    if (menuDropdown.style.display === "block") {
+                        menuDropdown.style.display = "none";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
