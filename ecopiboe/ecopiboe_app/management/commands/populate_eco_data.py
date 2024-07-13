@@ -1,6 +1,6 @@
 # management/commands/populate_eco_data.py
 from django.core.management.base import BaseCommand
-from users.models import EcoFootprintCategory, EcoFootprintQuestion
+from ecopiboe_app.models import EcoFootprintCategory, EcoFootprintQuestion
 
 class Command(BaseCommand):
     help = 'Populate eco footprint categories and questions'
