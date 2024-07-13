@@ -136,7 +136,7 @@ MIDDLEWARE = [
     
 ]
 
-ROOT_URLCONF = 'beats_f.urls'
+ROOT_URLCONF = 'ecopiboe.urls'
 
 TEMPLATES = [
     {
@@ -155,7 +155,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'beats_f.wsgi.application'
+WSGI_APPLICATION = 'ecopiboe.wsgi.application'
 
 
 SITE_ID = 3

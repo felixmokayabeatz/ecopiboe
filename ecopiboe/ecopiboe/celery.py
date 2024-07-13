@@ -18,7 +18,7 @@ def debug_task(self):
 
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'beats_f.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecopiboe.settings')
 
 # Create a Celery application
 app = Celery('ecopiboe')

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
-from users.blog import BlogPost
+from ecopiboe_app.blog import BlogPost
 
 class Command(BaseCommand):
     help = 'Populate slugs for existing blog posts'
