@@ -2,9 +2,9 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_website.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecopiboe.settings')
 
-app = Celery('my_project')
+app = Celery('ecopiboe')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
@@ -21,7 +21,7 @@ def debug_task(self):
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'beats_f.settings')
 
 # Create a Celery application
-app = Celery('beats_f')
+app = Celery('ecopiboe')
 
 # Load task modules from all registered Django app configs.
 app.config_from_object('django.conf:settings', namespace='CELERY')
