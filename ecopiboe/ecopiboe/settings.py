@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
+    'ecopiboe_app',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -69,7 +69,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 
-SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'ecopiboe_app.adapters.MySocialAccountAdapter'
 
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
