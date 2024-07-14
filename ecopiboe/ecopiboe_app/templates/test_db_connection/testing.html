@@ -1,91 +1,11 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="{% static 'css_js/test_db_connection/test_db_connection.css' %}">
     <title>Database Connection Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #2b2c2e;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            width: 70%;
-            background-color: #2d3036;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 0 800px rgba(0, 100, 255, 0.1);
-            transition: box-shadow 0.3s ease;
-            border-width: 8px;
-            border-style: solid;
-        }
-
-        .container.active {
-            border-color: #05ed8c;
-            animation: blink-green 1s infinite;
-        }
-
-        .container:not(.active) {
-            border-color: #f76077;
-            animation: blink-orange 1s infinite;
-        }
-
-        .container:hover {
-            box-shadow: 0 0 200px rgba(0, 100, 10, 0.5);
-        }
-
-        h1 {
-            color:#03fc20;
-            font-weight: bold;
-            font-size: 32px;
-            margin-bottom: 20px; 
-        }
-
-        p {
-            color: #cfccc6;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .active-connection {
-            color: #05ed8c;
-        }
-
-        .inactive-connection {
-            color: #f76077; 
-        }
-
-        .admin-link {
-            color: #427bc7;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            transition: color 0.3s ease;
-        }
-
-        .admin-link:hover {
-            color: #9788b8;
-        }
-
-        @keyframes blink-green {
-            0% { border-color: #05ed8c; }
-            50% { border-color: transparent; }
-            100% { border-color: #05ed8c; }
-        }
-
-        @keyframes blink-orange {
-            0% { border-color: #f76077; }
-            50% { border-color: transparent; }
-            100% { border-color: #f76077; }
-        }
-    </style>
+   
 </head>
 <body>
     <div class="container {% if db_is_connected %}active{% endif %}">

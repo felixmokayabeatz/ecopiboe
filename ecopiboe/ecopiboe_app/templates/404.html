@@ -1,77 +1,10 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Incorrect address</title>
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #4f4847;
-        font-family: Arial, sans-serif;
-    }
-
-    .container {
-        text-align: center;
-        padding: 100px;
-        border-radius: 10px;
-        background-color: #696e0b;
-        box-shadow: 0 50px 500px rgba(0, 10, 100, 1);
-        transition: box-shadow 0.3s ease-in-out;
-    }
-
-    .container:hover {
-        box-shadow: 0 5px 400px rgba(100, 10, 0, 1);
-    }
-
-    h2 {
-        font-size: 24px;
-        color: black;
-        text-align: center;
-    }
-
-    h3 {
-        font-size: 36px;
-        margin-top: 0;
-    }
-    
-   
-    .link_container{
-      padding: 10px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 20px;
-      color: green;
-    }
-
-    .link_container:hover {
-        box-shadow: 0 5px 400px rgba(100, 10, 0, 1);
-    }
-
-    .link_container a {
-        text-decoration: none;
-        color: #3366cc;
-    }
-    
-    .link_container a:visited {
-        color: #dd9be8;
-    }
-    
-    .link_container a:hover {
-        text-decoration: underline;
-        color : #cc3333;
-    }
-    
-    .link_container a:active {
-        color: #339933;
-    }
-    
-
-
-</style>
+<link rel="stylesheet" href="{% static 'css_js/404/404.css' %}">
 </head>
 <body>
     <div class="link_container">

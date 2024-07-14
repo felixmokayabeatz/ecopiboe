@@ -216,6 +216,8 @@ def assessment_complete(request):
 
 logger = logging.getLogger(__name__)
 
+# def test404(request):
+#     return render(request, '404.html')
 
 def ask_question(request):
     if request.method == "POST":
@@ -978,7 +980,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from .forms import UserProfileForm, CustomPasswordChangeForm
 
-@login_required
+@login_required(login_url='/login/')
 def user_settings(request):
     if request.method == 'POST':
         user_form = UserProfileForm(request.POST, instance=request.user)

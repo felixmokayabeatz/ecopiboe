@@ -1,4 +1,3 @@
-<!-- user_settings.html -->
 {% load static %}
 
 <!DOCTYPE html>
@@ -6,105 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css_js/user_settings/user_settings.css' %}">
     <title>User Settings</title>
-    <style>
-        body.dark-mode {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        body.light-mode {
-            background-color: #f9f9f9;
-            color: #000000;
-        }
-        .container {
-            max-width: 6zzzz00px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            color: #ffffff;
-        }
-        body.light-mode .container {
-            background-color: #ffffff;
-            color: #000000;
-        }
-        h1 {
-            color: green;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .theme-toggle {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
-            background: none;
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        body.light-mode .theme-toggle {
-            border: 1px solid #000000;
-           
-            color: #000000;
-        }
-
-        .menu-dropdown {
-            position: fixed;
-            top: 35px;
-            left: 10px;
-            z-index: 10;
-            display: none;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-        .menu-toggle:hover + .menu-dropdown,
-        .menu-dropdown:hover {
-            display: block;
-        }
-        .menu-dropdown a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        .menu-dropdown a:hover {
-            background-color: #f1f1f1;
-        }
-    </style>
+   
 </head>
 <body class="dark-mode">
     <button class="menu-toggle">Menu</button>
@@ -152,7 +55,6 @@
             </fieldset>
             <fieldset>
                 <legend>Change Password</legend>
-                <!-- Custom instructions for changing the password -->
                 <p style="font-size: 16px;">To change your password, please fill in the fields below with your current password, your new password, and confirm your new password.</p>
                 
                 <p style="font-size: 16px;">Use uniquue password</p>
@@ -173,40 +75,6 @@
             <button type="submit">Save changes</button>
         </form>
     </div>
-    <script>
-        function toggleTheme() {
-            const body = document.body;
-            const themeToggleButton = document.querySelector('.theme-toggle');
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                themeToggleButton.classList.add('light-mode');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                themeToggleButton.classList.remove('light-mode');
-            }
-        }
-
-
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menuDropdown = document.getElementById('menuDropdown');
-
-        menuToggle.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
-
-        menuToggle.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
-        });
-
-        menuDropdown.addEventListener('mouseenter', function() {
-            menuDropdown.style.display = 'block';
-        });
-
-        menuDropdown.addEventListener('mouseleave', function() {
-            menuDropdown.style.display = 'none';
-        });
-    </script>
+    <script src="{% static 'css_js/user_settings/user_settings.js' %}"></script>
 </body>
 </html>
