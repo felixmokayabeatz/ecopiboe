@@ -1,0 +1,22 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    text-align: center;
+    font-size: 15px;
+    background-color: #4a4a49;
+}
+
+.content a {
+    color: #007bff;
+    text-decoration: underline;
+}
+.ecopiboe{
+    font-size: 38px;
+    color: #05ed8c;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
+}
