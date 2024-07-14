@@ -1,47 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign-up Successful</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: top;
-            height: 100vh;
-            text-align: center;
-            font-size: 20px;
-            background-color: #3f4240;
-           
-        }
-        .content {
-
-        }
-        .ellipsis {
-            display: block;
-        }
-        .ellipsis::after {
-            content: "Being redirected.";
-            animation: ellipsis 1s infinite;
-        }
-        @keyframes ellipsis {
-            0%, 25% {
-                content: "Being redirected to Login page.";
-            }
-            50%, 75% {
-                content: "Being redirected to Login page..";
-            }
-            100% {
-                content: "Being redirected to Login page...";
-            }
-            
-        }
-        .content a {
-            color: #007bff;
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css_js/signup/signup_success.css' %}">
 </head>
 <body>
     <div class="content">
@@ -49,10 +13,7 @@
         <p><span class="ellipsis"></span></p>
         <p>If not redirected click <a href="/menu_f/">here</a></p>
     </div>
-    <script>
-        setTimeout(function() {
-            window.location.href = '/menu_f/';
-        }, 2000);
-    </script>
+
+    <script src="{% static 'css_js/signup/signup_success.js' %}"></script>
 </body>
 </html>
