@@ -171,7 +171,6 @@ def get_ai_responses(request):
         context = {"eco_footprint_result": eco_footprint_result}
         return render(request, "eco_footprint_assessment/eco_footprint_result.html", context)
     except Exception as e:
-        print(e)
         return redirect('/get_ai_responses_error/')
     
 @login_required(login_url='/login/')
@@ -253,6 +252,29 @@ def ask_question(request):
         return HttpResponseRedirect(reverse("ask_question"))
 
     
+def chatbot(request):
+    if request.method == "POST":     
+        text = request.POST.get("text")
+        if not text:
+            return JsonResponse({"error": "Text must not be empty"}, status=400)
+
+        prompt = f"\n{text}\n\n"
+        
+        try:
+            model = genai.GenerativeModel("gemini-pro")
+            chat = model.start_chat()
+            response = chat.send_message(prompt)
+                    
+            if hasattr(response, 'image_url'):
+                return JsonResponse({"data": {"image_url": response.image_url}})
+            else:
+                return JsonResponse({"data": {"text": response.text}})
+        except Exception as e:
+            logger.error(f"Error while getting AI response: {e}")
+            return JsonResponse({"error": "An error occurred while processing your request."}, status=500)
+    else:
+        return render(request, "geminiAPI/chat_bot.html")
+
     
 import pickle
 

@@ -1,109 +1,26 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css_js/geminiAPI/chatbot.css' %}">
     <title>Chat Bot</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1c1b1a;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        #chat-container {
-            background-color: #333;
-            border: 5px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            width: 500px;
-            height: 400px; /* Set a fixed height for the chat container */
-            overflow-y: scroll; /* Add vertical scrollbar */
-            overflow-x: hidden; /* Hide horizontal scrollbar */
-            scrollbar-width: thin; /* Adjust scrollbar width */
-        }
-        #response {
-            color: #fff;
-        }
-        form {
-            margin-top: 20px;
-        }
-        label {
-            font-weight: bold;
-            color: #b0b4b5;
-        }
-        input[type="text"] {
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            width: 500px;
-        }
-        button[type="submit"] {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+
 </head>
 <body>
     <h1>Chat Bot Interactions</h1>
     <div id="chat-container">
         <div id="chat-history"></div>
     </div>
-    <form action="{% url 'ask_question' %}" method="post" onsubmit="handleSubmit(event)">
+    <form action="{% url 'chatbot' %}" method="post" onsubmit="handleSubmit(event)">
         {% csrf_token %}
         <div><label for="text">Enter your question:</label></div>
         <div><input type="text" name="text" id="text" required></div>
         <div><button type="submit">Ask</button></div>
     </form>
-    <script>
-        // Function to handle form submission
-        function handleSubmit(event) {
-            event.preventDefault(); // Prevent default form submission behavior
-            var form = event.target; // Get the form element
-            var formData = new FormData(form); // Create FormData object from form data
-            // Send form data to server using fetch API
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token in request headers
-                }
-            })
-            .then(response => response.json()) // Parse JSON response from server
-            .then(data => {
-                // Create a new chat message element
-                var messageElement = document.createElement('div');
-                if (data.data.image_url) {
-                    // If image URL is present, create an img element
-                    var imgElement = document.createElement('img');
-                    imgElement.src = data.data.image_url;
-                    messageElement.appendChild(imgElement);
-                } else {
-                    // If no image URL is present, create a text node
-                    messageElement.textContent = data.data.text;
-                }
-                messageElement.classList.add('message');
-                // Append the new message to the chat history
-                document.getElementById('chat-history').appendChild(messageElement);
-                // Scroll to the bottom of the chat container
-                document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
+
+    <script src="{% static 'css_js/geminiAPI/chatbot.js' %}"></script>
 </body>
 </html>
