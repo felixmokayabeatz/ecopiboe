@@ -366,7 +366,7 @@ def chat(request):
     else:
         return HttpResponseRedirect('/login/')
     context = {'chats': chats, 'CONVERSATION_HISTORY_FILE': CONVERSATION_HISTORY_FILE}
-    return render(request, "chat_bot.html", context)
+    # return render(request, "chat_bot.html", context)
 
 def video_page(request):
     return render(request, 'sample_beats/videos.html')
