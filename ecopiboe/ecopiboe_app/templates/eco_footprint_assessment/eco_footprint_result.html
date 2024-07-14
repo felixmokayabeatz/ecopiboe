@@ -1,39 +1,13 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css_js/eco_footprint/eco_footprint_result.css' %}">
     <title>Eco-Footprint Result</title>
-    <style>
-        body {
-            background-color: black;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .results {
-            width: 70%;
-            max-width: 1000px;
-            padding: 10px;
-            background-color: #33312c;
-            border-radius: 30px;
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translate(-50%);
-            box-shadow: 0 0 100px rgba(0, 255, 0, 0.1);
-            z-index: 1;
-            font-size: 20px;
-            color:white;
-        }
-        .long-sentence {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-    </style>
+
 </head>
 <body>
     <div class="results">
@@ -62,12 +36,6 @@
         </div>
     </div>
     </div>
-
-    <script>
-        function redirectToAssessment() {
-            window.location.href = '/eco-footprint-assessment/';
-        }
-    
-    </script>
+    <script src="{% static 'css_js/eco_footprint/eco_footprint_result.js' %}"></script>
 </body>
 </html>

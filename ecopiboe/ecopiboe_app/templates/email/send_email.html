@@ -1,251 +1,15 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css_js/email/send_email.css' %}">
     <title>Send Email</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #242930;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            color: #fff;
-            position: relative;
-        }
-
-        .dropdown {
-            position: absolute;
-            left: 10px;
-            top: 20px;
-            z-index: 1;
-        }
-
-        .dropdown select {
-            padding: 10px;
-            border-radius: 5px;
-            border: 2px solid #453b3b;
-            background-color: #1e2025;
-            color: #fff;
-            font-size: 16px;
-        }
-
-        .container {
-            background-color: #2d3036;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            width: 80%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            max-height: 90%;
-            overflow-y: auto;
-        }
-
-        h1 {
-            color: #00ff00;
-            margin: 0 0 20px;
-        }
-        h2 {
-            color: #f0ecda;
-            margin: 0 0 20px;
-        }
-
-        form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #c0c1c2;
-            align-self: flex-start;
-        }
-
-        input[type="email"],
-        input[type="text"],
-        textarea {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 2px solid #453b3b;
-            border-radius: 5px;
-            background-color: #1e2025;
-            color: #fff;
-            font-size: 16px;
-            width: 100%;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        input[type="email"]:focus,
-        input[type="text"]:focus,
-        textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        input[readonly] {
-            background-color: #3a3a3a;
-            color: #b0b0b0;
-        }
-
-        button {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 16px;
-            width: 100%;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .message {
-            margin-top: 10px;
-            font-size: 19px;
-            font-weight: bold;
-            color: #07f53f;
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                width: 90%;
-                padding: 15px;
-            }
-
-            label,
-            input[type="email"],
-            input[type="text"],
-            textarea,
-            button {
-                font-size: 14px;
-            }
-
-            .dropdown select {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            input[type="email"],
-            input[type="text"],
-            textarea {
-                font-size: 12px;
-            }
-
-            .dropdown select {
-                font-size: 12px;
-            }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            width: 80%;
-            max-width: 600px;
-            height: 80%;
-            max-height: 500px;
-            background-color: rgba(0, 0, 0, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
-        }
-
-        .modal-content {
-            background-color: #1e2025;
-            color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow: auto;
-        }
-
-        .close {
-            color: #aaa;
-            align-self: flex-end;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #emailPreviewContent {
-            white-space: pre-wrap;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 400px) {
-            .modal {
-                width: 90%;
-                height: 70%;
-            }
-        }
-
-        .ai-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            width: 60%;
-            max-width: 400px;
-            height: 60%;
-            max-height: 300px;
-            background-color: rgba(0, 0, 0, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
-        }
-
-        .ai-modal-content {
-            background-color: #1e2025;
-            color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow: auto;
-        }
-
-        #aiSuggestionContent {
-            white-space: pre-wrap;
-            margin-bottom: 20px;
-        }
-    </style>
+    
 </head>
 <body>
-
     <div class="dropdown">
         <select id="menu">
             <option value="" selected hidden>Menu</option>
@@ -253,12 +17,10 @@
             <option value="about">About</option>
         </select>
     </div>
-    
 
     <div class="container">
         <h1>EcoPiBoE</h1>
         <h2>Smart Send Email</h2>
-
         <div id="errorMessage" class="message"></div>
         <div id="responseMessage" class="message"></div>
         <form id="emailForm">
@@ -309,29 +71,26 @@
             }
             return cookieValue;
         }
-
+        
         const csrftoken = getCookie('csrftoken');
-
+        
         document.getElementById('emailForm').addEventListener('submit', function(event) {
             event.preventDefault();
-
+        
             const confirmationModal = document.getElementById('confirmationModal');
             confirmationModal.style.display = 'block';
-
             const formData = new FormData(event.target);
             const userName = '{{ user_name }}';
-
             const emailContent = `TO: ${formData.get('to')}\n\nSUBJECT: ${formData.get('subject')}\n\nMESSAGE:\n${formData.get('message')}\n\nRegards,\n${userName}`;
             document.getElementById('emailPreviewContent').textContent = emailContent;
         });
-
+        
         document.getElementById('sendConfirmation').addEventListener('click', function() {
             const confirmationModal = document.getElementById('confirmationModal');
             confirmationModal.style.display = 'none';
-
             const formData = new FormData(document.getElementById('emailForm'));
             formData.append('message', formData.get('message') + `\n\nRegards,\n{{ user_name }}`);
-
+        
             fetch('/send-email/', {
                 method: 'POST',
                 headers: {
@@ -372,14 +131,14 @@
                 }, 5000);
             });
         });
-
+        
         document.getElementById('checkAI').addEventListener('click', function() {
             const formData = new FormData(document.getElementById('emailForm'));
             const emailContent = {
                 subject: formData.get('subject'),
                 message: formData.get('message')
             };
-
+        
             fetch('{% url "improve_email" %}', {
                 method: 'POST',
                 headers: {
@@ -401,14 +160,13 @@
                 console.error('Error:', error);
             });
         });
-
+        
         document.getElementById('acceptSuggestion').addEventListener('click', function() {
             const aiContent = document.getElementById('aiSuggestionContent').textContent;
             document.getElementById('message').value = aiContent;
-
             document.getElementById('aiModal').style.display = 'none';
         });
-
+        
         const closeBtn = document.querySelector('#confirmationModal .close');
         const modal = document.getElementById('confirmationModal');
         window.onclick = function(event) {
@@ -419,28 +177,24 @@
         closeBtn.addEventListener('click', function() {
             modal.style.display = 'none';
         });
-
+        
         const closeAiBtn = document.querySelector('#aiModal .close-ai');
         const aiModal = document.getElementById('aiModal');
         closeAiBtn.addEventListener('click', function() {
             aiModal.style.display = 'none';
         });
-
-
-
-            document.getElementById('menu').addEventListener('change', function() {
-                const urlMap = {
-                    'menu_f': '/menu_f/',
-                    'about': '/about/',
-                };
         
-                const selectedValue = this.value;
-                if (urlMap[selectedValue]) {
-                    window.location.href = urlMap[selectedValue];
-                }
-            });
-       
-        
+        document.getElementById('menu').addEventListener('change', function() {
+            const urlMap = {
+                'menu_f': '/menu_f/',
+                'about': '/about/',
+            };
+    
+            const selectedValue = this.value;
+            if (urlMap[selectedValue]) {
+                window.location.href = urlMap[selectedValue];
+            }
+        });
     </script>
 </body>
 </html>

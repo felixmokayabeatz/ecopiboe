@@ -4,6 +4,7 @@ from .models import ChatBot
 from .models import EcoFootprintCategory
 from .models import EcoFootprintQuestion
 from .models import AIResult
+from .models import UserResponse
 
 
 
@@ -12,6 +13,7 @@ admin.site.register(ChatBot)
 admin.site.register(EcoFootprintCategory)
 admin.site.register(EcoFootprintQuestion)
 admin.site.register(AIResult)
+admin.site.register(UserResponse)
 
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin

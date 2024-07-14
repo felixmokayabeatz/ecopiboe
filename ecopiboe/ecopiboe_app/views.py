@@ -171,6 +171,7 @@ def get_ai_responses(request):
         context = {"eco_footprint_result": eco_footprint_result}
         return render(request, "eco_footprint_assessment/eco_footprint_result.html", context)
     except Exception as e:
+        print(e)
         return redirect('/get_ai_responses_error/')
     
 @login_required(login_url='/login/')
@@ -663,10 +664,6 @@ def summarize_book(request):
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method.'})
     
-def contact_us(request):
-    return render(request, 'contact/contact_us.html')
-
-
 
 from email.mime.text import MIMEText
 from google.oauth2.credentials import Credentials
