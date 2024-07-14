@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Footer Template</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'footer/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css_js/footer/footer.css' %}">
 </head>
 <body>
 
@@ -47,14 +47,7 @@
     </div>
 </footer>
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentYear = new Date().getFullYear();
-        document.getElementById('currentYear').textContent = currentYear;
-        console.log(`Current Year: ${currentYear}`);
-    });
-</script>
+<script src="{% static 'css_js/footer/footer.js' %}"></script>
 
 </body>
 </html>
