@@ -66,6 +66,7 @@ urlpatterns = [
     path('blog/<int:pk>/', blog_view.blog_detail, name='blog_detail'),
     path('blog/<slug:slug>/', blog_view.blog_detail, name='blog_detail'),
     
+    # path('test404/', views.test404, name='test404'),
     
     #User Settings
     path('settings/', views.user_settings, name='user_settings'),

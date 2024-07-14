@@ -1,0 +1,44 @@
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: top;
+        height: 100vh;
+        text-align: center;
+        font-size: 20px;
+        background-color: #3f4240;
+        
+    }
+    .content {
+        font-size:24px;
+
+    }
+    .ellipsis {
+        display: block;
+    }
+    .ellipsis::after {
+        content: "Being redirected.";
+        animation: ellipsis 1s infinite;
+    }
+    @keyframes ellipsis {
+        0%, 25% {
+            content: "Being redirected.";
+        }
+        50%, 75% {
+            content: "Being redirected..";
+        }
+        100% {
+            content: "Being redirected...";
+        }
+        
+    }
+    .content a {
+        color: #007bff;
+        text-decoration: underline;
+    }
+    .ecopiboe{
+        font-size: 35px;
+        color: #05ed8c;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: 0 0 100px rgba(0, 10, 100, 0.4);
+    }
