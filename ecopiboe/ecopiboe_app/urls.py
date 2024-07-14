@@ -33,6 +33,7 @@ urlpatterns = [
     path('reset_link_sent/', views.reset_link_sent, name='reset_link_sent'),
     path('videos/', views.video_page, name='video_page'),
     
+    path('chatbot/', views.chatbot, name='chatbot'),
     path('chat/', views.chat, name='chat'),
     path('ask_question/', views.ask_question, name='ask_question'),
     path('piano_ask/', views.piano_ask, name='piano_ask'),
@@ -53,6 +54,7 @@ urlpatterns = [
     path('improve_email/', views.improve_email, name='improve_email'),
     path('send-email/', views.send_email, name='send_email'),
     path('google-reauthorize/', views.google_reauthorize, name='google_reauthorize'),
+
     
     #geminiAPI FILE analyser
     path('upload/', views.upload_file, name='upload_file'),
