@@ -36,9 +36,7 @@
         const scores = {{ scores|safe }};
         const currentDay = {{ current_day }};
         const daysInMonth = {{ days_in_month }};
-        
         const labels = generateLabels();
-    
         function generateLabels() {
             const labels = [];
             for (let i = 1; i <= daysInMonth; i++) {
@@ -106,8 +104,8 @@
                         annotations: {
                             line1: {
                                 type: 'line',
-                                xMin: currentDay - 1, // Adjust the x-axis position
-                                xMax: currentDay - 1, // Adjust the x-axis position
+                                xMin: currentDay - 1,
+                                xMax: currentDay - 1,
                                 borderColor: '#5b05fa',
                                 borderWidth: 2,
                                 label: {
@@ -122,33 +120,18 @@
             }
         });
         
-  // Declare currentDay outside the function to make it accessible throughout the script
-
-
   async function updateTotalScoreData(dateScores) {
     const labels = totalChart.data.labels;
     const data = labels.map(day => {
         console.log(`Data for Day ${day}: ${dateScores[day]}`);
         return dateScores[day] || 0;
     });
-
-    // Update the data for the line graph
     totalChart.data.datasets[0].data = data;
-
-    // Update the line graph
     totalChart.update();
 }
 
-// Call the updateTotalScoreData function with the date_scores data
 updateTotalScoreData({{ date_scores|safe }});
-   
         
-        
-    </script>
-    
-    
-   
-
-    
+</script> 
 </body>
 </html>

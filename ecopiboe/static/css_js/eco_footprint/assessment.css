@@ -1,0 +1,166 @@
+        .energy {
+            height: 580px;
+            width:70%;
+            padding: 20px;
+            background-color: #33312c;
+            border-radius: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 100px rgba(0, 255, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            overflow-y: auto;
+            z-index: 1;
+            font-weight:bold;
+            font-size:18px;
+            color:white;
+        }
+        .energy:hover {
+            box-shadow: 0 0 700px rgba(0, 0, 180, 0.4);
+        }
+        .custom-textbox {
+            width: 180px;
+            height: 32px;
+            border-radius:6px;
+            background-color:white;
+            color:black;
+            font-weight:bold;
+            font-size:12px;
+        }
+
+        .custom-radio {
+            display: inline-block;
+            position: relative;
+            padding-left: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+        .custom-radio input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .custom-radio .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 15px;
+            width: 15px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+        .custom-radio:hover input ~ .checkmark {
+            background-color: #fcfafa;
+        }
+        .custom-radio input:checked ~ .checkmark {
+            background-color: #0515f2;
+        }
+        .custom-radio .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .custom-radio input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .custom-radio .checkmark:after {
+            top: 4px;
+            left: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c2bebe;
+        }
+
+        .category {
+            height: 40px;
+            width:95%;
+            padding: 20px;
+            background-color: #33312c;
+            border-radius: 30px;
+            box-shadow: 0 0 100px rgba(0, 255, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            font-weight:bold;
+            font-size:18px;
+            color:white;
+        }
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: 180px;
+        }
+        .custom-select select {
+            display: none;
+        }
+        .select-selected {
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+        .select-selected:after {
+            content: "";
+            position: absolute;
+            top: 14px;
+            right: 10px;
+            border: 6px solid transparent;
+            border-color: #333 transparent transparent transparent;
+        }
+        .select-items {
+            position: absolute;
+            background-color: white;
+            border: 3px solid #ddd;
+            border-top: none;
+            z-index: 99;
+            width: 95%;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius:10px;
+        }
+        .select-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #1c1616;
+            border-bottom: 1px solid #ddd;
+        }
+        .select-items div:hover, .same-as-selected {
+            background-color: #1c1a1a;
+        }
+        .select-hide {
+            display: none;
+        }
+        .submit-button {
+            display: block;
+            margin: 20px auto;
+            width: 50%;
+            max-width: 200px;
+            text-align: center;
+            height: 40px;
+            background-color: green;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+            border: 2px double #c7c4c1;
+        }
+        @media (max-width: 600px) {
+            .energy {
+                padding: 10px;
+            }
+            .submit-button {
+                width: 80%;
+            }
+        }

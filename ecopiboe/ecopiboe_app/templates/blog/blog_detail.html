@@ -24,7 +24,6 @@
         <div class="post-detail container">
             <h1>{{ post.title }}</h1>
             <p class="meta">By {{ post.author_full_name }} on {{ post.created_at }}</p>
-            
             <div class="content">
                 {{ post.content }}
             </div>
@@ -32,11 +31,9 @@
         </div>
     </main>
     
-    <footer>
-        
+    <footer> 
          © <b id="currentYear"></b>
         <b>EcoPiBoE. All rights reserved.</b>
-
     </footer>
 
     <script src="{% static 'css_js/blog/blog_detail.js' %}"></script>

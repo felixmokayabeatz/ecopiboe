@@ -54,8 +54,6 @@ urlpatterns = [
     path('send-email/', views.send_email, name='send_email'),
     path('google-reauthorize/', views.google_reauthorize, name='google_reauthorize'),
     
-    path('contact_us/', views.contact_us, name='contact_us'),
-    
     #geminiAPI FILE analyser
     path('upload/', views.upload_file, name='upload_file'),
     path('file/<int:pk>/', views.file_detail, name='file_detail'),
