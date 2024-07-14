@@ -21,7 +21,6 @@ function handleSubmit(event) {
         appendBotMessage(data.data.text);
         scrollToBottom();
     })
-    .catch(error => console.error('Error:', error));
 }
 
 function appendUserMessage(message) {
@@ -133,15 +132,12 @@ agreeCheckbox.addEventListener('change', () => {
     }
 });
 
-
-
     document.addEventListener('DOMContentLoaded', function() {
         var video = document.getElementById('myVideo');
 
         video.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
-
         video.addEventListener('mousedown', function(event) {
             if (event.button === 2) {
                 event.preventDefault();
@@ -156,7 +152,7 @@ agreeCheckbox.addEventListener('change', () => {
     });
 
     window.onload = function() {
-        if (performance.navigation.type === 2) {
+        if (performance === 2) {
             location.reload(true);
         }
     };
