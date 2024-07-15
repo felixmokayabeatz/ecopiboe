@@ -785,30 +785,26 @@ def send_email(request):
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
 
 
+from google_auth_oauthlib.flow import InstalledAppFlow
+from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+import os
+
 @login_required(login_url='/login/')
 def google_reauthorize(request):
     try:
         client_secrets_file = settings.GOOGLE_CREDENTIALS
-        print(client_secrets_file)
 
+        # Initialize the flow using the client secrets file
         flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
 
-        ports = [8000, 8001, 8002, 8003, 8004]
+        # Use HTTPS and correct domain for OAuth flow
+        redirect_uri = 'https://www.ecopiboe.com/'  # Update with your actual domain
+        creds = flow.run_local_server(port=8000, host='localhost', authorization_prompt_message='Please visit this URL: {url}', success_message='The authentication flow has completed. You may close this window.', open_browser=True)
 
-        creds = None
-        for port in ports:
-            try:
-                creds = flow.run_local_server(port=port)
-                break
-            except OSError as e:
-                if e.errno == 10048:
-                    continue
-                else:
-                    raise
-
-        if creds is None:
-            return JsonResponse({'success': False, 'message': 'Could not find an available port. Please try again.'})
-
+        # Save credentials to a file
         user_id = request.user.id
         token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
         if not os.path.exists(token_dir):
@@ -817,6 +813,7 @@ def google_reauthorize(request):
         with open(token_path, 'w') as token_file:
             token_file.write(creds.to_json())
 
+        # Redirect to success page
         return redirect('send_email')
 
     except PermissionError as e:
