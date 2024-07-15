@@ -785,7 +785,6 @@ def send_email(request):
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
 
 
-
 @login_required(login_url='/login/')
 def google_reauthorize(request):
     try:
@@ -793,8 +792,22 @@ def google_reauthorize(request):
         print(client_secrets_file)
 
         flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
-        
-        creds = flow.run_local_server(port=8000, prompt='consent')
+
+        ports = [8000, 8001, 8002, 8003, 8004]
+
+        creds = None
+        for port in ports:
+            try:
+                creds = flow.run_local_server(port=port)
+                break
+            except OSError as e:
+                if e.errno == 10048:
+                    continue
+                else:
+                    raise
+
+        if creds is None:
+            return JsonResponse({'success': False, 'message': 'Could not find an available port. Please try again.'})
 
         user_id = request.user.id
         token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
