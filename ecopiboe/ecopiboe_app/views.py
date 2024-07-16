@@ -520,10 +520,35 @@ def forgot_password(request):
           error_message = 'No user found with that email address. Please verify your email and try again.'
     return render(request, 'password_reset/forgot_password.html', {'error_message': error_message})
 
+
 def send_password_reset_email(first_name, last_name, email, reset_link):
     subject = 'Reset Your Password'
-    message = f'<strong><p>Hello <strong>{first_name} {last_name}</strong>,</p><p>You have requested to reset your password.</p><p>If you did not, please ignore this email.</p><p>Report to us if you suspect your account is being compromised.</p><p>Otherwise, click the link below to reset your password:</p><p><a href="{reset_link}">{reset_link}</a></p><p>Reply to this email for support and technical assistance.</p><p>Best Regards.<br>Felix Mokaya</p></strong>'
-    send_mail(subject, '', settings.EMAIL_HOST_USER, [email], html_message=message)
+    html_message = f"""
+    <html>
+    <body>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 3px solid #e0e0e0; border-radius: 10px;">
+            <h2 style="color: #333333; font-weight: bold;">Hello {first_name} {last_name},</h2>
+            <p style="font-weight: bold;">You have requested to reset your password.</p>
+            <p style="font-weight: bold;">If you did not, please ignore this email.</p>
+            <p style="font-weight: bold;">Report to us if you suspect your account is being compromised.</p>
+            <p style="font-weight: bold;">Otherwise, click the link below to reset your password:</p>
+            <p>
+                <a href="{reset_link}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                    Reset Your Password
+                </a>
+            </p>
+            <p style="font-weight: bold;">If the button above does not work, copy and paste the following link into your browser:</p>
+            <p><a href="{reset_link}" style="color: #007bff; font-weight: bold;">{reset_link}</a></p>
+            <p style="font-weight: bold;">Reply to this email for support and technical assistance.</p>
+            <p style="font-weight: bold;">Best Regards,</p>
+            <p style="font-weight: bold;">EcoPiBoE Team</p>
+        </div>
+    </body>
+    </html>
+    """
+    send_mail(subject, '', settings.EMAIL_HOST_USER, [email], html_message=html_message)
+
+
 
 
 def reset_link_sent(request):
