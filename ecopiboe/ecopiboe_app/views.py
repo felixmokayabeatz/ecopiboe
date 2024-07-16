@@ -327,38 +327,46 @@ def update_conversation_history(input_text, output_text):
     with open(CONVERSATION_HISTORY_FILE, 'wb') as f:
         pickle.dump(conversation_history, f)
 
-@login_required(login_url='/login/')
+
+
+logger = logging.getLogger(__name__)
+
+@csrf_exempt
 def analyze_note(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             note = data.get('note')
+
             if not note:
                 return JsonResponse({"error": "No note received"}, status=400)
-            text = str(note)
+
             directive = (
                 "In less than ( 90 words).Give brief infomation on the given note, list the notes that make up the major and minor chords from the given root note. Ignore note numbers (e.g., F2, F3).Tell the users what otes to press to produce that chord, Exaplain in the most simplest way."
             )
-            prompt = f"{directive}\n{text}\n\n"
-            try:
-                model = genai.GenerativeModel("gemini-pro")
-                chat = model.start_chat()
-                response = chat.send_message(prompt)
-                cleaned_text = response.text.replace('*', '' ).replace('**', '')
-                response_data = {"text": cleaned_text}
-                if hasattr(response, 'image_url'):
-                    response_data["image_url"] = response.image_url
-                return JsonResponse({"data": response_data})
-            except Exception as e:
-                logger.error(f"Error while getting AI response: {e}")
-                return JsonResponse({"error": "An error occurred while processing your request."}, status=500)
+            prompt = f"{directive}\n{note}\n\n"
+
+            model = genai.GenerativeModel("gemini-pro")
+            chat = model.start_chat()
+            response = chat.send_message(prompt)
+
+            cleaned_text = response.text.replace('*', '' ).replace('**', '')
+            response_data = {"text": cleaned_text}
+            if hasattr(response, 'image_url'):
+                response_data["image_url"] = response.image_url
+
+            return JsonResponse({"data": response_data})
+
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
+
         except Exception as e:
-            logger.error(f"Unexpected error: {e}")
-            return JsonResponse({"error": "An unexpected error occurred."}, status=500)
+            print(f"Error: {e}")
+            return JsonResponse({"error": "An error occurred while processing your request."}, status=500)
+
     else:
-        return HttpResponseRedirect(reverse("chat"))
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
 
 @login_required(login_url='/login/')
 def chat(request):
@@ -480,7 +488,6 @@ def signup(request):
             username=username, email=email, password=password,
             first_name=first_name, last_name=last_name
         )
-
 
         return redirect('signup_success')
 
@@ -692,10 +699,7 @@ def summarize_book(request):
 from email.mime.text import MIMEText
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-import logging
-from django.contrib.auth.decorators import login_required
 from google.auth.exceptions import RefreshError
 
 logger = logging.getLogger(__name__)
@@ -764,12 +768,6 @@ def send_email(request):
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
 
 
-import os
-import logging
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
 
 SCOPES = [
@@ -822,8 +820,6 @@ def oauth2callback(request):
         token_file.write(creds.to_json())
 
     return redirect('send_email')
-
-
 
 
 from django.contrib.auth import logout
