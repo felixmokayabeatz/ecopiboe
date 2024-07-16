@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <eco>EcoPiBoe</eco>
-        <h2>User Login</h2>
+        <h2>Login Page</h2>
 
         {% if messages %}
             {% for message in messages %}
@@ -24,7 +24,7 @@
 
         <form action="/login/" method="post">
             {% csrf_token %}
-            <label for="username_or_email">Username or Email</label>
+            <label for="username_or_email">Username</label>
             <input type="text" id="username_or_email" name="username_or_email" placeholder="Enter Your Username or Email" required>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
