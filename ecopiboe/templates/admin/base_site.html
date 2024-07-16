@@ -1,28 +1,36 @@
 {% extends 'admin/base_site.html' %}
 
+{% block title %}
+    Administrator EcoPiBoE
+{% endblock %}
+
+{% block extrahead %}
+    <style>
+        /* CSS for header */
+        #site-name {
+            padding: 10px; /* Padding around the content */
+            text-align: center; /* Center align the text */
+        }
+
+        #site-name a {
+            color: #edf5f7; /* Text color for the link */
+            font-size: 25px; /* Font size for the link */
+            text-decoration: none; /* Remove underline from the link */
+        }
+
+        /* CSS for user's first and last name */
+        .user-name {
+            color: #333; /* Text color for the user's name */
+            font-size: 18px; /* Font size for the user's name */
+        }
+    </style>
+{% endblock %}
+
 {% block branding %}
-<div>
-<style>
-    .export-link {
-        text-align: center; /* Center the text horizontally */
-    }
-    
-    .export-link a {
-        display: block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-</style>
-
-
-    <p class="export-link"><a href="/registered_users/">Click Here To See All Members</a></p>
-    <p class="export-link"><a href="">Adminstrator? Log In First. </a></p>
-
-</div>
-    
+    <h1 id="site-name">
+        <b><a href="{% url 'admin:index' %}">EcoPiBoE Administrator</a></b>
+    </h1>
+    {% if user.is_authenticated %}
+        <h1 class="user-name"><b>{{ user.first_name }} {{ user.last_name }}</b></h1>
+    {% endif %}
 {% endblock %}
