@@ -54,6 +54,7 @@ urlpatterns = [
     path('improve_email/', views.improve_email, name='improve_email'),
     path('send-email/', views.send_email, name='send_email'),
     path('google-reauthorize/', views.google_reauthorize, name='google_reauthorize'),
+    path('oauth2callback/', views.oauth2callback, name='oauth2callback'), 
 
     
     #geminiAPI FILE analyser
