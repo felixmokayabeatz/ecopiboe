@@ -786,7 +786,7 @@ def google_reauthorize(request):
     flow = Flow.from_client_secrets_file(
         settings.GOOGLE_CREDENTIALS,
         scopes=SCOPES,
-        redirect_uri = 'https://www.ecopiboe.com/oauth2callback/' if not settings.DEBUG else 'http://localhost:8001/oauth2callback/'
+        redirect_uri = 'https://www.ecopiboe.com/oauth2callback/'
     )
 
     authorization_url, state = flow.authorization_url(
@@ -802,7 +802,7 @@ def oauth2callback(request):
     if not state:
         return JsonResponse({'success': False, 'message': 'State not found in session.'})
 
-    redirect_uri = 'https://www.ecopiboe.com/oauth2callback/' if not settings.DEBUG else 'http://localhost:8001/oauth2callback/'
+    redirect_uri = 'https://www.ecopiboe.com/oauth2callback/'
 
     flow = Flow.from_client_secrets_file(
         settings.GOOGLE_CREDENTIALS,
