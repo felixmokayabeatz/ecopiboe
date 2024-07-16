@@ -31,7 +31,7 @@ from django.utils import timezone
 from datetime import timedelta
 import requests
 from .models import AIResult
-import re 
+import re
 import base64
 from datetime import date, timedelta
 from django.utils import timezone
@@ -70,65 +70,65 @@ def get_ai_responses(request):
         "Based on the following user responses, calculate the user's eco-footprint, even if their is Insufficient data use whatever you got:\n"
         f"{user_data_str}\n\n"
         "Please provide a detailed score for each response and calculation and the final eco-footprint score. There are 20 questions, this is how you will give points:\n\n"
-        
+
         "Category:Electricity Usage\n"
         "For \"How many hours per day do you typically leave lights on when not in use?\" give 5 points if 12 Hours and 0 Points if 0 Hours\n"
         "For \" Do you use energy-efficient appliances (e.g., LED light bulbs, ENERGY STAR-rated appliances)?\" 1 Points for Yes and 5 points for No\n"
         "For \" Do you use renewable energy sources (e.g., solar panels, wind turbines) to power your home?\" If Yes:1 Points and No:5 Points\n"
         "For \" How often do you adjust your thermostat to conserve energy (e.g., lowering it in winter, raising it in summer)?\" Always:1 points, Often:2 Point,Sometimes:3 Points, Rarely:4 Points, Never: 5 Points, I do not own a thermostat:0 Points\n"
-        
+
         "Catergory:Transportation\n"
         "For \" How do you primarily commute to work or school (e.g., car, public transit, walking, biking)?\" Give a score point that you think is appropriate between 0 and 5 points, walking being the lowest and with 1 point\n"
         "For \" How often do you carpool or rideshare with others?\" Frequently:1, Sometimes:2, Rarely:3, Never: 4 \n"
         "For\" Do you own or use a fuel-efficient vehicle?\" If Yes:3 Points, If No: 1 Point\n"
         "For \" How often do you travel long distances by plane?\"  Frequently:4, Sometimes:3, Rarely:2, Never: 0\n"
-        
+
         "Catergory:Waste Management\n"
         "For \" Do you recycle paper, plastic, glass, and metal materials?\" If Yes:0 points, If No: 4 Points\n"
         "For \" Do you compost food waste and yard debris?\" Yes:1 Point, No:3 Points\n"
         "For \" How often do you use single-use plastics (e.g., plastic bags, disposable utensils, water bottles)?\"Frequently:4, Sometimes:3, Rarely:2, Never: 1 \n"
         "For \" Do you participate in local recycling programs or waste reduction initiatives?\" No:3 Points, Yes:1 Point, Sometimes:2 Points\n"
-        
+
         "Catergory:Water Usage\n"
         "For \" How long do you typically shower each day?\" if 5 Hours give 3 points, 5 minutes:1 Point, any other value in between do the math but do ot show the workings\n"
         "For \"Do you use water-efficient fixtures (e.g., low-flow showerheads, dual-flush toilets)? \"No: 4 Points, Yes:1 Point\n"
         "For \" Do you collect rainwater for outdoor use (e.g., watering plants, washing cars)?\" Yes:1 point, No:3 Points\n"
         "For \" How often do you run full loads of laundry and dishes to conserve water?\" Frequently:1, Sometimes:2, Rarely:3, Never: 4 \n"
-        
+
         "Catergory:Diet\n"
         "For \"How often do you consume meat and dairy products?\" Always:3 Points, Frequently:2.5, Sometimes:2, Rarely:1.5, Never: 1 \n"
         "For \" Do you incorporate plant-based meals into your diet?\" Yes:1 point,No:3 Points, Sometimes: 2 Points \n"
         "For \" How often do you eat locally grown and seasonal foods?\" Frequently:1, Sometimes:2, Rarely:3, Never: 4 \n"
         "For \" Do you minimize food waste by planning meals, using leftovers, and avoiding over-purchasing groceries?\" No:3 Points, Yes:1 Point\n\n"
-        
+
         "Please use the scale Above strictly and give the scored out the total total per question, category and total.\n\n"
         "STRICTLY RETURN LIKE IN THE FORMRT BELOW EXACTLY ALWAYS\n"
-        
+
         "Use this formart:\n"
         "Electricity Usage:\n"
         "- Hours of lights left on per day:\n"
         "- Use of energy-efficient appliances:\n"
         "- Use of renewable energy sources:\n"
         "-Use and regulation of a thermostat\n"
-   
+
         "Transportation:\n"
         "- Primary commute method:\n"
         "- Frequency of carpooling:\n"
         "- Ownership of fuel-efficient vehicle:\n"
         "- Frequency of long-distance air travel:\""
-     
+
         "Waste Management:\n"
         "- Recycling:\n"
         "- Composting:\n"
         "- Frequency of using single-use plastics:\n"
         "- Participation in recycling programs:\n"
-   
+
         "Water Usage:\n"
         "- Duration of daily showers:\n"
         "- Use of water-efficient fixtures:\n"
         "- Collection of rainwater:\n"
         "- Frequency of running full loads for laundry and dishes:\n"
-       
+
         "Diet:\n"
         "- Frequency of meat and dairy consumption:\n"
         "- Incorporation of plant-based meals:\n"
@@ -144,17 +144,17 @@ def get_ai_responses(request):
         "- Waste Management:(x/14)\n"
         "- Water Usage:(x/14)\n"
         "- Diet: (x/13)\n"
-        
+
         "Under no circumstances should points exceed the maximum points in each category and overall"
-        
+
         "Maximum Possible Score:77 points(worst)"
         "Minimim possible score: 11 points(Best)"
-        
+
         "- Total:(x/77)(Percentage)\n"
-        
-        "And during analysis adress the person directly like \"Your eco-footprint...\" \n" 
+
+        "And during analysis adress the person directly like \"Your eco-footprint...\" \n"
         "Give recommendations to reduce eco-footprint afterwards."
-        
+
         "In case you get empty responses always return only: \"No responses received!\""
     )
     try:
@@ -162,7 +162,7 @@ def get_ai_responses(request):
         chat = model.start_chat()
         ai_response = chat.send_message(prompt)
         eco_footprint_result = ai_response.text
-        eco_footprint_result = eco_footprint_result.replace("**", "").replace("*", "").replace("##", "").replace("#", "") 
+        eco_footprint_result = eco_footprint_result.replace("**", "").replace("*", "").replace("##", "").replace("#", "")
         ai_result_instance = AIResult.objects.create(
             user=user,
             result=eco_footprint_result
@@ -172,7 +172,7 @@ def get_ai_responses(request):
         return render(request, "eco_footprint_assessment/eco_footprint_result.html", context)
     except Exception as e:
         return redirect('/get_ai_responses_error/')
-    
+
 @login_required(login_url='/login/')
 def get_ai_responses_error(request):
     return render(request, '500.html')
@@ -206,7 +206,7 @@ def eco_footprint_assessment(request):
     else:
         categories = EcoFootprintCategory.objects.all()
         return render(request, 'eco_footprint_assessment/assessment.html', {
-            'categories': categories, 
+            'categories': categories,
             'last_submission_time': last_response.date if last_response else None
         })
 
@@ -226,23 +226,23 @@ def ask_question(request):
 
         if request.session['message_count'] >= 5:
             return JsonResponse({"error": "You have reached the maximum number of 3 messages for this session."}, status=400)
-        
+
         text = request.POST.get("text")
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
-        
+
         directive_to_gemini = (
             "In consice manner greet the user with one or two words then in (Less than 12 words) confirm to the user that AI connection to you is active they can proceed to EcoPiBoE Website.Tell them all is good they can proceed AI is working and then Answer their Question(if it there) in less than 12 words in a new paragraph."
         )
         prompt = f"{directive_to_gemini}\n{text}\n\n"
-        
+
         try:
             model = genai.GenerativeModel("gemini-pro")
             chat = model.start_chat()
             response = chat.send_message(prompt)
-            
+
             request.session['message_count'] += 1
-            
+
             if hasattr(response, 'image_url'):
                 return JsonResponse({"data": {"image_url": response.image_url}})
             else:
@@ -253,20 +253,20 @@ def ask_question(request):
     else:
         return HttpResponseRedirect(reverse("ask_question"))
 
-    
+
 def chatbot(request):
-    if request.method == "POST":     
+    if request.method == "POST":
         text = request.POST.get("text")
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
 
         prompt = f"\n{text}\n\n"
-        
+
         try:
             model = genai.GenerativeModel("gemini-pro")
             chat = model.start_chat()
             response = chat.send_message(prompt)
-                    
+
             if hasattr(response, 'image_url'):
                 return JsonResponse({"data": {"image_url": response.image_url}})
             else:
@@ -277,7 +277,7 @@ def chatbot(request):
     else:
         return render(request, "geminiAPI/chat_bot.html")
 
-    
+
 import pickle
 
 
@@ -335,7 +335,7 @@ def analyze_note(request):
             note = data.get('note')
             if not note:
                 return JsonResponse({"error": "No note received"}, status=400)
-            text = str(note) 
+            text = str(note)
             directive = (
                 "In less than ( 90 words).Give brief infomation on the given note, list the notes that make up the major and minor chords from the given root note. Ignore note numbers (e.g., F2, F3).Tell the users what otes to press to produce that chord, Exaplain in the most simplest way."
             )
@@ -343,11 +343,11 @@ def analyze_note(request):
             try:
                 model = genai.GenerativeModel("gemini-pro")
                 chat = model.start_chat()
-                response = chat.send_message(prompt)  
-                cleaned_text = response.text.replace('*', '' ).replace('**', '')   
+                response = chat.send_message(prompt)
+                cleaned_text = response.text.replace('*', '' ).replace('**', '')
                 response_data = {"text": cleaned_text}
                 if hasattr(response, 'image_url'):
-                    response_data["image_url"] = response.image_url   
+                    response_data["image_url"] = response.image_url
                 return JsonResponse({"data": response_data})
             except Exception as e:
                 logger.error(f"Error while getting AI response: {e}")
@@ -377,21 +377,21 @@ def video_page(request):
 def felix_about(request):
     file_path = os.path.join(settings.BASE_DIR, 'static', 'texts/about_Felix.txt')
     lines = []
-    with open(file_path, 'r') as file:     
+    with open(file_path, 'r') as file:
         for line in file:
             lines.append(line.strip())
     file_path_1 = os.path.join(settings.BASE_DIR, 'static', 'texts/quotes.txt')
     lines_1 = []
     with open(file_path_1, 'r') as file_1:
         for line_1 in file_1:
-            lines_1.append(line_1.strip())  
+            lines_1.append(line_1.strip())
     images = [
         'felix_photos/felix(1).jpg',
         'felix_photos/felix(2).png',
         'felix_photos/felix(3).png',
         'felix_photos/felix(4).png',
         'felix_photos/felix(5).png',
-        ]  
+        ]
     context = {
         'lines': lines,
         'lines_1':lines_1,
@@ -430,7 +430,7 @@ def user_login(request):
     if request.method == 'POST':
         username_or_email = request.POST.get('username_or_email')
         password = request.POST.get('password')
-        
+
         try:
             user = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
             has_social_account = SocialAccount.objects.filter(user=user, provider='google').exists()
@@ -450,7 +450,7 @@ def user_login(request):
                 messages.error(request, 'Invalid Username or Email, or Password. Try Logging in with your google account')
             return redirect('/login/')
 
-   
+
     try:
         social_app = SocialApp.objects.get(provider='google')
     except SocialApp.DoesNotExist:
@@ -480,12 +480,12 @@ def signup(request):
             username=username, email=email, password=password,
             first_name=first_name, last_name=last_name
         )
-        
+
 
         return redirect('signup_success')
 
     social_app = SocialApp.objects.filter(provider='google').first()
-  
+
     return render(request, 'registration/signup.html', {'social_app': social_app})
 
 
@@ -517,7 +517,7 @@ def send_password_reset_email(first_name, last_name, email, reset_link):
     subject = 'Reset Your Password'
     message = f'<strong><p>Hello <strong>{first_name} {last_name}</strong>,</p><p>You have requested to reset your password.</p><p>If you did not, please ignore this email.</p><p>Report to us if you suspect your account is being compromised.</p><p>Otherwise, click the link below to reset your password:</p><p><a href="{reset_link}">{reset_link}</a></p><p>Reply to this email for support and technical assistance.</p><p>Best Regards.<br>Felix Mokaya</p></strong>'
     send_mail(subject, '', settings.EMAIL_HOST_USER, [email], html_message=message)
-    
+
 
 def reset_link_sent(request):
     return render(request, 'password_reset/reset_link_sent.html')
@@ -538,7 +538,7 @@ def reset_password(request, uidb64, token):
         return render(request, 'password_reset/reset_password.html')
     else:
         return redirect('/login/')
-    
+
 def password_reset_success(request):
     return render(request, 'password_reset/password_reset_success.html')
 
@@ -547,7 +547,7 @@ def visualize_ai_results(request):
     user = request.user
     current_date = timezone.localdate()
     user_results = AIResult.objects.filter(user=user)
-    
+
     if not user_results:
         return JsonResponse({"error": "No AI results found for the current user."}, safe=False)
     category_scores = {
@@ -634,7 +634,7 @@ def recommend_books(request):
                 if description:
                     search_params['first_sentence'] = description
                 search_params['limit'] = 10
-                
+
                 if search_params:
                     search_response = requests.get('https://openlibrary.org/search.json', params=search_params)
                     if search_response.status_code == 200:
@@ -681,43 +681,22 @@ def summarize_book(request):
             book_data = json.loads(request.body)
             summary = get_book_summary(book_data)
             return JsonResponse({'success': True, 'summary': summary})
- 
+
         except Exception as e:
 
             return JsonResponse({'success': False, 'message': 'An error occurred while summarizing the book, or you are trying to access restricted or explicit content'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method.'})
-    
+
 
 from email.mime.text import MIMEText
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-
-
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
-
-
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-
-import os
-import json
 import logging
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import render, reverse
 from google.auth.exceptions import RefreshError
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from googleapiclient.discovery import build
-from email.mime.text import MIMEText
-import base64
 
 logger = logging.getLogger(__name__)
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
@@ -777,7 +756,7 @@ def send_email(request):
                 return JsonResponse({'success': True, 'message': 'Email sent successfully!'})
 
             except Exception as error:
-                return JsonResponse({'success': False, 'message': f'Error sending email: {str(error)} '})
+                return JsonResponse({'success': False, 'auth_url': reverse('google_reauthorize')})
 
         except Exception as error:
             return JsonResponse({'success': False, 'message': 'An unexpected error occurred. Please try again later.'})
@@ -785,32 +764,66 @@ def send_email(request):
     return render(request, 'email/send_email.html', {'user_name': request.user.get_full_name() or request.user.username, 'user_email': request.user.email})
 
 
+import os
+import logging
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from google_auth_oauthlib.flow import Flow
+
+SCOPES = [
+    'https://www.googleapis.com/auth/gmail.readonly',
+    'https://www.googleapis.com/auth/gmail.send',
+    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid'
+]
 
 @login_required(login_url='/login/')
 def google_reauthorize(request):
-    try:
-        client_secrets_file = settings.GOOGLE_CREDENTIALS
-        # print(client_secrets_file)
+    flow = Flow.from_client_secrets_file(
+        settings.GOOGLE_CREDENTIALS,
+        scopes=SCOPES,
+        redirect_uri='https://www.ecopiboe.com/oauth2callback/'
+    )
 
-        flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
-        
-        creds = flow.run_local_server(port=8001, prompt='consent')
+    authorization_url, state = flow.authorization_url(
+        access_type='offline',
+        include_granted_scopes='true'
+    )
 
-        user_id = request.user.id
-        token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
-        if not os.path.exists(token_dir):
-            os.makedirs(token_dir)
-        token_path = os.path.join(token_dir, f'{user_id}_token.json')
-        with open(token_path, 'w') as token_file:
-            token_file.write(creds.to_json())
+    request.session['state'] = state
+    return redirect(authorization_url)
 
-        return redirect('send_email')
+def oauth2callback(request):
+    state = request.session.get('state')
+    if not state:
+        return JsonResponse({'success': False, 'message': 'State not found in session.'})
 
-    except PermissionError as e:
-        return JsonResponse({'success': False, 'message': f'Permission error: {str(e)}. Please try again with a different port.'})
+    flow = Flow.from_client_secrets_file(
+        settings.GOOGLE_CREDENTIALS,
+        scopes=SCOPES,
+        state=state,
+        redirect_uri='https://www.ecopiboe.com/oauth2callback/'
+    )
 
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': f'Unexpected error: {str(e)}. Please try again.'})
+    flow.fetch_token(authorization_response=request.build_absolute_uri())
+
+    creds = flow.credentials
+    user_id = request.user.id
+    token_dir = os.path.join(settings.BASE_DIR, 'user_tokens')
+    if not os.path.exists(token_dir):
+        os.makedirs(token_dir)
+
+    token_path = os.path.join(token_dir, f'{user_id}_token.json')
+    with open(token_path, 'w') as token_file:
+        token_file.write(creds.to_json())
+
+    return redirect('send_email')
+
+
 
 
 from django.contrib.auth import logout
@@ -867,7 +880,7 @@ def pdf_to_images(pdf_path, output_dir):
         # Render page as image
         page = pdf_document.load_page(page_num)
         pix = page.get_pixmap()
-        
+
         # Save image to output directory
         image_path = os.path.join(output_dir, f"page_{page_num + 1}.png")
         pix.writePNG(image_path)
@@ -881,7 +894,7 @@ def pdf_to_images(pdf_path, output_dir):
 def handle_uploaded_file(file):
     if file.size > 10 * 1024 * 1024:
         raise ValueError("File size exceeds the 10MB limit.")
-    
+
     upload_dir = os.path.join(settings.MEDIA_ROOT, 'uploads')
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
@@ -895,7 +908,7 @@ def handle_uploaded_file(file):
 
 def analyze_file(file_path, file_type):
     genai.configure(api_key=settings.API_KEY)
-    
+
     print(f"Uploading file...")
     file = genai.upload_file(path=file_path)
     print(f"Completed upload: {file.uri}")
@@ -909,7 +922,7 @@ def analyze_file(file_path, file_type):
         raise ValueError(file.state.name)
 
     print(f'File processing complete: {file.uri}')
-    
+
     prompt = f"Describe this {file_type}."
 
     model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
@@ -928,7 +941,7 @@ def upload_file(request):
             file = form.save(commit=False)
             try:
                 file_path = handle_uploaded_file(request.FILES['file'])
-                
+
                 # Check file type
                 if file.file_type == 'pdf':
                     # Handle PDF conversion or inform user
@@ -939,11 +952,11 @@ def upload_file(request):
                         description += analyze_file(image_path, 'image') + "\n"
                 else:
                     description = analyze_file(file_path, form.cleaned_data['file_type'])
-                
+
                 file.description = description
                 file.save()
-                
-                
+
+
                 delete_delay = timedelta(minutes=1)
                 delete_file_after_delay.apply_async(args=[file.pk], countdown=delete_delay.seconds)
                 return redirect('file_detail', pk=file.pk)
@@ -951,7 +964,7 @@ def upload_file(request):
                 form.add_error('file', str(e))
     else:
         form = UploadFileForm()
-    
+
     return render(request, 'geminiAPI/upload.html', {'form': form})
 
 
@@ -961,16 +974,16 @@ def file_detail(request, pk):
 
 def delete_file(request, pk):
     file = get_object_or_404(UploadFile, pk=pk)
-    
+
     # Delete the file from the file system
     file_path = file.file.path
     if os.path.exists(file_path):
         os.remove(file_path)
-    
+
     # Delete the database entry
     file.delete()
 
-    return redirect('home') 
+    return redirect('home')
 
 
 
