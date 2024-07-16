@@ -790,7 +790,7 @@ def send_email(request):
 def google_reauthorize(request):
     try:
         client_secrets_file = settings.GOOGLE_CREDENTIALS
-        print(client_secrets_file)
+        # print(client_secrets_file)
 
         flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
         
