@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+from decouple import config
+
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # print(BASE_DIR)
@@ -16,20 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # app.autodiscover_tasks()
 
 
+# load_dotenv()
 
+# API_KEY = os.getenv('API_KEY')
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
-API_KEY = os.getenv('API_KEY')
-api_key = API_KEY
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+API_KEY= config('API_KEY')
+api_key = API_KEY
 
 GOOGLE_CREDENTIALS = os.path.join(BASE_DIR, '_auth/e_c_o_p_i_b_o_e.json')
 
@@ -236,7 +237,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-from decouple import config
+
 
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
