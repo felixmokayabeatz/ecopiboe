@@ -13,4 +13,4 @@ db.sqlite3
 .env
 _auth
 user_tokens
-# settings.py
+settings.py
