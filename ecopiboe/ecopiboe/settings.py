@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from decouple import config
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # print(BASE_DIR)
@@ -19,9 +19,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # app.autodiscover_tasks()
 
 
-# load_dotenv()
+load_dotenv()
 
-# API_KEY = os.getenv('API_KEY')
+API_KEY = os.getenv('API_KEY')
 
 
 MEDIA_URL = '/media/'
@@ -54,10 +54,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    
-    
+    'tinymce',
 ]
-
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend', 

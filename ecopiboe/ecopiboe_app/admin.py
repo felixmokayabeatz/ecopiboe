@@ -37,8 +37,12 @@ admin.site.register(User, CustomUserAdmin)
 
 from django import forms
 from .models import BlogPost
+from tinymce.widgets import TinyMCE
+
 
 class BlogPostAdminForm(forms.ModelForm):
+    content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
+    
     class Meta:
         model = BlogPost
         fields = '__all__'

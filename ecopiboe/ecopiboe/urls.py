@@ -14,6 +14,7 @@ urlpatterns = [
     path('email/', include('ecopiboe_app.urls')),
     path('accounts/', include('allauth.urls')),
     path('accounts/google/', include('ecopiboe_app.urls')),
+    path('tinymce/', include('tinymce.urls')),
     
     
     path("", include("ecopiboe_app.urls"), name="ecopiboe_app"),
