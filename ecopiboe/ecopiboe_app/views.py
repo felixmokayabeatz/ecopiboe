@@ -41,11 +41,13 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import BookRecommendationForm
 from .utils.ai_utils import get_book_summary
 
-
+api_key=""
 logger = logging.getLogger(__name__)
 
 API_KEY = os.getenv('API_KEY')
 genai.configure(api_key=API_KEY)
+print(API_KEY)
+print(api_key)
 
 @login_required(login_url='/login/')
 def piano(request):
