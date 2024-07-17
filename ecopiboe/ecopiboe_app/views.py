@@ -46,8 +46,8 @@ logger = logging.getLogger(__name__)
 
 API_KEY = os.getenv('API_KEY')
 genai.configure(api_key=API_KEY)
-print(API_KEY)
-print(api_key)
+# print(API_KEY)
+# print(api_key)
 
 @login_required(login_url='/login/')
 def piano(request):
@@ -363,7 +363,7 @@ def analyze_note(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
 
         except Exception as e:
-            print(f"Error: {e}")
+            # print(f"Error: {e}")
             return JsonResponse({"error": "An error occurred while processing your request."}, status=500)
 
     else:

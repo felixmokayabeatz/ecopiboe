@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
+from tinymce.models import HTMLField
+
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    # content = models.TextField()
+    content = HTMLField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
@@ -14,7 +17,7 @@ class BlogPost(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)  # Generate slug from title
+            self.slug = slugify(self.title)
             queryset = BlogPost.objects.filter(slug=self.slug).exists()
             if queryset:
                 counter = 1
@@ -25,3 +28,6 @@ class BlogPost(models.Model):
                     if not queryset:
                         self.slug = new_slug
         super().save(*args, **kwargs)
+        
+        
+        
