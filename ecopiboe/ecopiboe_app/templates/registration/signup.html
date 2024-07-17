@@ -8,18 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css_js/signup/signup.css' %}">
     <title>Sign Up Page</title>
-   
 </head>
 <body>
     <div class="container">
         <eco>EcoPiBoe</eco>
         <h2>Sign Up</h2>
 
-        {% if error %}
-            <p class="blink">{{ error }}</p>
+        {% if error_message %}
+            <p class="blink">{{ error_message }}</p>
         {% endif %}
 
-        <form action="/signup/" method="post">
+        <form action="{% url 'signup' %}" method="post">
             {% csrf_token %}
             <div class="form-row">
                 <div>
@@ -49,12 +48,11 @@
             <label for="dob">
                 <span class="tooltip">
                     <span class="info-icon">ℹ️</span>
-                    <span class="tooltip-text">You MUST be atleast 13 Years or older to sign up.</span>
+                    <span class="tooltip-text">You MUST be at least 13 Years or older to sign up.</span>
                 </span>
                 Date of Birth (Optional)
             </label>
             <input type="date" id="dob" name="dob" placeholder="Select your date of birth">
-            
             
             <button type="submit">Sign Up</button>
         </form>
@@ -68,7 +66,7 @@
             <p>Google login is currently unavailable. Please try again later or contact support.</p>
         {% endif %}
 
-        <p>Already have an account? <a href="/login/">Log in</a></p>
+        <p>Already have an account? <a href="{% url 'user_login' %}">Log in</a></p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
