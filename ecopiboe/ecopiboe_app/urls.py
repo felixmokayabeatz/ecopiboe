@@ -65,7 +65,7 @@ urlpatterns = [
     
     #User Settings
     path('settings/', user_settings.user_settings, name='user_settings'),
-        
+    path('profile_edit_success/', user_settings.profile_edit_success, name='profile_edit_success'),  
     #footer pages
     path('about/', about_us, name='about_us'),
     path('careers/', careers, name='careers'),
