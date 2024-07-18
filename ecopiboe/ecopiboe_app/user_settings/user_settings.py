@@ -14,7 +14,7 @@ def user_settings(request):
             user = password_form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your profile was successfully updated!')
-            return redirect('/')
+            return redirect('/profile_edit_success/')
         else:
             for field, errors in password_form.errors.items():
                 for error in errors:
@@ -27,3 +27,7 @@ def user_settings(request):
         'user_form': user_form,
         'password_form': password_form
     })
+
+
+def profile_edit_success(request):
+    return render(request, 'users/profile_edit.html')
