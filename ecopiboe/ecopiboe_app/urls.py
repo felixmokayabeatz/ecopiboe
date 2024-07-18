@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from .views import visualize_ai_results
 from django.urls import path
-
+from .user_settings import user_settings
 
 from .footer_pages import (
     about_us, careers, contact_us, blog, whitepapers, case_studies,
@@ -55,12 +55,6 @@ urlpatterns = [
     path('send-email/', views.send_email, name='send_email'),
     path('google-reauthorize/', views.google_reauthorize, name='google_reauthorize'),
     path('oauth2callback/', views.oauth2callback, name='oauth2callback'), 
-
-    
-    #geminiAPI FILE analyser
-    path('upload/', views.upload_file, name='upload_file'),
-    path('file/<int:pk>/', views.file_detail, name='file_detail'),
-    path('delete/<int:pk>/', views.delete_file, name='delete_file'),
     
     #slugs
     path('blog/', blog_view.blog_list, name='blog_list'),
@@ -70,7 +64,7 @@ urlpatterns = [
     # path('test404/', views.test404, name='test404'),
     
     #User Settings
-    path('settings/', views.user_settings, name='user_settings'),
+    path('settings/', user_settings.user_settings, name='user_settings'),
         
     #footer pages
     path('about/', about_us, name='about_us'),

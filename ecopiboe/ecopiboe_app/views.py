@@ -3,7 +3,7 @@ from django.template import loader
 from django.db import OperationalError
 from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -28,7 +28,6 @@ import logging
 from .models import EcoFootprintQuestion
 from .models import EcoFootprintCategory, UserResponse
 from django.utils import timezone
-from datetime import timedelta
 import requests
 from .models import AIResult
 import re
@@ -883,160 +882,3 @@ def improve_email(request):
             return JsonResponse({"error": "Invalid JSON."}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method."}, status=405)
-
-
-import time
-from .forms import UploadFileForm
-from .models import UploadFile
-import fitz
-
-
-def pdf_to_images(pdf_path, output_dir):
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Open the PDF file
-    pdf_document = fitz.open(pdf_path)
-
-    images = []
-    for page_num in range(len(pdf_document)):
-        # Render page as image
-        page = pdf_document.load_page(page_num)
-        pix = page.get_pixmap()
-
-        # Save image to output directory
-        image_path = os.path.join(output_dir, f"page_{page_num + 1}.png")
-        pix.writePNG(image_path)
-        images.append(image_path)
-
-    pdf_document.close()
-    return images
-
-
-
-def handle_uploaded_file(file):
-    if file.size > 10 * 1024 * 1024:
-        raise ValueError("File size exceeds the 10MB limit.")
-
-    upload_dir = os.path.join(settings.MEDIA_ROOT, 'uploads')
-    if not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
-
-    file_path = os.path.join(upload_dir, file.name)
-    with open(file_path, 'wb+') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
-    return file_path
-
-
-def analyze_file(file_path, file_type):
-    genai.configure(api_key=settings.API_KEY)
-
-    print(f"Uploading file...")
-    file = genai.upload_file(path=file_path)
-    print(f"Completed upload: {file.uri}")
-
-    while file.state.name == "PROCESSING":
-        print('Waiting for file to be processed.')
-        time.sleep(10)
-        file = genai.get_file(file.name)
-
-    if file.state.name == "FAILED":
-        raise ValueError(file.state.name)
-
-    print(f'File processing complete: {file.uri}')
-
-    prompt = f"Describe this {file_type}."
-
-    model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
-
-    print("Making LLM inference request...")
-    response = model.generate_content([prompt, file],
-                                      request_options={"timeout": 600})
-    return response.text
-
-from .tasks import delete_file_after_delay
-
-def upload_file(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            file = form.save(commit=False)
-            try:
-                file_path = handle_uploaded_file(request.FILES['file'])
-
-                # Check file type
-                if file.file_type == 'pdf':
-                    # Handle PDF conversion or inform user
-                    # Example: Convert PDF to images and proceed with analysis
-                    images = pdf_to_images(file_path, settings.MEDIA_ROOT)
-                    description = ""
-                    for image_path in images:
-                        description += analyze_file(image_path, 'image') + "\n"
-                else:
-                    description = analyze_file(file_path, form.cleaned_data['file_type'])
-
-                file.description = description
-                file.save()
-
-
-                delete_delay = timedelta(minutes=1)
-                delete_file_after_delay.apply_async(args=[file.pk], countdown=delete_delay.seconds)
-                return redirect('file_detail', pk=file.pk)
-            except ValueError as e:
-                form.add_error('file', str(e))
-    else:
-        form = UploadFileForm()
-
-    return render(request, 'geminiAPI/upload.html', {'form': form})
-
-
-def file_detail(request, pk):
-    file = get_object_or_404(UploadFile, pk=pk)
-    return render(request, 'geminiAPI/detail.html', {'file': file})
-
-def delete_file(request, pk):
-    file = get_object_or_404(UploadFile, pk=pk)
-
-    # Delete the file from the file system
-    file_path = file.file.path
-    if os.path.exists(file_path):
-        os.remove(file_path)
-
-    # Delete the database entry
-    file.delete()
-
-    return redirect('home')
-
-
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from .forms import UserProfileForm, CustomPasswordChangeForm
-
-@login_required(login_url='/login/')
-def user_settings(request):
-    if request.method == 'POST':
-        user_form = UserProfileForm(request.POST, instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
-        if user_form.is_valid() and password_form.is_valid():
-            user_form.save()
-            user = password_form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your profile was successfully updated!')
-            return redirect('/')
-        else:
-            for field, errors in password_form.errors.items():
-                for error in errors:
-                    messages.error(request, f'Error in {field}: {error}')
-    else:
-        user_form = UserProfileForm(instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user)
-
-    return render(request, 'users/user_settings.html', {
-        'user_form': user_form,
-        'password_form': password_form
-    })
-
