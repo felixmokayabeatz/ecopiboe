@@ -370,7 +370,7 @@ def piano_ask(request):
         return HttpResponseRedirect(reverse('chat'))
 
 def get_piano_context_folder(user_id):
-    base_dir = 'piano'
+    base_dir = 'piano_context'
     user_dir = os.path.join(base_dir, f"user_{user_id}")
 
     if not os.path.exists(user_dir):

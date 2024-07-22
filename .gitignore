@@ -14,3 +14,5 @@ db.sqlite3
 _auth
 user_tokens
 settings.py
+context
+piano_context
