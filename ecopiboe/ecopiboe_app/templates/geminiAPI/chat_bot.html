@@ -7,20 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'favicon/land_page/land_page_2.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css_js/geminiAPI/chatbot.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Chat Bot</title>
 </head>
 <body>
     <div id="chat-container">
+        <div id="chat-header">EcoPiBoE Chat</div>
         <div id="chat-history"></div>
+        <div class="typing-indicator" id="typing-indicator">AI is typing...</div>
         <form action="{% url 'chatbot' %}" method="post" onsubmit="handleSubmit(event)">
             {% csrf_token %}
             <div id="input-container">
                 <input type="text" name="text" id="text" placeholder="Type a message" required>
-                <button type="submit">Send</button>
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
             </div>
         </form>
     </div>
     <script src="{% static 'css_js/geminiAPI/chatbot.js' %}"></script>
 </body>
 </html>
-

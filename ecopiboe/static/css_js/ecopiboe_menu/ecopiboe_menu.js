@@ -5,6 +5,7 @@ document.getElementById('menu').addEventListener('change', function() {
         'piano': '/piano/',
         'send-email': '/send-email/',
         'about': '/about/',
+        'chatbot':'/chatbot/',
     };
 
     const selectedValue = this.value;

@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     height: 100vh;
 }
@@ -12,16 +12,25 @@ body {
 #chat-container {
     background-color: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 30px;
     padding: 10px;
-    width: 360px; /* Adjust width as needed */
-    height: 640px; /* Adjust height as needed */
+    width: 375px;
+    height: 667px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+#chat-header {
+    background-color: #00FF00;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #141414;
+    font-size: 1.2em;
 }
 
 #chat-history {
@@ -44,8 +53,8 @@ body {
 }
 
 .message.user {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #00FF00;
+    color: #141414;
     align-self: flex-end;
     border-bottom-right-radius: 0;
     border-top-right-radius: 15px;
@@ -55,17 +64,17 @@ body {
 .message.user::after {
     content: "";
     position: absolute;
-    bottom: -10px; /* Adjust this value to move the tail closer or further from the bubble */
-    right: 10px; /* Adjust this value to align the tail correctly */
+    bottom: -10px;
+    right: 10px;
     width: 0;
     height: 0;
-    border-top: 10px solid #007bff;
+    border-top: 10px solid #00FF00;
     border-left: 10px solid transparent;
 }
 
 .message.bot {
     background-color: #e1e1e1;
-    color: #333;
+    color: #000000;
     align-self: flex-start;
     border-bottom-left-radius: 0;
     border-top-left-radius: 15px;
@@ -75,8 +84,8 @@ body {
 .message.bot::after {
     content: "";
     position: absolute;
-    bottom: -10px; /* Adjust this value to move the tail closer or further from the bubble */
-    left: 10px; /* Adjust this value to align the tail correctly */
+    bottom: -10px;
+    left: 10px;
     width: 0;
     height: 0;
     border-top: 10px solid #e1e1e1;
@@ -92,7 +101,7 @@ body {
 input[type="text"] {
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 20px;
     flex-grow: 1;
     margin-right: 10px;
     box-sizing: border-box;
@@ -100,13 +109,28 @@ input[type="text"] {
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #00FF00;
+    color: #000000;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+button[type="submit"] i {
+    font-size: 1.2em;
+}
+
+.typing-indicator {
+    display: none;
+    align-self: flex-start;
+    font-style: italic;
+    color: #aaa;
+    margin-left: 10px;
 }
