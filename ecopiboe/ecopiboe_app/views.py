@@ -51,6 +51,7 @@ genai.configure(api_key=API_KEY)
 @login_required(login_url='/login/')
 def piano(request):
     octaves = [0, 1, 2]
+    print("The fuck")
     return render(request, 'piano/piano.html', {'octaves': octaves})
 
 @login_required(login_url='/login/')
@@ -286,8 +287,10 @@ CONVERSATION_HISTORY_FILE = "conversation_history.pkl"
 
 @login_required(login_url='/login/')
 def piano_ask(request):
+   
     if request.method == "POST":
         text = request.POST.get("text")
+        
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
         prompt = f"{get_conversation_context()}\n{text}\n\n"
