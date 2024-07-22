@@ -8,20 +8,19 @@
     <link rel="icon" href="{% static 'favicon/land_page/land_page_2.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css_js/geminiAPI/chatbot.css' %}">
     <title>Chat Bot</title>
-
 </head>
 <body>
-    <h1>Chat Bot Interactions</h1>
     <div id="chat-container">
         <div id="chat-history"></div>
+        <form action="{% url 'chatbot' %}" method="post" onsubmit="handleSubmit(event)">
+            {% csrf_token %}
+            <div id="input-container">
+                <input type="text" name="text" id="text" placeholder="Type a message" required>
+                <button type="submit">Send</button>
+            </div>
+        </form>
     </div>
-    <form action="{% url 'chatbot' %}" method="post" onsubmit="handleSubmit(event)">
-        {% csrf_token %}
-        <div><label for="text">Enter your question:</label></div>
-        <div><input type="text" name="text" id="text" required></div>
-        <div><button type="submit">Ask</button></div>
-    </form>
-
     <script src="{% static 'css_js/geminiAPI/chatbot.js' %}"></script>
 </body>
 </html>
+

@@ -2,26 +2,44 @@ function handleSubmit(event) {
     event.preventDefault();
     var form = event.target;
     var formData = new FormData(form);
+
+    // Append user message to chat history
+    var userMessageElement = document.createElement('div');
+    userMessageElement.classList.add('message', 'user');
+    userMessageElement.textContent = formData.get('text');
+    document.getElementById('chat-history').appendChild(userMessageElement);
+
+    // Clear the input field
+    form.reset();
+
+    var chatContainer = document.getElementById('chat-container');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    // Send request to server
     fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRFToken': '{{ csrf_token }}'
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         }
     })
     .then(response => response.json())
     .then(data => {
-        var messageElement = document.createElement('div');
+        var botMessageElement = document.createElement('div');
+        botMessageElement.classList.add('message', 'bot');
+
         if (data.data.image_url) {
             var imgElement = document.createElement('img');
             imgElement.src = data.data.image_url;
-            messageElement.appendChild(imgElement);
+            imgElement.style.maxWidth = '100%';
+            imgElement.style.borderRadius = '15px';
+            botMessageElement.appendChild(imgElement);
         } else {
-            messageElement.textContent = data.data.text;
+            botMessageElement.textContent = data.data.text;
         }
-        messageElement.classList.add('message');
-        document.getElementById('chat-history').appendChild(messageElement);
-        document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight;
+
+        document.getElementById('chat-history').appendChild(botMessageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     })
     .catch(error => console.error('Error:', error));
 }
