@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css_js/piano/piano.css' %}">
     <title>Virtual Piano</title>
     <link rel="icon" href="{% static 'favicon/piano.ico' %}" type="image/x-icon">
-    
+    <link rel="stylesheet" href="{% static 'css_js/piano/piano.css' %}">
+
 </head>
 <body>
     <div class="piano-container">
@@ -62,6 +62,7 @@
             </div>
         </a>
 
+
     </div>
     <audio id="C4" src="{% static 'piano/C(B#)Lower.mp3' %}"></audio>
     <audio id="C#4" src="{% static 'piano/C# sharp(Db flat)Lower.mp3' %}"></audio>
@@ -100,6 +101,7 @@
     <audio id="A#6" src="{% static 'piano/A#(sharp) (Bb flat)Upper.mp3' %}"></audio>
     <audio id="B6" src="{% static 'piano/B(Cb flat)Upper.mp3' %}"></audio>
 
+
     <button id="recordButton" class="record-button">Record</button>
 
     <div class="about-section">
@@ -107,6 +109,8 @@
         The AI will assist you along this brief journey.<br>
         Click the notes, connect an external musical keyboard/midi keyboard or use QWERTY keys on your typing keyboard to control this virtual piano.<br>Use the + and - icons on your left side of the screen to change octaves, or the shortcut keys 'z' and 'x' to do the same.</h3>
     </div>
+    
+
 
     <div style="font-weight: bold; font-size: 20px; color: white;" class="checkbox-container">
         <input type="checkbox" id="agree-checkbox" checked>
@@ -124,6 +128,7 @@
             <div id="chat-history">
                 <div class="message bot-message">Hey welcome, a quick note here. This is not an AI response. To disable this window there is a checkbox on the right to enable or disable it. By clicking a note/s the ai will explain the note/notes and suggest a chord and other features, Or try asking a question on the text field on your right. Feel free to explore. Enjoy.</div>
             </div>
+            
         </div>
         <form id="question-form" action="{% url 'piano_ask' %}" method="post">
             {% csrf_token %}
@@ -132,7 +137,8 @@
             <div><button type="submit">Ask</button></div>
         </form>
     </div>
-    
+   
     <script src="{% static 'css_js/piano/piano.js' %}"></script>
+    
 </body>
 </html>
