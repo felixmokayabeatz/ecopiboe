@@ -51,7 +51,6 @@ genai.configure(api_key=API_KEY)
 @login_required(login_url='/login/')
 def piano(request):
     octaves = [0, 1, 2]
-    print("The fuck")
     return render(request, 'piano/piano.html', {'octaves': octaves})
 
 @login_required(login_url='/login/')
@@ -227,14 +226,16 @@ def ask_question(request):
             request.session['message_count'] = 0
 
         if request.session['message_count'] >= 5:
-            return JsonResponse({"error": "You have reached the maximum number of 3 messages for this session."}, status=400)
+            response_d = "You have reached the maximum number of 5 messages for this session. Log In to continue to acces unlimited prompts and cool AI features"
+            return JsonResponse({"data": {"text": response_d}})
+            # return JsonResponse({"error": "You have reached the maximum number of 5 messages for this session. Log In to continue"}, status=400)
 
         text = request.POST.get("text")
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
 
         directive_to_gemini = (
-            "In consice manner greet the user with one or two words then in (Less than 12 words) confirm to the user that AI connection to you is active they can proceed to EcoPiBoE Website.Tell them all is good they can proceed AI is working and then Answer their Question(if it there) in less than 12 words in a new paragraph."
+            "In consice manner greet the user with one or two words then in (Less than 12 words) confirm to the user that AI connection to you is active they can proceed to EcoPiBoE Website.Tell them all is good they can proceed AI is working and then Answer their Question(if it there any) in less than 12 words in a new paragraph. Direct them to proceed here 'EcoPiBoE' always "
         )
         prompt = f"{directive_to_gemini}\n{text}\n\n"
 
@@ -256,19 +257,72 @@ def ask_question(request):
         return HttpResponseRedirect(reverse("ask_question"))
 
 
+from datetime import datetime
+
+
+logger = logging.getLogger(__name__)
+
+def get_user_context_folder(user_id):
+    base_dir = 'context'
+    user_dir = os.path.join(base_dir, f"user_{user_id}")
+    
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
+    
+    return user_dir
+
+def get_daily_context(user_id, date_str):
+    user_context_folder = get_user_context_folder(user_id)
+    daily_context_path = os.path.join(user_context_folder, f"{date_str}.txt")
+    
+    if os.path.exists(daily_context_path):
+        with open(daily_context_path, 'r') as file:
+            return file.read()
+    return ""
+
+def save_daily_context(user_id, date_str, context):
+    user_context_folder = get_user_context_folder(user_id)
+    daily_context_path = os.path.join(user_context_folder, f"{date_str}.txt")
+    
+    with open(daily_context_path, 'a') as file:
+        file.write(context + "\n")
+
+def save_master_context(request, context):
+    user_id = request.user.id
+    user_name = request.user.first_name.capitalize()
+    user_context_folder = get_user_context_folder(user_id)
+    year = datetime.now().strftime("%Y")
+    month_name = datetime.now().strftime("%B").upper()
+    master_context_path = os.path.join(user_context_folder, f'{month_name} {year} {user_name} Context.txt')
+    
+    with open(master_context_path, 'a') as file:
+        file.write(context + "\n")
+
 def chatbot(request):
     if request.method == "POST":
         text = request.POST.get("text")
+        user_id = request.user.id
+        last_name = request.user.last_name
+        
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
-
-        prompt = f"\n{text}\n\n"
-
+        
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        
+        daily_context = get_daily_context(user_id, today_str)
+        
+        directive = "Here answer this text as you are having a normal conversation like a human with another human. Short reply unless the user wants otherwise. This is a directive DON'T address it at all. "
+        prompt = f"{daily_context}\n{directive}\n\n{text}\n\n"
+        
         try:
             model = genai.GenerativeModel("gemini-pro")
             chat = model.start_chat()
             response = chat.send_message(prompt)
-
+            
+            daily_message = "\n" + last_name + " : "+ text + "\n" + "AI : " + (response.text if hasattr(response, 'text') else "")
+            save_daily_context(user_id, today_str, daily_message)
+            save_master_context(request, daily_message)
+            
             if hasattr(response, 'image_url'):
                 return JsonResponse({"data": {"image_url": response.image_url}})
             else:
@@ -280,26 +334,31 @@ def chatbot(request):
         return render(request, "geminiAPI/chat_bot.html")
 
 
-import pickle
-
-
-CONVERSATION_HISTORY_FILE = "conversation_history.pkl"
 
 @login_required(login_url='/login/')
 def piano_ask(request):
-   
     if request.method == "POST":
         text = request.POST.get("text")
-        
+        user_id = request.user.id
+        last_name = request.user.last_name
+
         if not text:
             return JsonResponse({"error": "Text must not be empty"}, status=400)
-        prompt = f"{get_conversation_context()}\n{text}\n\n"
+
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        daily_context = get_daily_piano_context(user_id, today_str)
+        directive = "Answer this in less than 40 words unless and otherwise directed by the user to give long explanation or it is necessary in the given topic. This is a directive, do NOT address it at all."
+        prompt = f"\n{directive}{daily_context} {text}\n\n"
+
         try:
             model = genai.GenerativeModel("gemini-pro")
             chat = model.start_chat()
             response = chat.send_message(prompt)
             response_text = response.text.replace('*', '').replace('**', '')
-            update_conversation_history(text, response_text)
+
+            daily_message = f"\n{last_name}: {text}\nAI: {response_text}"
+            save_daily_context(user_id, today_str, daily_message)
+
             if hasattr(response, 'image_url'):
                 return JsonResponse({"data": {"image_url": response.image_url}})
             else:
@@ -310,26 +369,30 @@ def piano_ask(request):
     else:
         return HttpResponseRedirect(reverse('chat'))
 
-def get_conversation_context():
-    try:
-        with open(CONVERSATION_HISTORY_FILE, 'rb') as f:
-            conversation_history = pickle.load(f)
-    except FileNotFoundError:
-        conversation_history = []
-    context = ""
-    for entry in conversation_history:
-        context += f"{entry['input']}\n{entry['output']}\n"
-    return context
+def get_piano_context_folder(user_id):
+    base_dir = 'piano'
+    user_dir = os.path.join(base_dir, f"user_{user_id}")
 
-def update_conversation_history(input_text, output_text):
-    try:
-        with open(CONVERSATION_HISTORY_FILE, 'rb') as f:
-            conversation_history = pickle.load(f)
-    except FileNotFoundError:
-        conversation_history = []
-    conversation_history.append({"input": input_text, "output": output_text})
-    with open(CONVERSATION_HISTORY_FILE, 'wb') as f:
-        pickle.dump(conversation_history, f)
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
+
+    return user_dir
+
+def get_daily_piano_context(user_id, date_str):
+    user_context_folder = get_piano_context_folder(user_id)
+    daily_context_path = os.path.join(user_context_folder, f"{date_str}.txt")
+
+    if os.path.exists(daily_context_path):
+        with open(daily_context_path, 'r') as file:
+            return file.read()
+    return ""
+
+def save_daily_context(user_id, date_str, context):
+    user_context_folder = get_piano_context_folder(user_id)
+    daily_context_path = os.path.join(user_context_folder, f"{date_str}.txt")
+
+    with open(daily_context_path, 'a') as file:
+        file.write(context + "\n")
 
 
 
@@ -379,7 +442,7 @@ def chat(request):
         chats = ChatBot.objects.filter(user=user)
     else:
         return HttpResponseRedirect('/login/')
-    context = {'chats': chats, 'CONVERSATION_HISTORY_FILE': CONVERSATION_HISTORY_FILE}
+    # context = {'chats': chats, 'CONVERSATION_HISTORY_FILE': CONVERSATION_HISTORY_FILE}
     # return render(request, "chat_bot.html", context)
 
 def video_page(request):
