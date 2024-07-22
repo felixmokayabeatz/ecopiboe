@@ -15,6 +15,9 @@ function handleSubmit(event) {
     var chatContainer = document.getElementById('chat-container');
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
+    // Show typing indicator
+    showTypingIndicator();
+
     // Send request to server
     fetch(form.action, {
         method: 'POST',
@@ -25,6 +28,9 @@ function handleSubmit(event) {
     })
     .then(response => response.json())
     .then(data => {
+        // Hide typing indicator
+        hideTypingIndicator();
+
         var botMessageElement = document.createElement('div');
         botMessageElement.classList.add('message', 'bot');
 
@@ -41,5 +47,19 @@ function handleSubmit(event) {
         document.getElementById('chat-history').appendChild(botMessageElement);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        // Hide typing indicator in case of error
+        hideTypingIndicator();
+        console.error('Error:', error);
+    });
+}
+
+function showTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'block';
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'none';
 }
