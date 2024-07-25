@@ -18,6 +18,7 @@ urlpatterns = [
     
     
     path("", include("ecopiboe_app.urls"), name="ecopiboe_app"),
+    path('gmolver/', include('gmolver.urls')),
     
 ]
 
