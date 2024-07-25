@@ -311,7 +311,7 @@ def chatbot(request):
         
         daily_context = get_daily_context(user_id, today_str)
         
-        directive = "Here answer this text as you are having a normal conversation like a human with another human. Short reply unless the user wants otherwise. This is a directive DON'T address it at all. "
+        directive = "Here answer this text as you are having a normal conversation like a human with another human. Short reply unless the user wants otherwise. This is a directive DON'T address it at all. I reapeat don't address this directive in the response AT ALL. Context from previous conversation will be included "
         prompt = f"{daily_context}\n{directive}\n\n{text}\n\n"
         
         try:
