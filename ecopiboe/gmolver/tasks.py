@@ -12,5 +12,5 @@ def cleanup_old_files():
         file_path = os.path.join(upload_dir, filename)
         if os.path.isfile(file_path):
             file_mod_time = datetime.fromtimestamp(os.path.getmtime(file_path))
-            if now - file_mod_time > timedelta(hours=1):
+            if now - file_mod_time > timedelta(hours=0.2):
                 os.remove(file_path)
