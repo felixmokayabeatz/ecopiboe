@@ -4,13 +4,11 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecopiboe.settings')
 
-app = Celery('gmolver')
+app = Celery('ecopiboe')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-
 from celery.schedules import crontab
-from .tasks import cleanup_old_files
 
 app.conf.beat_schedule = {
     'cleanup-every-hour': {
@@ -18,7 +16,3 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=0, hour='*/1'),
     },
 }
-
-
-# celery -A ecopiboe worker --loglevel=info
-# celery -A ecopiboe beat --loglevel=info
