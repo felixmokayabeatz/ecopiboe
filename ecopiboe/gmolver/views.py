@@ -60,6 +60,10 @@ def get_combined_context(user):
             combined_context += file.read() + "\n"
     return combined_context
 
+import re
+
+import re
+
 def upload_file(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
@@ -99,15 +103,15 @@ def upload_file(request):
 
                 # Determine prompt based on file type
                 if 'image' in file_type:
-                    file_prompt = "Describe this image in an educational context."
+                    file_prompt = "Directive ==>  DO NOT ADDRESS the directive in your response at all.Describe or/and answer as the user wants.\n"
                 elif 'video' in file_type:
-                    file_prompt = "Describe this video in an educational context."
+                    file_prompt = "Directive ==>  DO NOT ADDRESS the directive in your response at all.Describe or/and answer as the user wants.\n"
                 elif 'text' in file_type:
                     with open(file_path, 'r') as file:
                         file_content = file.read()
-                    file_prompt = f"Summarize and explain this text for study purposes: {file_content}"
+                    file_prompt = f"Directive ==>  DO NOT ADDRESS the directive in your response at all.Describe or/and answer as the user wants.\n: {file_content}"
                 else:
-                    file_prompt = "Describe the content of this file in an educational context."
+                    file_prompt = "Directive ==>  DO NOT ADDRESS the directive in your response at all.Describe or/and answer as the user wants.\n."
 
                 prompt = f"{custom_prompt}\n\n{file_prompt}" if custom_prompt else file_prompt
 
@@ -117,14 +121,22 @@ def upload_file(request):
 
                 model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
 
-                response = model.generate_content([full_prompt, uploaded_genai_file], request_options={"timeout": 600})
+                response = model.generate_content([full_prompt, uploaded_genai_file], request_options={"timeout": 800})
 
-                # Save response to context file
+                response_text = response.text
+
+                # Replace asterisks with <strong> tags for bold text
+                response_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', response_text)
+                response_text = re.sub(r'\*(.*?)\*', r'<strong>\1</strong>', response_text)
+
+                # Preserve paragraphs and line breaks
+                response_text = response_text.replace('\n\n', '</p><p>').replace('\n', '<br>')
+
                 save_context_to_file(request.user, response.text)
 
                 return render(request, 'upload.html', {
                     'form': form,
-                    'response_text': response.text
+                    'response_text': response_text
                 })
 
             except Exception as e:
@@ -138,3 +150,8 @@ def upload_file(request):
         form = FileUploadForm()
     return render(request, 'upload.html', {'form': form})
 
+
+
+
+def menu_gmolver(request):
+    return render(request, 'menu_gmolver/menu.html')
