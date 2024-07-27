@@ -124,13 +124,22 @@ class ChatApp:
     def on_button_release(self, event):
         end_x = event.x_root
         end_y = event.y_root
-        self.overlay.destroy()
-        self.save_screenshot(self.start_x, self.start_y, end_x, end_y)
-        self.display_message("Screenshot taken and saved.")
-        self.screenshot_path = 'screenshot.png'
-        
-        # Show the Tkinter window again
-        self.root.deiconify()
+
+        if self.start_x is not None and self.start_y is not None:
+            # Ensure coordinates are within screen bounds
+            if self.start_x != end_x and self.start_y != end_y:
+                self.overlay.destroy()
+                self.save_screenshot(self.start_x, self.start_y, end_x, end_y)
+                self.display_message("Screenshot taken and saved.")
+            else:
+                self.display_message("No area selected. Screenshot not taken.")
+                self.overlay.destroy()
+                self.screenshot_path = None
+            
+            # Show the Tkinter window again
+            self.root.deiconify()
+        else:
+            self.display_message("Start coordinates not defined.")
 
     def save_screenshot(self, start_x, start_y, end_x, end_y):
         # Convert screen coordinates to integers
@@ -139,18 +148,36 @@ class ChatApp:
         end_x = int(end_x)
         end_y = int(end_y)
 
+        # Ensure the region is valid
+        if start_x > end_x:
+            start_x, end_x = end_x, start_x
+        if start_y > end_y:
+            start_y, end_y = end_y, start_y
+
         # Define the region to capture
-        region = (min(start_x, end_x), min(start_y, end_y), max(start_x, end_x), max(start_y, end_y))
+        region = (start_x, start_y, end_x, end_y)
+
+        # Ensure the region is within screen bounds
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        if (region[0] < 0 or region[1] < 0 or 
+            region[2] > screen_width or region[3] > screen_height):
+            self.display_message("Selected region is out of screen bounds.")
+            return
 
         # Capture the screenshot using PIL
-        screenshot = ImageGrab.grab(bbox=region)
-        screenshot.save('screenshot.png')
+        try:
+            screenshot = ImageGrab.grab(bbox=region)
+            screenshot.save('screenshot.png')
 
-        # Update the screenshot preview
-        self.display_image('screenshot.png')
+            # Update the screenshot preview
+            self.display_image('screenshot.png')
 
-        # Update the path to the screenshot
-        self.screenshot_path = 'screenshot.png'
+            # Update the path to the screenshot
+            self.screenshot_path = 'screenshot.png'
+        except Exception as e:
+            self.display_message(f"Error saving screenshot: {str(e)}")
+
 
     def upload_file(self):
         file_path = filedialog.askopenfilename(
