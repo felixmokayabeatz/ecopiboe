@@ -16,6 +16,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 20px;
             transition: background 0.3s, color 0.3s;
         }
         .header {
@@ -26,29 +27,30 @@
         }
         .menu-container {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
+            justify-content: center;
+            flex-wrap: nowrap;
             width: 90%;
-            max-width: 1200px;
+            max-width: 1200px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             background-color: #fff;
             padding: 20px;
+            border-radius: 15px; 
             transition: background-color 0.3s;
         }
         .menu-item {
-            flex: 1;
+            flex: 1 1 45%;
             margin: 10px;
             padding: 20px;
             text-align: center;
             background-color: #4CAF50;
             color: #fff;
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             position: relative;
-            height: 200px; /* Increase the height */
-            max-width: calc(50% - 40px); /* Make containers equal in size and square */
+            height: 200px; 
+            max-width: calc(50% - 40px); 
         }
         .menu-item::after {
             content: '';
@@ -60,7 +62,7 @@
             background: rgba(255, 255, 255, 0.3);
             opacity: 0;
             transition: opacity 0.3s;
-            border-radius: 20px; /* Match border radius of container */
+            border-radius: 15px;
         }
         .menu-item:hover {
             transform: scale(1.05);
@@ -71,11 +73,11 @@
         }
         .menu-item h2 {
             margin: 0 0 10px;
-            font-size: 24px;
+            font-size: 20px;
         }
         .menu-item p {
             margin: 0;
-            font-size: 16px;
+            font-size: 14px;
         }
         .theme-switch {
             position: absolute;
@@ -91,10 +93,17 @@
             background: #ccc;
         }
         @media (max-width: 600px) {
+            .menu-container {
+                flex-direction: column;
+                
+               
+            }
             .menu-item {
                 flex: 1 1 100%;
                 margin: 10px 0;
                 max-width: 100%;
+                min-height: 150px;
+                
             }
         }
         .dark-theme {
