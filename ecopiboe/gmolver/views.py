@@ -62,7 +62,6 @@ def get_combined_context(user):
 
 import re
 
-import re
 
 def fileanalyser(request):
     if request.method == 'POST':
