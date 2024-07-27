@@ -6,6 +6,7 @@ document.getElementById('menu').addEventListener('change', function() {
         'send-email': '/send-email/',
         'about': '/about/',
         'chatbot':'/chatbot/',
+        'gmolver': '/gmolver/',
     };
 
     const selectedValue = this.value;
