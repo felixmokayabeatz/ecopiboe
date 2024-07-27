@@ -76,6 +76,13 @@ body {
 .box-4:hover {
     background-color: #4694a3;
 }
+.box-5 {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+.box-5:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
 @media (max-width: 768px) {
     .sub-container {
         flex-direction: column;
@@ -122,3 +129,4 @@ body {
     color: #fff;
     font-size: 16px;
 }
+
