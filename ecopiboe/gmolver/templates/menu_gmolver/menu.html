@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Menu - Ecopiboe Gmolver</title>
+    <title>Menu - EcoPiBoE Gmolver</title>
     <link rel="stylesheet" href="{% static 'gmolver/css/styles.css' %}">
     <style>
         body {
@@ -95,15 +95,12 @@
         @media (max-width: 600px) {
             .menu-container {
                 flex-direction: column;
-                
-               
             }
             .menu-item {
                 flex: 1 1 100%;
                 margin: 10px 0;
                 max-width: 100%;
                 min-height: 150px;
-                
             }
         }
         .dark-theme {
@@ -113,15 +110,78 @@
         .dark-theme .menu-container {
             background-color: #555 !important;
         }
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .nav a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 0;
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <div class="nav">
+        <a href="{% url 'menu_gmolver' %}">Gmolver Screen Assistant (GMSA)</a>
+        <a href="{% url 'fileanalyser' %}">Gmolver File Analyser</a>
+        <div class="dropdown">
+            <a href="#" class="dropbtn">Shortcuts</a>
+            <div class="dropdown-content">
+                <a href="{% url 'menu_f' %}">Main Menu</a>
+                <a href="{% url 'chatbot' %}">Chatbot</a>
+                <a href="{% url 'book_recommendation' %}">Book Recommender</a>
+                <a href="{% url 'piano' %}">Smart Piano</a>
+                <a href="{% url 'send_email' %}">Smart Email Sender</a>
+            </div>
+        </div>
+    </div>
+
     <div class="theme-switch" onclick="toggleTheme()">Switch Theme</div>
-    <h1 class="header">Ecopiboe Gmolver</h1>
+    <h1 class="header">EcoPiBoE Gmolver Menu</h1>
     <div class="menu-container">
-        <div class="menu-item" onclick="window.location.href='{% url 'upload_file' %}'">
+        <div class="menu-item" onclick="window.location.href='{% url 'fileanalyser' %}'">
             <h2>Upload File Ask AI Anything about It.</h2>
-            <p>Upload your file (Audio, Text file, Photos, etc..) to get AI-generated responses. Example usage upload an audio to get the lyrics of the song Or a transcript of any audio.</p>
+            <p>Upload your file (Audio, Text file, Photos, etc..) to get AI-generated responses. Example usage upload an audio to get the lyrics of the song or a transcript of any audio.</p>
         </div>
         <div class="menu-item" onclick="window.location.href='{% url 'menu_gmolver' %}'">
             <h2>View Responses</h2>

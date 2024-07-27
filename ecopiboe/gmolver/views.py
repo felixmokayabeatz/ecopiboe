@@ -64,7 +64,7 @@ import re
 
 import re
 
-def upload_file(request):
+def fileanalyser(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
         custom_prompt = request.POST.get('custom_prompt', '')
