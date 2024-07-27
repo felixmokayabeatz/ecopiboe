@@ -1,5 +1,0 @@
-git clone https://felixmokayabeatz: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@github.com/felixmokayabeatz/ecopiboe.git
-
-
-
-https://github.com/felixmokayabeatz/ecopiboe.git

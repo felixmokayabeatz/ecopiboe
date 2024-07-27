@@ -16,3 +16,8 @@ user_tokens
 settings.py
 context
 piano_context
+*uploads
+uploads
+/uploads/
+/piano_context/
+/context/
