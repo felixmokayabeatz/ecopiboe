@@ -145,6 +145,11 @@
       <select id="menu">
           <option value="" selected hidden>Menu</option>
           <option value="menu_f">Menu</option>
+          <option value="chatbot">Chat Bot</option>
+          <option value="gmolver">Gmolver Menu</option>
+          <option value="eco-footprint-assessment">Eco-Analyser</option>
+          <option value="piano">Piano AI</option>
+          <option value="send-email">Smart Email</option>
           <option value="about">About</option>
       </select>
   </div>
@@ -257,7 +262,12 @@
       document.getElementById('menu').addEventListener('change', function() {
           const urlMap = {
               'menu_f': '/menu_f/',
-              'about': '/about_ecopboe/',
+              'about': '/about/',
+              'chatbot':'/chatbot/',
+              'gmolver':'/gmolver',
+              'eco-footprint-assessment':'/eco-footprint-assessment/',
+              'piano':'/piano/',
+              'send-email':'/send-email/',
           };
 
           const selectedValue = this.value;

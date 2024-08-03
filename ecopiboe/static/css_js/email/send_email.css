@@ -14,7 +14,7 @@
 
         .dropdown {
             position: absolute;
-            left: 10px;
+            left: 120px;
             top: 20px;
             z-index: 1;
         }
@@ -142,6 +142,12 @@
             input[type="text"],
             textarea {
                 font-size: 12px;
+            }
+            .dropdown {
+                position: absolute;
+                left: 10px;
+                top: 20px;
+                z-index: 1;
             }
 
             .dropdown select {
