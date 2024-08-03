@@ -10,9 +10,11 @@ body {
     min-height: 100vh;
     flex-direction: column;
 }
+
 .main-container {
-    width: 90%;
-    max-width: 1200px;
+    width: 90%; /* Set width to 90% of the viewport or parent container */
+    /* max-width: 1200px; Optional: Set a maximum width to prevent it from growing too large */
+    height: auto; /* Allow height to adjust based on content */
     padding: 20px;
     background-color: #565957;
     border-radius: 20px;
@@ -20,92 +22,119 @@ body {
     transition: background-color 0.3s, transform 0.3s;
     text-align: center;
     border: 5px solid #a4aab3;
-    overflow-y: auto;
     position: relative;
+    overflow: hidden; /* Hide any overflow */
 }
+
 .main-container:hover {
     box-shadow: 0 0 1000px rgba(0, 0, 90, 0.5);
-    transform: scale(1.01);
+    transform: scale(1.005); /* Further reduced transform effect */
     border: 5px solid #eff2eb;
 }
+
 .sub-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    /* flex-wrap: nowrap; Ensure boxes stay on one line */
+    justify-content: space-between; /* Space out boxes */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
     margin-bottom: 20px;
+    width: 100%; /* Full width within the main container */
+    overflow-y: hidden; /* Prevent vertical overflow */
 }
+
 .box {
-    width: 22%;
-    padding: 10px;
+    flex: 1 1 300px; /* Flex-grow and flex-shrink set to auto with a base width */
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    height: 250px;
+    height: 220px;
     color: black;
-    overflow-y: hidden;
-    word-wrap: break-word;
-    margin-bottom: 20px;
     background-color: #823a19;
     font-weight: bold;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.3s;
+    position: relative;
+    margin: 0 10px; /* Add horizontal margin for spacing */
+    z-index: 1; /* Ensure boxes are above background */
+    overflow: hidden; /* Hide overflow */
 }
+
+.box a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Ensure the link is above other elements */
+}
+
+.box:hover {
+    transform: scale(1.015); /* Adjusted transform effect */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
 .box-1 {
     background-color: #823a19;
 }
+
 .box-2 {
     background-color: #807314;
 }
+
 .box-3 {
     background-color: #308019;
 }
+
 .box-4 {
     background-color: #196f80;
 }
-.box:hover {
-    transform: scale(1.00001);
-    border: 2px solid #8a8887;
-}
-.box-1:hover {
-    background-color: #915234;
-}
-.box-2:hover {
-    background-color: #9e923a;
-}
-.box-3:hover {
-    background-color: #589945;
-}
-.box-4:hover {
-    background-color: #4694a3;
-}
+
 .box-5 {
     background-color: rgba(255, 0, 0, 0.2);
 }
-.box-5:hover {
+
+.box:hover .box-1 {
+    background-color: #915234;
+}
+
+.box:hover .box-2 {
+    background-color: #9e923a;
+}
+
+.box:hover .box-3 {
+    background-color: #589945;
+}
+
+.box:hover .box-4 {
+    background-color: #4694a3;
+}
+
+.box:hover .box-5 {
     background-color: rgba(255, 0, 0, 0.3);
 }
 
-@media (max-width: 768px) {
-    .sub-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .box {
-        width: 80%;
-    }
-    .main-container {
-        height: auto;
-        max-height: none;
-    }
-}
 .footer {
     text-align: center;
     font-weight: bold;
     font-size: 30px;
     margin-top: 20px;
 }
+
 .footer a {
     text-decoration: none;
     color: blue;
 }
+
 .ecopiboe {
     font-size: 40px;
     color: #05ed8c;
@@ -130,3 +159,19 @@ body {
     font-size: 16px;
 }
 
+@media (max-width: 768px) {
+    .sub-container {
+        flex-direction: column;
+        align-items: center;
+        overflow-x: visible; /* Disable horizontal scrolling on small screens */
+        overflow-y: hidden; /* Prevent vertical overflow */
+    }
+    .box {
+        width: 80%;
+        margin: 10px 0; /* Vertical margin on small screens */
+    }
+    .main-container {
+        height: auto;
+        max-height: none;
+    }
+}

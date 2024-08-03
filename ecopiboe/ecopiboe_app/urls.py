@@ -9,7 +9,7 @@ from .user_settings import user_settings
 
 from .footer_pages import (
     about_us, careers, contact_us, blog, whitepapers, case_studies,
-    help_center, faqs, support_services, feature_1, feature_2, feature_3
+    help_center, faqs, support_services, terms
 )
 
 
@@ -65,8 +65,12 @@ urlpatterns = [
     
     #User Settings
     path('settings/', user_settings.user_settings, name='user_settings'),
-    path('profile_edit_success/', user_settings.profile_edit_success, name='profile_edit_success'),  
+    path('profile_edit_success/', user_settings.profile_edit_success, name='profile_edit_success'), 
+     
     #footer pages
+    path('ecopiboe_terms_/', terms, name='terms'),
+    
+    
     path('about/', about_us, name='about_us'),
     path('careers/', careers, name='careers'),
     path('contact/', contact_us, name='contact_us'),
@@ -76,9 +80,6 @@ urlpatterns = [
     path('help-center/', help_center, name='help_center'),
     path('faqs/', faqs, name='faqs'),
     path('support-services/', support_services, name='support_services'),
-    path('feature-1/', feature_1, name='feature_1'),
-    path('feature-2/', feature_2, name='feature_2'),
-    path('feature-3/', feature_3, name='feature_3'),
 
 ]
 
