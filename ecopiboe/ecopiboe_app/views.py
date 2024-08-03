@@ -465,7 +465,6 @@ def felix_about(request):
         'felix_photos/felix(2).png',
         'felix_photos/felix(3).png',
         'felix_photos/felix(4).png',
-        'felix_photos/felix(5).png',
         ]
     context = {
         'lines': lines,

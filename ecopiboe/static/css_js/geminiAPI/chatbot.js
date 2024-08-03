@@ -63,3 +63,20 @@ function hideTypingIndicator() {
     const typingIndicator = document.getElementById('typing-indicator');
     typingIndicator.style.display = 'none';
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const dropdown = document.querySelector(".dropbtn");
+    const dropdownContent = document.querySelector(".dropdown-content");
+
+    dropdown.addEventListener("click", function(event) {
+        event.preventDefault();
+        dropdownContent.classList.toggle("show");
+    });
+
+    // Close the dropdown if the user clicks outside of it
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches('.dropbtn') && dropdownContent.classList.contains("show")) {
+            dropdownContent.classList.remove("show");
+        }
+    });
+});
