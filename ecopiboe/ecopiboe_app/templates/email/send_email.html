@@ -15,6 +15,11 @@
         <select id="menu">
             <option value="" selected hidden>Menu</option>
             <option value="menu_f">Menu</option>
+            <option value="chatbot">Chat Bot</option>
+            <option value="gmolver">Gmolver Menu</option>
+            <option value="eco-footprint-assessment">Eco-Analyser</option>
+            <option value="piano">Piano AI</option>
+            <option value="recommend_books">Book Recommendor</option>
             <option value="about">About</option>
         </select>
     </div>
@@ -189,8 +194,14 @@
             const urlMap = {
                 'menu_f': '/menu_f/',
                 'about': '/about/',
+                'chatbot':'/chatbot/',
+                'gmolver':'/gmolver/',
+                'eco-footprint-assessment':'/eco-footprint-assessment/',
+                'recommend_books':'/recommend_books/',
+                'piano':'/piano/'
             };
-    
+
+
             const selectedValue = this.value;
             if (urlMap[selectedValue]) {
                 window.location.href = urlMap[selectedValue];
