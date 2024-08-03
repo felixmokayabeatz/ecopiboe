@@ -15,6 +15,19 @@
     <div class="energy">
     <h1 style="text-align:center;">Eco-Footprint Assessment</h1>
     <h2  style="text-align:center;"> Answer the following to assess your Ecological footprint</h2>
+
+    <div class="dropdown">
+        <select id="menu">
+            <option value="" selected hidden>Menu</option>
+            <option value="menu_f">Menu</option>
+            <option value="chatbot">Chat Bot</option>
+            <option value="gmolver">Gmolver Menu</option>
+            <option value="piano">Piano AI</option>
+            <option value="recommend_books">Book Recommendor</option>
+            <option value="about">About</option>
+        </select>
+    </div>
+
     <div style="text-align:center;">
         <button type="submit" class="submit-button" form="eco-form">Submit</button>
     </div>
@@ -265,6 +278,8 @@
                         </label>
                 </div>
 
+   
+
                 <div class="category">
                     {% elif question.question_text == "How often do you consume meat and dairy products?" %}
                     <div  class="custom-select">
@@ -339,6 +354,25 @@
     {% endif %}
     </div>
 
+
+    <script>
+        document.getElementById('menu').addEventListener('change', function() {
+            const urlMap = {
+                'menu_f': '/menu_f/',
+                'about': '/about/',
+                'chatbot':'/chatbot/',
+                'gmolver':'/gmolver/',
+                'recommend_books':'/recommend_books/',
+                'piano':'/piano/',
+            };
+
+
+            const selectedValue = this.value;
+            if (urlMap[selectedValue]) {
+                window.location.href = urlMap[selectedValue];
+            }
+        });
+    </script>
     <script src="{% static 'css_js/eco_footprint/assessment.js' %}"></script>
 </body>
 </html>
