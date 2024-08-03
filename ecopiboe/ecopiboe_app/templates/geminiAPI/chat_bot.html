@@ -23,6 +23,22 @@
             </div>
         </form>
     </div>
+
+    <div class="nav">
+        <a href="{% url 'fileanalyser' %}">Gmolver File Analyser</a>
+        <div class="dropdown">
+            <a href="#" class="dropbtn">Shortcuts</a>
+            <div class="dropdown-content">
+                <a href="{% url 'menu_f' %}">Main Menu</a>
+                <a href="{% url 'chatbot' %}">Chatbot</a>
+                <a href="{% url 'book_recommendation' %}">Book Recommender</a>
+                <a href="{% url 'piano' %}">Smart Piano</a>
+                <a href="{% url 'send_email' %}">Smart Email Sender</a>
+            </div>
+        </div>
+    </div>
+    
+</div>
     <script src="{% static 'css_js/geminiAPI/chatbot.js' %}"></script>
 </body>
 </html>
