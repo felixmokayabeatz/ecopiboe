@@ -32,11 +32,12 @@ def faqs(request):
 def support_services(request):
     return render(request, 'footer/support_services.html')
 
-def feature_1(request):
-    return render(request, 'footer/feature_1.html')
 
-def feature_2(request):
-    return render(request, 'footer/feature_2.html')
+def terms(request):
+    file_path = os.path.join('static', 'texts/terms.txt')
+    with open(file_path, 'r') as file:
+        text = file.read()
+    text = text.replace('[Google\'s Rules and Terms]', '<a href="https://policies.google.com/" target="_blank">Google\'s Rules and Terms</a>')
 
-def feature_3(request):
-    return render(request, 'footer/feature_3.html')
+    return render(request, 'terms/terms.html', {'rules_text': text})
+
