@@ -156,6 +156,22 @@
             background-color: #45a049;
             border: 2px double #c7c4c1;
         }
+        .dropdown {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            z-index: 1;
+        }
+
+        .dropdown select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #453b3b;
+            background-color: #1e2025;
+            color: #fff;
+            font-size: 16px;
+        }
+
         @media (max-width: 600px) {
             .energy {
                 padding: 10px;
