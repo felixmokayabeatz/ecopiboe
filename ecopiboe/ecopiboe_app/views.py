@@ -44,7 +44,7 @@ api_key=""
 logger = logging.getLogger(__name__)
 
 API_KEY = os.getenv('API_KEY')
-API_KEY='AIzaSyB-qtFGrjH6ys_FiepqGtLtVfuY97bxW8M'
+
 genai.configure(api_key=API_KEY)
 
 
