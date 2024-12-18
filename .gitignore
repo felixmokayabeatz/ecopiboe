@@ -22,9 +22,7 @@ uploads
 /piano_context/
 /context/
 
-ecopiboe_env
-/ecopiboe_env
-/ecopiboe_env/
+ecopiboe_V_env/
 
 ecopiboe.code-workspace
 conversation_history.pkl
