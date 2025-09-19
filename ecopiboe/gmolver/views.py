@@ -118,7 +118,7 @@ def fileanalyser(request):
                 combined_context = get_combined_context(request.user)
                 full_prompt = combined_context + "\n" + prompt
 
-                model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+                model = genai.GenerativeModel(model_name="models/gemini-2.0-flash") 
 
                 response = model.generate_content([full_prompt, uploaded_genai_file], request_options={"timeout": 800})
 

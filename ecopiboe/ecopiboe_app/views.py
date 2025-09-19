@@ -160,7 +160,7 @@ def get_ai_responses(request):
         "In case you get empty responses always return only: \"No responses received!\""
     )
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("gemini-2.0-flash")
         chat = model.start_chat()
         ai_response = chat.send_message(prompt)
         eco_footprint_result = ai_response.text
@@ -241,7 +241,7 @@ def ask_question(request):
         prompt = f"{directive_to_gemini}\n{text}\n\n"
 
         try:
-            model = genai.GenerativeModel("gemini-pro")
+            model = genai.GenerativeModel("gemini-2.0-flash")
             chat = model.start_chat()
             response = chat.send_message(prompt)
 
@@ -316,7 +316,7 @@ def chatbot(request):
         prompt = f"{daily_context}\n{directive}\n\n{text}\n\n"
         
         try:
-            model = genai.GenerativeModel("gemini-pro")
+            model = genai.GenerativeModel("gemini-2.0-flash")
             chat = model.start_chat()
             response = chat.send_message(prompt)
             
@@ -352,7 +352,7 @@ def piano_ask(request):
         prompt = f"\n{directive}{daily_context} {text}\n\n"
 
         try:
-            model = genai.GenerativeModel("gemini-pro")
+            model = genai.GenerativeModel("gemini-2.0-flash")
             chat = model.start_chat()
             response = chat.send_message(prompt)
             response_text = response.text.replace('*', '').replace('**', '')
@@ -414,7 +414,7 @@ def analyze_note(request):
             )
             prompt = f"{directive}\n{note}\n\n"
 
-            model = genai.GenerativeModel("gemini-pro")
+            model = genai.GenerativeModel("gemini-2.0-flash")
             chat = model.start_chat()
             response = chat.send_message(prompt)
 
@@ -935,7 +935,7 @@ def improve_email(request):
             prompt = f"{directive}\nSubject: {subject}\n\n{message}\n\n"
 
             try:
-                model = genai.GenerativeModel("gemini-pro")
+                model = genai.GenerativeModel("gemini-2.0-flash")
                 chat = model.start_chat()
                 response = chat.send_message(prompt)
                 improved_message = response.text
