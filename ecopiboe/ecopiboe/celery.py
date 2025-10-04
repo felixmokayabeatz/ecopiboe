@@ -15,7 +15,6 @@ def debug_task(self):
     
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecopiboe.settings')
 
-# Create a Celery application
 app = Celery('ecopiboe')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
